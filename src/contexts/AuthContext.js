@@ -1,11 +1,19 @@
-import React, { createContext, useReducer, useEffect, useContext } from "react";
+import React, {
+  createContext,
+  useReducer,
+  useEffect,
+  useContext,
+  useState,
+} from "react";
 import Cookies from "js-cookie";
 import {
   authReducer,
   authInitialState,
-  LOGIN,
   LOGOUT,
+  LOGIN,
 } from "../reducers/AuthReducer";
+import baseAxios from "../utility/baseAxios";
+import Spinner from "../components/@vuexy/spinner/Fallback-spinner";
 
 export const AuthContext = createContext();
 
@@ -15,29 +23,44 @@ export const useAuthContext = () => {
 
 const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, authInitialState);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const authState = Cookies.get("token");
-    const authName = Cookies.get("name");
-    if (authState) {
-      dispatch({
-        type: LOGIN,
-        payload: {
-          user: {
-            name: authName,
-          },
-        },
-      });
-    } else {
-      dispatch({
-        type: LOGOUT,
-      });
-    }
+    const getAuth = async () => {
+      try {
+        const authToken = Cookies.get("token");
+        if (authToken) {
+          const { data } = await baseAxios.get("auth/me", {
+            headers: { Authorization: `Bearer ${authToken}` },
+          });
+          dispatch({
+            type: LOGIN,
+            payload: {
+              user: {
+                name: data.data.name,
+                avatar: data.data.profile.avatar,
+              },
+            },
+          });
+        } else {
+          dispatch({
+            type: LOGOUT,
+          });
+        }
+      } catch (error) {
+        Cookies.remove("token");
+        dispatch({
+          type: LOGOUT,
+        });
+      }
+      setLoading(false);
+    };
+    getAuth();
   }, []);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
-      {children}
+      {loading ? <Spinner color="primary" /> : children}
     </AuthContext.Provider>
   );
 };

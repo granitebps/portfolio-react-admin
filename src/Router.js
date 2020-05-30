@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from "react";
 import { Router, Switch, Route, Redirect } from "react-router-dom";
+import Cookies from "js-cookie";
 import { history } from "./history";
 import Spinner from "./components/@vuexy/spinner/Loading-spinner";
 import { ContextLayout } from "./utility/context/Layout";
-import { useAuthContext } from "./contexts/AuthContext";
 import Error404 from "./views/misc/404";
 
 // Route-based code splitting
@@ -37,16 +37,16 @@ const AppRoute = ({
   user,
   ...rest
 }) => {
-  const { state } = useAuthContext();
+  const authToken = Cookies.get("token");
+
+  if (history.location.pathname !== "/" && !authToken) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (!state.isLogin && history.location.pathname !== "/") {
-          return <Redirect to="/" />;
-        }
-
         return (
           <ContextLayout.Consumer>
             {(context) => {

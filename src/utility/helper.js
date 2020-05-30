@@ -1,3 +1,7 @@
+import Cookies from "js-cookie";
+import { LOGOUT } from "../reducers/AuthReducer";
+import { history } from "../history";
+
 export const validURL = (str) => {
   var pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
@@ -9,4 +13,22 @@ export const validURL = (str) => {
     "i"
   ); // fragment locator
   return !!pattern.test(str);
+};
+
+export const removeEmptyStrings = (obj) => {
+  let newObj = {};
+  Object.keys(obj).forEach((prop) => {
+    if (obj[prop] !== "") {
+      newObj[prop] = obj[prop];
+    }
+  });
+  return newObj;
+};
+
+export const notAuthenticated = (dispatch) => {
+  Cookies.remove("token");
+  dispatch({
+    type: LOGOUT,
+  });
+  history.push("/");
 };

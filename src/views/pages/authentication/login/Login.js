@@ -8,12 +8,12 @@ import {
   FormGroup,
   Label,
   FormFeedback,
-  Spinner,
   UncontrolledAlert,
 } from "reactstrap";
 import { Lock, Check, User } from "react-feather";
 import Cookies from "js-cookie";
 import * as Yup from "yup";
+import { Helmet } from "react-helmet";
 import Checkbox from "../../../../components/@vuexy/checkbox/CheckboxesVuexy";
 
 import loginImg from "../../../../assets/img/pages/login.png";
@@ -49,12 +49,12 @@ const Login = () => {
       const { data } = await baseAxios.post("auth/login", request);
 
       Cookies.set("token", data.data.token);
-      Cookies.set("name", data.data.name);
       dispatch({
         type: LOGIN,
         payload: {
           user: {
             name: data.data.name,
+            avatar: data.data.avatar,
           },
         },
       });
@@ -82,6 +82,9 @@ const Login = () => {
         md="8"
         className="d-flex justify-content-center"
       >
+        <Helmet>
+          <title>Login</title>
+        </Helmet>
         <Card className="bg-authentication login-card rounded-0 mb-0 w-100">
           <Row className="m-0">
             <Col
@@ -159,16 +162,11 @@ const Login = () => {
                           />
                         </FormGroup>
                         <div className="d-flex justify-content-between">
-                          <SubmitButton color="primary" disabled={isSubmitting}>
-                            {isSubmitting ? (
-                              <React.Fragment>
-                                <Spinner color="white" size="sm" />
-                                <span className="ml-50">Loading...</span>
-                              </React.Fragment>
-                            ) : (
-                              "Login"
-                            )}
-                          </SubmitButton>
+                          <SubmitButton
+                            color="primary"
+                            isSubmitting={isSubmitting}
+                            label="Login"
+                          />
                         </div>
                       </Form>
                     )}

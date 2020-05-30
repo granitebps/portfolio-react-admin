@@ -1,8 +1,8 @@
 import React from "react";
-import { Button } from "reactstrap";
+import { Button, Spinner } from "reactstrap";
 import { useFormikContext } from "formik";
 
-const SubmitButton = ({ children, ...props }) => {
+const SubmitButton = ({ isSubmitting, label, ...props }) => {
   const { handleSubmit } = useFormikContext();
 
   const handleClick = (e) => {
@@ -11,8 +11,20 @@ const SubmitButton = ({ children, ...props }) => {
   };
 
   return (
-    <Button.Ripple type="submit" onClick={(e) => handleClick(e)} {...props}>
-      {children}
+    <Button.Ripple
+      type="submit"
+      onClick={(e) => handleClick(e)}
+      disabled={isSubmitting}
+      {...props}
+    >
+      {isSubmitting ? (
+        <React.Fragment>
+          <Spinner color="white" size="sm" />
+          <span className="ml-50">Loading...</span>
+        </React.Fragment>
+      ) : (
+        label
+      )}
     </Button.Ripple>
   );
 };
