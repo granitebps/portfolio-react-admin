@@ -4,8 +4,11 @@ import classnames from "classnames";
 // import NavbarBookmarks from "./NavbarBookmarks";
 import NavbarUser from "./NavbarUser";
 import userImg from "../../../assets/img/portrait/small/avatar-s-11.jpg";
+import { useAuthContext } from "../../../contexts/AuthContext";
 
 const ThemeNavbar = (props) => {
+  const { state } = useAuthContext();
+
   const colorsArr = ["primary", "danger", "success", "info", "warning", "dark"];
   const navbarTypes = ["floating", "static", "sticky", "hidden"];
   return (
@@ -64,7 +67,7 @@ const ThemeNavbar = (props) => {
               <NavbarUser
                 handleAppOverlay={props.handleAppOverlay}
                 changeCurrentLang={props.changeCurrentLang}
-                userName="Granite Bagas"
+                userName={state.user.name}
                 userImg={userImg}
               />
             </div>

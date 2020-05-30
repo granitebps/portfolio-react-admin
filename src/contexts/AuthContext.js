@@ -1,4 +1,5 @@
 import React, { createContext, useReducer, useEffect, useContext } from "react";
+import Cookies from "js-cookie";
 import {
   authReducer,
   authInitialState,
@@ -16,12 +17,15 @@ const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, authInitialState);
 
   useEffect(() => {
-    const authState = localStorage.getItem("user");
+    const authState = Cookies.get("token");
+    const authName = Cookies.get("name");
     if (authState) {
       dispatch({
         type: LOGIN,
         payload: {
-          user: JSON.parse(authState),
+          user: {
+            name: authName,
+          },
         },
       });
     } else {

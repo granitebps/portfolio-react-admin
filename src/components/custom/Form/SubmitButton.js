@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "reactstrap";
 import { useFormikContext } from "formik";
 
-const SubmitButton = ({ label, ...props }) => {
+const SubmitButton = ({ children, ...props }) => {
   const { handleSubmit } = useFormikContext();
 
   const handleClick = (e) => {
@@ -12,7 +12,7 @@ const SubmitButton = ({ label, ...props }) => {
 
   return (
     <Button.Ripple type="submit" onClick={(e) => handleClick(e)} {...props}>
-      {label}
+      {children}
     </Button.Ripple>
   );
 };

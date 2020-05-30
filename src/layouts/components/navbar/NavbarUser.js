@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import * as Icon from "react-feather";
+import Cookies from "js-cookie";
 
 import { history } from "../../../history";
 import { useAuthContext } from "../../../contexts/AuthContext";
@@ -19,7 +20,8 @@ const UserDropdown = (props) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("user");
+    Cookies.remove("token");
+    Cookies.remove("name");
     dispatch({
       type: LOGOUT,
     });
