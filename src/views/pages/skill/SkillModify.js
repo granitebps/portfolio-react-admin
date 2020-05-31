@@ -34,11 +34,13 @@ const SkillModify = () => {
 
   const handleSubmit = async (values) => {
     try {
+      if (param) {
+        values._method = "PUT";
+      }
       const url = param ? `skill/${param.skill.id}` : "skill";
-      const method = param ? "PUT" : "POST";
       const { data } = await baseAxios({
         url: url,
-        method: method,
+        method: "POST",
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
