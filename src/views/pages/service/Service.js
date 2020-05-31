@@ -59,10 +59,10 @@ const Service = () => {
       filter = data.data.filter((item) => {
         let startsWithCondition =
           item.name.toLowerCase().startsWith(text.toLowerCase()) ||
-          item.percentage.toLowerCase().startsWith(text.toLowerCase());
+          item.desc.toLowerCase().startsWith(text.toLowerCase());
         let includesCondition =
           item.name.toLowerCase().includes(text.toLowerCase()) ||
-          item.percentage.toLowerCase().includes(text.toLowerCase());
+          item.desc.toLowerCase().includes(text.toLowerCase());
 
         if (startsWithCondition) {
           return startsWithCondition;

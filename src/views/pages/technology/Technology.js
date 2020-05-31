@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, CardBody, Button, Row, Col, Spinner } from "reactstrap";
 import Cookies from "js-cookie";
 import { Edit, Trash2 } from "react-feather";
+import { toast } from "react-toastify";
 
 import Header from "../../../components/custom/Header";
 import { history } from "../../../history";
@@ -11,7 +12,6 @@ import DataTable from "react-data-table-component";
 import CustomHeader from "../../../components/custom/Table/CustomHeader";
 import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
 import Error505 from "../../misc/505";
-import { toast } from "react-toastify";
 import { notAuthenticated } from "../../../utility/helper";
 
 const Technology = () => {
@@ -57,12 +57,12 @@ const Technology = () => {
 
     if (text.length) {
       filter = data.data.filter((item) => {
-        let startsWithCondition =
-          item.name.toLowerCase().startsWith(text.toLowerCase()) ||
-          item.percentage.toLowerCase().startsWith(text.toLowerCase());
-        let includesCondition =
-          item.name.toLowerCase().includes(text.toLowerCase()) ||
-          item.percentage.toLowerCase().includes(text.toLowerCase());
+        let startsWithCondition = item.name
+          .toLowerCase()
+          .startsWith(text.toLowerCase());
+        let includesCondition = item.name
+          .toLowerCase()
+          .includes(text.toLowerCase());
 
         if (startsWithCondition) {
           return startsWithCondition;

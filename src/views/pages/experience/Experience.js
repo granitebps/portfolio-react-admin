@@ -59,11 +59,27 @@ const Experience = () => {
     if (text.length) {
       filter = data.data.filter((item) => {
         let startsWithCondition =
-          item.name.toLowerCase().startsWith(text.toLowerCase()) ||
-          item.percentage.toLowerCase().startsWith(text.toLowerCase());
+          item.company.toLowerCase().startsWith(text.toLowerCase()) ||
+          item.position.toLowerCase().startsWith(text.toLowerCase()) ||
+          moment(item.start_date)
+            .format("DD MMMM YYYY")
+            .toLowerCase()
+            .startsWith(text.toLowerCase()) ||
+          moment(item.end_date)
+            .format("DD MMMM YYYY")
+            .toLowerCase()
+            .startsWith(text.toLowerCase());
         let includesCondition =
-          item.name.toLowerCase().includes(text.toLowerCase()) ||
-          item.percentage.toLowerCase().includes(text.toLowerCase());
+          item.company.toLowerCase().includes(text.toLowerCase()) ||
+          item.position.toLowerCase().includes(text.toLowerCase()) ||
+          moment(item.start_date)
+            .format("DD MMMM YYYY")
+            .toLowerCase()
+            .includes(text.toLowerCase()) ||
+          moment(item.end_date)
+            .format("DD MMMM YYYY")
+            .toLowerCase()
+            .includes(text.toLowerCase());
 
         if (startsWithCondition) {
           return startsWithCondition;
@@ -104,7 +120,9 @@ const Experience = () => {
       sortable: true,
       cell: (row) => (
         <p className="text-bold-500 my-1">
-          {row.current_job ? "Now" : moment(row.end_date).format("DD MMMM Y")}
+          {row.current_job
+            ? "Now"
+            : moment(row.end_date).format("DD MMMM YYYY")}
         </p>
       ),
     },

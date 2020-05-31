@@ -7,7 +7,7 @@ const CustomRadio = ({ label, name, value, ...props }) => {
   const checkedValue = getIn(values, name);
 
   const handleChange = (e) => {
-    setFieldValue(name, e.target.value);
+    setFieldValue(name, parseInt(e.target.value));
   };
 
   return (

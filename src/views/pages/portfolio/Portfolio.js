@@ -1,47 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import { Card, CardBody, Button, Spinner, Row, Col } from "reactstrap";
+import Cookies from "js-cookie";
+import { Edit, Trash2, Eye, Link } from "react-feather";
+import { toast } from "react-toastify";
+import DataTable from "react-data-table-component";
+
 import Header from "../../../components/custom/Header";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardBody,
-  Table,
-  Button,
-} from "reactstrap";
 import { history } from "../../../history";
-import { useState } from "react";
 import CustomModal from "../../../components/custom/CustomModal";
 import CustomCarousel from "../../../components/custom/CustomCarousel";
-
-const dummyData = [
-  {
-    name: "SILISA",
-    thumbnail: "https://granitebps.com/images/portfolio/silisa/thumbnail-1.PNG",
-    picture: [
-      "https://granitebps.com/images/portfolio/silisa/2.PNG",
-      "https://granitebps.com/images/portfolio/silisa/3.PNG",
-    ],
-    description:
-      "SILISA is an abbreviation of Sistem Monitoring Listrik Desa. This is a project that I build when I at my internship in PT Indonesia Comnets Plus (ICON+). I build this application from scratch with Laravel a PHP Framework. This application means to monitor all village in Indonesia. And then admin can add a village. Admin can also add an electricity status of a village. Admin can also add data by importing an excel file.",
-    type: 1,
-    url: "https://github.com/granitebps/silisa",
-  },
-  {
-    name: "BMM",
-    thumbnail:
-      "https://granitebps.com/images/portfolio/bmm/thumbnail-BMM_-_Login.png",
-    picture: [
-      "https://granitebps.com/images/portfolio/bmm/BMM.png",
-      "https://granitebps.com/images/portfolio/bmm/BMM_-_Login.png",
-    ],
-    description:
-      "BBM is a project that I build for my task at my current company. This application builds with Laravel a PHP Framework. This application to register some people if they want to work overseas. This application has payment gateway and can export some excel data. This application have multiple user roles.",
-    type: 2,
-    url: "",
-  },
-];
+import baseAxios, { useAxios } from "../../../utility/baseAxios";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
+import Error505 from "../../misc/505";
+import { notAuthenticated } from "../../../utility/helper";
+import CustomHeader from "../../../components/custom/Table/CustomHeader";
 
 const Portfolio = () => {
+  const [{ data, loading, error }, refetch] = useAxios("portfolio", {
+    useCache: false,
+  });
+  const [value, setValue] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const { dispatch } = useAuthContext();
+  const authToken = Cookies.get("token");
   const [showModal, setShowModal] = useState(false);
   const [dataModal, setDataModal] = useState({});
 
@@ -49,8 +32,50 @@ const Portfolio = () => {
     history.push("/portfolio/modify");
   };
 
-  const handleDelete = (data) => {
-    console.log(data);
+  const handleDelete = async (data) => {
+    try {
+      setLoadingDelete(true);
+
+      const { data: dataDelete } = await baseAxios.delete(
+        `portfolio/${data.id}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      toast.success(dataDelete.message);
+      refetch();
+      setLoadingDelete(false);
+    } catch (error) {
+      if (error.response.status === 401) {
+        notAuthenticated(dispatch);
+      } else {
+        toast.error("Something Wrong!");
+      }
+    }
+  };
+
+  const handleFilter = (e) => {
+    let text = e.target.value;
+    let filter = filteredData;
+    setValue(text);
+
+    if (text.length) {
+      filter = data.data.filter((item) => {
+        let startsWithCondition =
+          item.name.toLowerCase().startsWith(text.toLowerCase()) ||
+          item.desc.toLowerCase().startsWith(text.toLowerCase());
+        let includesCondition =
+          item.name.toLowerCase().includes(text.toLowerCase()) ||
+          item.desc.toLowerCase().includes(text.toLowerCase());
+
+        if (startsWithCondition) {
+          return startsWithCondition;
+        } else if (!startsWithCondition && includesCondition) {
+          return includesCondition;
+        } else return null;
+      });
+      setFilteredData(filter);
+    }
   };
 
   const toogleModal = (data) => {
@@ -58,81 +83,118 @@ const Portfolio = () => {
     setDataModal(data);
   };
 
+  const columns = [
+    {
+      name: "Portfolio Name",
+      selector: "name",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.name}</p>,
+    },
+    {
+      name: "Portfolio Picture",
+      cell: (row) => (
+        <Button.Ripple
+          color="warning"
+          onClick={() => toogleModal(row)}
+          className="btn-icon rounded-circle"
+        >
+          <Eye />
+        </Button.Ripple>
+      ),
+    },
+    {
+      name: "Portfolio Description",
+      selector: "desc",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.desc}</p>,
+    },
+    {
+      name: "Portfolio Type",
+      selector: "type",
+      sortable: true,
+      cell: (row) => (
+        <p className="text-bold-500 my-1">
+          {row.type === 1 ? "Personal Project" : "Client Project"}
+        </p>
+      ),
+    },
+    {
+      name: "Portfolio URL",
+      cell: (row) =>
+        row.url ? (
+          <a
+            className="my-1 btn btn-info btn-icon rounded-circle"
+            href={row.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Link />
+          </a>
+        ) : (
+          "-"
+        ),
+    },
+    {
+      name: "Action",
+      selector: "",
+      cell: (row) => (
+        <Row>
+          <Col md="6">
+            <Button.Ripple
+              color="success"
+              onClick={() =>
+                history.push("/portfolio/modify", { portfolio: row })
+              }
+              className="btn-icon rounded-circle"
+            >
+              <Edit />
+            </Button.Ripple>
+          </Col>
+          <Col md="6">
+            <Button.Ripple
+              color="danger"
+              onClick={() => handleDelete(row)}
+              disabled={loadingDelete}
+              className="btn-icon rounded-circle"
+            >
+              {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
+            </Button.Ripple>
+          </Col>
+        </Row>
+      ),
+    },
+  ];
+
+  if (error) {
+    return <Error505 retry={refetch} />;
+  }
+
   return (
     <React.Fragment>
       <Header title="Portfolio" />
 
       <Card>
-        <CardHeader>
-          <CardTitle>Portfolio</CardTitle>
-          <Button.Ripple color="primary" onClick={handleAdd}>
-            Add Portfolio
-          </Button.Ripple>
-        </CardHeader>
         <CardBody>
-          <Table className="table-hover-animation" striped responsive>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Portfolio Name</th>
-                <th>Portfolio Picture</th>
-                <th>Portfolio Description</th>
-                <th>Portfolio Type</th>
-                <th>Portfolio URL</th>
-                <th colSpan={2}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dummyData.map((data, index) => (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{data.name}</td>
-                  <td>
-                    <Button.Ripple
-                      color="warning"
-                      onClick={() => toogleModal(data)}
-                    >
-                      Preview
-                    </Button.Ripple>
-                  </td>
-                  <td>{data.description}</td>
-                  <td>{data.type === 1 ? "Personal" : "Client"} Project</td>
-                  <td>
-                    {data.url ? (
-                      <a
-                        className="mr-1 mb-1 btn btn-info round"
-                        href={data.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Link
-                      </a>
-                    ) : (
-                      "-"
-                    )}
-                  </td>
-                  <td>
-                    <Button.Ripple
-                      color="success"
-                      onClick={() =>
-                        history.push("/portfolio/modify", { data: data })
-                      }
-                    >
-                      Edit
-                    </Button.Ripple>
-                  </td>
-                  <td>
-                    <Button.Ripple
-                      color="danger"
-                      onClick={() => handleDelete(data)}
-                    >
-                      Delete
-                    </Button.Ripple>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <DataTable
+            title="Portfolio"
+            className="dataTable-custom"
+            data={value.length ? filteredData : data ? data.data : []}
+            columns={columns}
+            pagination
+            striped
+            highlightOnHover
+            progressPending={loading}
+            progressComponent={<LoadingSpinner />}
+            subHeader
+            subHeaderComponent={
+              <CustomHeader
+                value={value}
+                handleFilter={handleFilter}
+                label="Portfolio"
+                handleAdd={handleAdd}
+              />
+            }
+          />
         </CardBody>
       </Card>
 
@@ -146,9 +208,9 @@ const Portfolio = () => {
         />
         <hr />
         <h3 className="text-center">
-          {dataModal.picture && dataModal.picture.length} Picture
+          {dataModal.pic && dataModal.pic.length} Picture
         </h3>
-        <CustomCarousel images={dataModal.picture} />
+        <CustomCarousel images={dataModal.pic} />
       </CustomModal>
     </React.Fragment>
   );

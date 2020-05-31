@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "reactstrap";
 import classnames from "classnames";
-// import NavbarBookmarks from "./NavbarBookmarks";
+import NavbarBookmarks from "./NavbarBookmarks";
 import NavbarUser from "./NavbarUser";
 
 const ThemeNavbar = (props) => {
@@ -49,10 +49,10 @@ const ThemeNavbar = (props) => {
               id="navbar-mobile"
             >
               <div className="bookmark-wrapper">
-                {/* <NavbarBookmarks
+                <NavbarBookmarks
                   sidebarVisibility={props.sidebarVisibility}
                   handleAppOverlay={props.handleAppOverlay}
-                /> */}
+                />
               </div>
               {props.horizontal ? (
                 <div className="logo d-flex align-items-center">

@@ -12,6 +12,8 @@ import {
   Button,
   FormGroup,
 } from "reactstrap";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 import Header from "../../../components/custom/Header";
 import InputText from "../../../components/custom/Form/InputText";
@@ -19,20 +21,34 @@ import SubmitButton from "../../../components/custom/Form/SubmitButton";
 import InputImage from "../../../components/custom/Form/InputImage";
 import InputMultipleImage from "../../../components/custom/Form/InputMultipleImage";
 import { history } from "../../../history";
-import { validURL } from "../../../utility/helper";
+import { validURL, notAuthenticated } from "../../../utility/helper";
 import Radio from "../../../components/custom/Form/Radio";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import baseAxios from "../../../utility/baseAxios";
 
 const FILE_SIZE = 2048 * 1024;
 
 const PortofolioModify = () => {
-  const data = history.location.state;
+  const authToken = Cookies.get("token");
+  const { dispatch } = useAuthContext();
+  const param = history.location.state;
 
   const formSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
-    description: Yup.string().required("Required"),
+    desc: Yup.string().required("Required"),
     url: Yup.string().url(),
     thumbnail: Yup.mixed()
-      .required("Required")
+      .test("required", "Required", (value) => {
+        if (param) {
+          return true;
+        } else {
+          if (!value) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+      })
       .test("fileSize", "File too large", (value) => {
         if (validURL(value)) {
           return true;
@@ -40,16 +56,26 @@ const PortofolioModify = () => {
           return !value || (value && value.size <= FILE_SIZE);
         }
       }),
-    picture: Yup.array().required("Required"),
+    pic: Yup.array().test("required", "Required", (value) => {
+      if (param) {
+        return true;
+      } else {
+        if (!value) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }),
   });
 
   const handleValidation = (values) => {
     const errors = {};
 
-    if (values.picture.length > 0) {
-      values.picture.map((file) => {
+    if (values.pic.length > 0) {
+      values.pic.map((file) => {
         if (file.size >= FILE_SIZE) {
-          errors.picture = "File too large";
+          errors.pic = "File too large";
         }
         return file;
       });
@@ -58,97 +84,128 @@ const PortofolioModify = () => {
     return errors;
   };
 
-  const handleSubmit = (values) => {
-    const formData = new FormData();
-    Object.keys(values).forEach((key) => {
-      if (key === "picture") {
-        values[key].forEach((item) => {
-          formData.append(key + "[]", item.file);
-        });
+  const handleSubmit = async (values) => {
+    try {
+      const formData = new FormData();
+      Object.keys(values).forEach((key) => {
+        if (key === "pic") {
+          values[key].forEach((item) => {
+            formData.append(key + "[]", item);
+          });
+        }
+        formData.append(key, values[key]);
+      });
+
+      if (param) {
+        formData.append("_method", "PUT");
       }
-      formData.append(key, values[key]);
-    });
+
+      const url = param ? `portfolio/${param.portfolio.id}` : "portfolio";
+      const { data } = await baseAxios({
+        url: url,
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+        data: formData,
+      });
+
+      toast.success(data.message);
+      history.push("/portfolio");
+    } catch (error) {
+      if (error.response.status === 401) {
+        notAuthenticated(dispatch);
+      } else {
+        toast.error("Something Wrong!");
+      }
+    }
   };
 
   return (
     <React.Fragment>
-      <Header title={data ? "Edit Portfolio" : "Add Portfolio"} />
+      <Header title={param ? "Edit Portfolio" : "Add Portfolio"} />
 
       <Card>
         <CardHeader>
-          <CardTitle>{data ? "Edit Portfolio" : "Add Portfolio"}</CardTitle>
+          <CardTitle>{param ? "Edit Portfolio" : "Add Portfolio"}</CardTitle>
         </CardHeader>
         <CardBody>
           <Formik
             initialValues={{
-              name: data ? data.data.name : "",
-              description: data ? data.data.description : "",
-              thumbnail: data ? data.data.thumbnail : null,
-              type: data ? data.data.type : 1,
-              picture: data ? data.data.picture : [],
-              url: data ? data.data.url : "",
+              name: param ? param.portfolio.name : "",
+              desc: param ? param.portfolio.desc : "",
+              thumbnail: null,
+              type: param ? param.portfolio.type : 1,
+              pic: [],
+              url: param ? param.portfolio.url : "",
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}
             validate={handleValidation}
           >
-            <Form>
-              <Row>
-                <Col sm="12">
-                  <InputText
-                    name="name"
-                    type="text"
-                    label="Portfolio Name"
-                    placeholder="Masukkan Nama Portfolio"
-                  />
-                </Col>
-                <Col sm="12">
-                  <InputText
-                    name="description"
-                    type="textarea"
-                    label="Portfolio Description"
-                    placeholder="Masukkan Deskripsi Portfolio"
-                    rows="5"
-                  />
-                </Col>
-                <Col sm="12">
-                  <InputText
-                    name="url"
-                    type="text"
-                    label="Portfolio URL"
-                    placeholder="Masukkan URL Portfolio"
-                  />
-                </Col>
-                <Col sm="12">
-                  <FormGroup>
-                    <Radio label="Personal Project" name="type" value={1} />
-                    <Radio label="Client Project" name="type" value={2} />
-                  </FormGroup>
-                </Col>
-                <Col sm="12">
-                  <InputImage
-                    name="thumbnail"
-                    image={data ? data.data.thumbnail : null}
-                    label="Porfolio Thumbnail"
-                  />
-                </Col>
-                <Col sm="12">
-                  <InputMultipleImage
-                    label="Porfolio Pictures"
-                    name="picture"
-                    images={data ? data.data.picture : []}
-                  />
-                </Col>
-              </Row>
-              <Button.Ripple
-                className="mr-1"
-                color="warning"
-                onClick={() => history.goBack()}
-              >
-                Back
-              </Button.Ripple>
-              <SubmitButton color="primary" label="Submit" />
-            </Form>
+            {({ isSubmitting }) => (
+              <Form>
+                <Row>
+                  <Col sm="12">
+                    <InputText
+                      name="name"
+                      type="text"
+                      label="Portfolio Name"
+                      placeholder="Masukkan Nama Portfolio"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <InputText
+                      name="desc"
+                      type="textarea"
+                      label="Portfolio Description"
+                      placeholder="Masukkan Deskripsi Portfolio"
+                      rows="5"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <InputText
+                      name="url"
+                      type="text"
+                      label="Portfolio URL"
+                      placeholder="Masukkan URL Portfolio"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <FormGroup>
+                      <Radio label="Personal Project" name="type" value={1} />
+                      <Radio label="Client Project" name="type" value={2} />
+                    </FormGroup>
+                  </Col>
+                  <Col sm="12">
+                    <InputImage
+                      name="thumbnail"
+                      image={param ? param.portfolio.thumbnail : null}
+                      label="Porfolio Thumbnail"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <InputMultipleImage
+                      label="Porfolio Pictures"
+                      name="pic"
+                      images={param ? param.portfolio.pic : []}
+                    />
+                  </Col>
+                </Row>
+                <Button.Ripple
+                  className="mr-1"
+                  color="warning"
+                  onClick={() => history.goBack()}
+                >
+                  Back
+                </Button.Ripple>
+                <SubmitButton
+                  color="primary"
+                  label="Submit"
+                  isSubmitting={isSubmitting}
+                />
+              </Form>
+            )}
           </Formik>
         </CardBody>
       </Card>

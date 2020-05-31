@@ -32,7 +32,6 @@ const TechnologyModify = () => {
   const formSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
     pic: Yup.mixed()
-      // .required("Required")
       .test("required", "Required", (value) => {
         if (param) {
           return true;
