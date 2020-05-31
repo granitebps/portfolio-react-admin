@@ -18,15 +18,13 @@ import SubmitButton from "../../components/custom/Form/SubmitButton";
 import InputPassword from "../../components/custom/Form/InputPassword";
 import baseAxios from "../../utility/baseAxios";
 import { useAuthContext } from "../../contexts/AuthContext";
-import SuccessFailAlert from "../../components/custom/SuccessFailAlert";
 import { notAuthenticated } from "../../utility/helper";
+import { toast } from "react-toastify";
 
 const Password = () => {
   const authToken = Cookies.get("token");
   const { dispatch } = useAuthContext();
   const [serverError, setServerError] = useState();
-  const [success, setSuccess] = useState();
-  const [fail, setFail] = useState(false);
 
   const formSchema = Yup.object().shape({
     old_password: Yup.string().required("Required").min(8),
@@ -36,13 +34,11 @@ const Password = () => {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      setSuccess();
-      setFail(false);
       const { data } = await baseAxios.post("profile-password", values, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
-      setSuccess(data.message);
+      toast.success(data.message);
       resetForm();
     } catch (error) {
       resetForm();
@@ -51,7 +47,7 @@ const Password = () => {
       } else if (error.response.status === 400) {
         setServerError(error.response.data.message);
       } else {
-        setFail(true);
+        toast.error("Something Wrong!");
       }
     }
   };
@@ -70,13 +66,6 @@ const Password = () => {
   return (
     <React.Fragment>
       <Header title="Password" />
-
-      <SuccessFailAlert
-        success={success}
-        fail={fail}
-        setSuccess={setSuccess}
-        setFail={setFail}
-      />
 
       <Card>
         <CardHeader>

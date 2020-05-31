@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -11,6 +11,7 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 import Header from "../../components/custom/Header";
 import InputText from "../../components/custom/Form/InputText";
@@ -18,7 +19,6 @@ import InputFile from "../../components/custom/Form/InputFile";
 import SubmitButton from "../../components/custom/Form/SubmitButton";
 import InputImage from "../../components/custom/Form/InputImage";
 import Spinner from "../../components/@vuexy/spinner/Loading-spinner";
-import SuccessFailAlert from "../../components/custom/SuccessFailAlert";
 import Error505 from "../misc/505";
 
 import {
@@ -34,10 +34,10 @@ const FILE_SIZE = 2048 * 1024;
 
 const Profile = () => {
   const authToken = Cookies.get("token");
-  const [{ data, loading, error }, refetch] = useAxios("profile");
+  const [{ data, loading, error }, refetch] = useAxios("profile", {
+    useCache: false,
+  });
   const { dispatch } = useAuthContext();
-  const [success, setSuccess] = useState();
-  const [fail, setFail] = useState(false);
 
   const formSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
@@ -68,7 +68,6 @@ const Profile = () => {
 
   const handleSubmit = async (values) => {
     try {
-      setSuccess();
       const formData = new FormData();
       values = removeEmptyStrings(values);
       Object.keys(values).forEach((key) => {
@@ -80,7 +79,6 @@ const Profile = () => {
       });
 
       Cookies.set("token", data.data.token);
-      setSuccess(data.message);
       refetch();
       dispatch({
         type: LOGIN,
@@ -91,11 +89,12 @@ const Profile = () => {
           },
         },
       });
+      toast.success(data.message);
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
       } else {
-        setFail(true);
+        toast.error("Something Wrong!");
       }
     }
   };
@@ -111,13 +110,6 @@ const Profile = () => {
   return (
     <React.Fragment>
       <Header title="Profile" />
-
-      <SuccessFailAlert
-        success={success}
-        fail={fail}
-        setSuccess={setSuccess}
-        setFail={setFail}
-      />
 
       <Card>
         <CardHeader>

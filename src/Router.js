@@ -4,7 +4,9 @@ import Cookies from "js-cookie";
 import { history } from "./history";
 import Spinner from "./components/@vuexy/spinner/Loading-spinner";
 import { ContextLayout } from "./utility/context/Layout";
-import Error404 from "./views/misc/404";
+import "react-toastify/dist/ReactToastify.css";
+import "./assets/scss/plugins/extensions/toastr.scss";
+import { ToastContainer } from "react-toastify";
 
 // Route-based code splitting
 const login = lazy(() => import("./views/pages/authentication/login/Login"));
@@ -28,6 +30,7 @@ const PortfolioModify = lazy(() =>
   import("./views/pages/portfolio/PortfolioModify")
 );
 const Message = lazy(() => import("./views/pages/message/Message"));
+const Error404 = lazy(() => import("./views/misc/404"));
 
 // Set Layout and Component Using App Route
 const AppRoute = ({
@@ -75,6 +78,7 @@ const AppRouter = () => {
   return (
     // Set the directory path if you are deploying in sub-folder
     <Router history={history}>
+      <ToastContainer />
       <Switch>
         <AppRoute exact path="/" component={login} fullLayout />
         <AppRoute exact path="/dashboard" component={Home} />
