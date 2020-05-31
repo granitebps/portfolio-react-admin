@@ -79,7 +79,7 @@ const Technology = () => {
       name: "Technology Name",
       selector: "name",
       sortable: true,
-      cell: (row) => <p className="text-bold-500 mb-0">{row.name}</p>,
+      cell: (row) => <p className="text-bold-500 my-1">{row.name}</p>,
     },
     {
       name: "Technology Picture",
@@ -88,9 +88,9 @@ const Technology = () => {
       cell: (row) => (
         <a href={row.pic} target="_blank" rel="noopener noreferrer">
           <img
-            className="img-fluid img-thumbnail"
-            height="50"
-            width="50"
+            className="img-fluid img-thumbnail my-1"
+            height="80"
+            width="80"
             src={row.pic}
             alt={row.name}
           />

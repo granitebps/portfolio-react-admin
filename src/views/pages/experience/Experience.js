@@ -1,94 +1,176 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../../components/custom/Header";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardBody,
-  Table,
-  Button,
-} from "reactstrap";
-import { history } from "../../../history";
+import { Card, CardBody, Button, Spinner, Col, Row } from "reactstrap";
+import Cookies from "js-cookie";
+import { Trash2, Edit } from "react-feather";
+import DataTable from "react-data-table-component";
+import { toast } from "react-toastify";
+import moment from "moment";
 
-const dummyData = [
-  {
-    name: "PT Indonesia Comnets Plus (ICON+)",
-    position: "Internship",
-    startDate: "2019-01-01",
-    endDate: "2019-04-01",
-    currentJob: 0,
-  },
-  {
-    name: "PT Wamplo Satu Interteknologi",
-    position: "Junior Software Engineer",
-    startDate: "2019-06-10",
-    endDate: null,
-    currentJob: 1,
-  },
-];
+import { history } from "../../../history";
+import baseAxios, { useAxios } from "../../../utility/baseAxios";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import CustomHeader from "../../../components/custom/Table/CustomHeader";
+import { notAuthenticated } from "../../../utility/helper";
+import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
+import Error505 from "../../misc/505";
 
 const Experience = () => {
+  const [{ data, loading, error }, refetch] = useAxios("experience", {
+    useCache: false,
+  });
+  const [value, setValue] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const { dispatch } = useAuthContext();
+  const authToken = Cookies.get("token");
+
   const handleAdd = () => {
     history.push("/experience/modify");
   };
 
-  const handleDelete = (data) => {
-    console.log(data);
+  const handleDelete = async (data) => {
+    try {
+      setLoadingDelete(true);
+
+      const { data: dataDelete } = await baseAxios.delete(
+        `experience/${data.id}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      toast.success(dataDelete.message);
+      refetch();
+      setLoadingDelete(false);
+    } catch (error) {
+      if (error.response.status === 401) {
+        notAuthenticated(dispatch);
+      } else {
+        toast.error("Something Wrong!");
+      }
+    }
   };
+
+  const handleFilter = (e) => {
+    let text = e.target.value;
+    let filter = filteredData;
+    setValue(text);
+
+    if (text.length) {
+      filter = data.data.filter((item) => {
+        let startsWithCondition =
+          item.name.toLowerCase().startsWith(text.toLowerCase()) ||
+          item.percentage.toLowerCase().startsWith(text.toLowerCase());
+        let includesCondition =
+          item.name.toLowerCase().includes(text.toLowerCase()) ||
+          item.percentage.toLowerCase().includes(text.toLowerCase());
+
+        if (startsWithCondition) {
+          return startsWithCondition;
+        } else if (!startsWithCondition && includesCondition) {
+          return includesCondition;
+        } else return null;
+      });
+      setFilteredData(filter);
+    }
+  };
+
+  const columns = [
+    {
+      name: "Company Name",
+      selector: "company",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.company}</p>,
+    },
+    {
+      name: "Position",
+      selector: "position",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.position}</p>,
+    },
+    {
+      name: "Start Date",
+      selector: "start_date",
+      sortable: true,
+      cell: (row) => (
+        <p className="text-bold-500 my-1">
+          {moment(row.start_date).format("DD MMMM YYYY")}
+        </p>
+      ),
+    },
+    {
+      name: "End Date",
+      selector: "end_date",
+      sortable: true,
+      cell: (row) => (
+        <p className="text-bold-500 my-1">
+          {row.current_job ? "Now" : moment(row.end_date).format("DD MMMM Y")}
+        </p>
+      ),
+    },
+    {
+      name: "Action",
+      selector: "",
+      cell: (row) => (
+        <Row>
+          <Col md="6">
+            <Button.Ripple
+              color="success"
+              onClick={() =>
+                history.push("/experience/modify", { experience: row })
+              }
+              className="btn-icon rounded-circle"
+            >
+              <Edit />
+            </Button.Ripple>
+          </Col>
+          <Col md="6">
+            <Button.Ripple
+              color="danger"
+              onClick={() => handleDelete(row)}
+              disabled={loadingDelete}
+              className="btn-icon rounded-circle"
+            >
+              {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
+            </Button.Ripple>
+          </Col>
+        </Row>
+      ),
+    },
+  ];
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <Error505 retry={refetch} />;
+  }
 
   return (
     <React.Fragment>
       <Header title="Experience" />
 
       <Card>
-        <CardHeader>
-          <CardTitle>Experience</CardTitle>
-          <Button.Ripple color="primary" onClick={handleAdd}>
-            Add Experience
-          </Button.Ripple>
-        </CardHeader>
         <CardBody>
-          <Table className="table-hover-animation" striped responsive>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Company Name</th>
-                <th>Position</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th colSpan={2}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dummyData.map((data, index) => (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{data.name}</td>
-                  <td>{data.position}</td>
-                  <td>{data.startDate}</td>
-                  <td>{data.currentJob ? "Now" : data.endDate}</td>
-                  <td>
-                    <Button.Ripple
-                      color="success"
-                      onClick={() =>
-                        history.push("/experience/modify", { data: data })
-                      }
-                    >
-                      Edit
-                    </Button.Ripple>
-                  </td>
-                  <td>
-                    <Button.Ripple
-                      color="danger"
-                      onClick={() => handleDelete(data)}
-                    >
-                      Delete
-                    </Button.Ripple>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <DataTable
+            title="Experience"
+            className="dataTable-custom"
+            data={value.length ? filteredData : data.data}
+            columns={columns}
+            pagination
+            striped
+            highlightOnHover
+            subHeader
+            subHeaderComponent={
+              <CustomHeader
+                value={value}
+                handleFilter={handleFilter}
+                label="Experience"
+                handleAdd={handleAdd}
+              />
+            }
+          />
         </CardBody>
       </Card>
     </React.Fragment>

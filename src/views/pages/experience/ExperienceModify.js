@@ -12,6 +12,8 @@ import {
   Button,
 } from "reactstrap";
 import moment from "moment";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 import Checkbox from "../../../components/custom/Form/Checkbox";
 import Header from "../../../components/custom/Header";
@@ -19,28 +21,60 @@ import InputText from "../../../components/custom/Form/InputText";
 import SubmitButton from "../../../components/custom/Form/SubmitButton";
 import { history } from "../../../history";
 import DatePicker from "../../../components/custom/Form/DatePicker";
+import baseAxios from "../../../utility/baseAxios";
+import { notAuthenticated } from "../../../utility/helper";
+import { useAuthContext } from "../../../contexts/AuthContext";
 
 const ExperienceModify = () => {
+  const { dispatch } = useAuthContext();
+  const authToken = Cookies.get("token");
+
   const formSchema = Yup.object().shape({
-    name: Yup.string().required("Required"),
+    company: Yup.string().required("Required"),
     position: Yup.string().required("Required"),
-    currentJob: Yup.boolean(),
-    startDate: Yup.date().required("Required"),
+    current_job: Yup.boolean(),
+    start_date: Yup.date().required("Required"),
   });
 
-  const data = history.location.state;
+  const param = history.location.state;
+
+  const handleSubmit = async (values) => {
+    try {
+      if (param) {
+        values._method = "PUT";
+      }
+      const url = param ? `experience/${param.experience.id}` : "experience";
+      const { data } = await baseAxios({
+        url: url,
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+        data: values,
+      });
+
+      toast.success(data.message);
+      history.push("/experience");
+    } catch (error) {
+      if (error.response.status === 401) {
+        notAuthenticated(dispatch);
+      } else {
+        toast.error("Something Wrong!");
+      }
+    }
+  };
 
   const handleValidattion = (values) => {
     const errors = {};
 
-    // If currentJob === false then endDate required
-    if (values.currentJob === false || values.currentJob === 0) {
-      if (!values.endDate) {
-        errors.endDate = "Required";
+    // If current_job === false then end_date required
+    if (values.current_job === false || values.current_job === 0) {
+      if (!values.end_date) {
+        errors.end_date = "Required";
       } else {
         // Check if End Date Lower Than Start Date
-        if (moment(values.endDate).isBefore(values.startDate, "day")) {
-          errors.endDate = "End Date Cannot Be Lower Than Start Date";
+        if (moment(values.end_date).isBefore(values.start_date, "day")) {
+          errors.end_date = "End Date Cannot Be Lower Than Start Date";
         }
       }
     }
@@ -48,28 +82,26 @@ const ExperienceModify = () => {
     return errors;
   };
 
-  const handleSubmit = (values) => {
-    console.log(values);
-  };
-
   return (
     <React.Fragment>
-      <Header title={data ? "Edit Experience" : "Add Experience"} />
+      <Header title={param ? "Edit Experience" : "Add Experience"} />
 
       <Card>
         <CardHeader>
-          <CardTitle>{data ? "Edit Experience" : "Add Experience"}</CardTitle>
+          <CardTitle>{param ? "Edit Experience" : "Add Experience"}</CardTitle>
         </CardHeader>
         <CardBody>
           <Formik
             initialValues={{
-              name: data ? data.data.name : "",
-              position: data ? data.data.position : "",
-              currentJob: data ? data.data.currentJob : 0,
-              startDate: data ? new Date(data.data.startDate) : new Date(),
-              endDate: data
-                ? data.data.endDate
-                  ? new Date(data.data.endDate)
+              company: param ? param.experience.company : "",
+              position: param ? param.experience.position : "",
+              current_job: param ? param.experience.current_job : 0,
+              start_date: param
+                ? new Date(param.experience.start_date)
+                : new Date(),
+              end_date: param
+                ? param.experience.end_date
+                  ? new Date(param.experience.end_date)
                   : null
                 : null,
             }}
@@ -77,47 +109,53 @@ const ExperienceModify = () => {
             onSubmit={handleSubmit}
             validate={handleValidattion}
           >
-            <Form>
-              <Row>
-                <Col sm="12">
-                  <InputText
-                    name="name"
-                    type="text"
-                    label="Company Name"
-                    placeholder="Masukkan Nama Perusahaan"
-                  />
-                </Col>
-                <Col sm="12">
-                  <InputText
-                    name="position"
-                    type="text"
-                    label="Position"
-                    placeholder="Masukkan Posisi"
-                  />
-                </Col>
-                <Col sm="12">
-                  <DatePicker name="startDate" label="Start Date" />
-                </Col>
-                <Col sm="12">
-                  <DatePicker name="endDate" label="End Date" />
-                </Col>
-                <Col sm="12">
-                  <Checkbox
-                    color="success"
-                    label="My Current Job"
-                    name="currentJob"
-                  />
-                </Col>
-              </Row>
-              <Button.Ripple
-                className="mr-1"
-                color="warning"
-                onClick={() => history.goBack()}
-              >
-                Back
-              </Button.Ripple>
-              <SubmitButton color="primary" label="Submit" />
-            </Form>
+            {({ isSubmitting }) => (
+              <Form>
+                <Row>
+                  <Col sm="12">
+                    <InputText
+                      name="company"
+                      type="text"
+                      label="Company Name"
+                      placeholder="Masukkan Nama Perusahaan"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <InputText
+                      name="position"
+                      type="text"
+                      label="Position"
+                      placeholder="Masukkan Posisi"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <DatePicker name="start_date" label="Start Date" />
+                  </Col>
+                  <Col sm="12">
+                    <DatePicker name="end_date" label="End Date" />
+                  </Col>
+                  <Col sm="12">
+                    <Checkbox
+                      color="success"
+                      label="My Current Job"
+                      name="current_job"
+                    />
+                  </Col>
+                </Row>
+                <Button.Ripple
+                  className="mr-1"
+                  color="warning"
+                  onClick={() => history.goBack()}
+                >
+                  Back
+                </Button.Ripple>
+                <SubmitButton
+                  color="primary"
+                  label="Submit"
+                  isSubmitting={isSubmitting}
+                />
+              </Form>
+            )}
           </Formik>
         </CardBody>
       </Card>
