@@ -1,85 +1,181 @@
-import React from "react";
-import Header from "../../../components/custom/Header";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardBody,
-  Table,
-  Button,
-} from "reactstrap";
+import React, { useState } from "react";
+import Cookies from "js-cookie";
+import { Trash2 } from "react-feather";
+import { toast } from "react-toastify";
+import { Card, CardBody, Button, Row, Col, Spinner } from "reactstrap";
 import moment from "moment";
 
-const dummyData = [
-  {
-    firstName: "Jonathan Roseland",
-    lastName: "Jonathan Roseland",
-    email: "noreply@asset.fin",
-    phone: "82225838939",
-    message:
-      "Hello Partners, The International Investment arm of our company is seeking interested partners in need of alternative funding for long term capital projects or for business development. Our managed private investment portfolio has an excess pool in private Investor funds for viable project financing, and covering all Public and Private Industry sectors. For investments in any viable Project presented by your organization please contact me directly via this for more details. Broker Partners are welcome. Regards Jonathan Roseland International Investment Executive Asset Finance proinvstor@gmail.com",
-    date: "2020-01-01",
-  },
-  {
-    firstName: "Francisco Salvadore",
-    lastName: "Francisco Salvadore",
-    email: "cidanold@yahoo.com",
-    phone: "89925745649",
-    message:
-      "Dear CEO granitebps.com I have an urgent need for a partner to venture in a fully funded investment with you. I would want to negotiate the possibility of a working business agreement with you. Your business plan will be needed for review and your capability to be an Investment Manager is sacrosanct. I sent this message from your feed back form to see how serious and honest that you can be. Please reply to me: franscosalvadore@gmail.com Greetings! Francisco Salvadore",
-    date: "2020-01-01",
-  },
-];
+import Header from "../../../components/custom/Header";
+import baseAxios, { useAxios } from "../../../utility/baseAxios";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
+import Error505 from "../../misc/505";
+import DataTable from "react-data-table-component";
+import CustomHeader from "../../../components/custom/Table/CustomHeader";
+import { notAuthenticated } from "../../../utility/helper";
 
 const Message = () => {
-  const handleDelete = (data) => {
-    console.log(data);
+  const authToken = Cookies.get("token");
+  const [{ data, loading, error }, refetch] = useAxios(
+    {
+      url: "message",
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    },
+    {
+      useCache: false,
+    }
+  );
+  const [value, setValue] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const { dispatch } = useAuthContext();
+
+  const handleDelete = async (data) => {
+    try {
+      setLoadingDelete(true);
+
+      const { data: dataDelete } = await baseAxios.delete(
+        `message/${data.id}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      toast.success(dataDelete.message);
+      refetch();
+      setLoadingDelete(false);
+    } catch (error) {
+      if (error.response.status === 401) {
+        notAuthenticated(dispatch);
+      } else {
+        toast.error("Something Wrong!");
+      }
+    }
   };
+
+  const handleFilter = (e) => {
+    let text = e.target.value;
+    let filter = filteredData;
+    setValue(text);
+
+    if (text.length) {
+      filter = data.data.filter((item) => {
+        let startsWithCondition =
+          item.first_name.toLowerCase().startsWith(text.toLowerCase()) ||
+          item.email.toLowerCase().startsWith(text.toLowerCase()) ||
+          item.phone.toLowerCase().startsWith(text.toLowerCase()) ||
+          item.message.toLowerCase().startsWith(text.toLowerCase()) ||
+          item.last_name.toLowerCase().startsWith(text.toLowerCase());
+        let includesCondition =
+          item.first_name.toLowerCase().includes(text.toLowerCase()) ||
+          item.email.toLowerCase().includes(text.toLowerCase()) ||
+          item.phone.toLowerCase().includes(text.toLowerCase()) ||
+          item.message.toLowerCase().includes(text.toLowerCase()) ||
+          item.last_name.toLowerCase().includes(text.toLowerCase());
+
+        if (startsWithCondition) {
+          return startsWithCondition;
+        } else if (!startsWithCondition && includesCondition) {
+          return includesCondition;
+        } else return null;
+      });
+      setFilteredData(filter);
+    }
+  };
+
+  const columns = [
+    {
+      name: "First Name",
+      selector: "first_name",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.first_name}</p>,
+    },
+    {
+      name: "Last Name",
+      selector: "last_name",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.last_name}</p>,
+    },
+    {
+      name: "Email",
+      selector: "email",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.email}</p>,
+    },
+    {
+      name: "Phone",
+      selector: "phone",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.phone}</p>,
+    },
+    {
+      name: "Message",
+      selector: "message",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.message}</p>,
+    },
+    {
+      name: "Date",
+      selector: "created_at",
+      sortable: true,
+      cell: (row) => (
+        <p className="text-bold-500 my-1">
+          {moment(row.created_at).format("DD MMMM YYYY")}
+        </p>
+      ),
+    },
+    {
+      name: "Action",
+      selector: "",
+      cell: (row) => (
+        <Row>
+          <Col md="12">
+            <Button.Ripple
+              color="danger"
+              onClick={() => handleDelete(row)}
+              disabled={loadingDelete}
+              className="btn-icon rounded-circle"
+            >
+              {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
+            </Button.Ripple>
+          </Col>
+        </Row>
+      ),
+    },
+  ];
+
+  if (error) {
+    return <Error505 retry={refetch} />;
+  }
 
   return (
     <React.Fragment>
       <Header title="Message" />
 
       <Card>
-        <CardHeader>
-          <CardTitle>Message</CardTitle>
-        </CardHeader>
         <CardBody>
-          <Table className="table-hover-animation" striped responsive>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Message</th>
-                <th>Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dummyData.map((data, index) => (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{data.firstName}</td>
-                  <td>{data.lastName}</td>
-                  <td>{data.email}</td>
-                  <td>{data.phone}</td>
-                  <td>{data.message}</td>
-                  <td>{moment(data.date).format("DD MMMM Y")}</td>
-                  <td>
-                    <Button.Ripple
-                      color="danger"
-                      onClick={() => handleDelete(data)}
-                    >
-                      Delete
-                    </Button.Ripple>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <DataTable
+            title="Message"
+            className="dataTable-custom"
+            data={value.length ? filteredData : data ? data.data : []}
+            columns={columns}
+            pagination
+            striped
+            highlightOnHover
+            progressPending={loading}
+            progressComponent={<LoadingSpinner />}
+            subHeader
+            subHeaderComponent={
+              <CustomHeader
+                value={value}
+                handleFilter={handleFilter}
+                label="Message"
+                isAdd={false}
+              />
+            }
+          />
         </CardBody>
       </Card>
     </React.Fragment>
