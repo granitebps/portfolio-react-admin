@@ -4,8 +4,6 @@ import Cookies from "js-cookie";
 import { history } from "./history";
 import Spinner from "./components/@vuexy/spinner/Loading-spinner";
 import { ContextLayout } from "./utility/context/Layout";
-import "react-toastify/dist/ReactToastify.css";
-import "./assets/scss/plugins/extensions/toastr.scss";
 import { ToastContainer } from "react-toastify";
 
 // Route-based code splitting
