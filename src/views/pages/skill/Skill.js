@@ -113,10 +113,6 @@ const Skill = () => {
     },
   ];
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
   if (error) {
     return <Error505 retry={refetch} />;
   }
@@ -130,11 +126,13 @@ const Skill = () => {
           <DataTable
             title="Skill"
             className="dataTable-custom"
-            data={value.length ? filteredData : data.data}
+            data={value.length ? filteredData : data && data.data}
             columns={columns}
             pagination
             striped
             highlightOnHover
+            progressPending={loading}
+            progressComponent={<LoadingSpinner />}
             subHeader
             subHeaderComponent={
               <CustomHeader

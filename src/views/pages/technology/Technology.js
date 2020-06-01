@@ -128,10 +128,6 @@ const Technology = () => {
     },
   ];
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
   if (error) {
     return <Error505 retry={refetch} />;
   }
@@ -145,11 +141,13 @@ const Technology = () => {
           <DataTable
             title="Technology"
             className="dataTable-custom"
-            data={value.length ? filteredData : data.data}
+            data={value.length ? filteredData : data && data.data}
             columns={columns}
             pagination
             striped
             highlightOnHover
+            progressPending={loading}
+            progressComponent={<LoadingSpinner />}
             subHeader
             subHeaderComponent={
               <CustomHeader
