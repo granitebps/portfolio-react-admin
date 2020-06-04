@@ -61,6 +61,7 @@ const Experience = () => {
         let startsWithCondition =
           item.company.toLowerCase().startsWith(text.toLowerCase()) ||
           item.position.toLowerCase().startsWith(text.toLowerCase()) ||
+          item.desc.toLowerCase().startsWith(text.toLowerCase()) ||
           moment(item.start_date)
             .format("DD MMMM YYYY")
             .toLowerCase()
@@ -72,6 +73,7 @@ const Experience = () => {
         let includesCondition =
           item.company.toLowerCase().includes(text.toLowerCase()) ||
           item.position.toLowerCase().includes(text.toLowerCase()) ||
+          item.desc.toLowerCase().includes(text.toLowerCase()) ||
           moment(item.start_date)
             .format("DD MMMM YYYY")
             .toLowerCase()
@@ -103,6 +105,12 @@ const Experience = () => {
       selector: "position",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.position}</p>,
+    },
+    {
+      name: "Description",
+      selector: "desc",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.desc}</p>,
     },
     {
       name: "Start Date",

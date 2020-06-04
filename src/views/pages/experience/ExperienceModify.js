@@ -32,6 +32,7 @@ const ExperienceModify = () => {
   const formSchema = Yup.object().shape({
     company: Yup.string().required("Required"),
     position: Yup.string().required("Required"),
+    desc: Yup.string().required("Required"),
     current_job: Yup.boolean(),
     start_date: Yup.date().required("Required"),
   });
@@ -95,6 +96,7 @@ const ExperienceModify = () => {
             initialValues={{
               company: param ? param.experience.company : "",
               position: param ? param.experience.position : "",
+              desc: param ? param.experience.desc : "",
               current_job: param ? param.experience.current_job : 0,
               start_date: param
                 ? new Date(param.experience.start_date)
@@ -126,6 +128,15 @@ const ExperienceModify = () => {
                       type="text"
                       label="Position"
                       placeholder="Masukkan Posisi"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <InputText
+                      name="desc"
+                      type="textarea"
+                      label="Description"
+                      placeholder="Masukkan Deskripsi"
+                      rows={5}
                     />
                   </Col>
                   <Col sm="12">
