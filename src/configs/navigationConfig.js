@@ -70,9 +70,17 @@ const navigationConfig = [
     id: "portfolio",
     title: "Portfolio",
     type: "item",
-    icon: <Icon.BookOpen size={20} />,
+    icon: <Icon.Database size={20} />,
     permissions: ["admin"],
     navLink: "/portfolio",
+  },
+  {
+    id: "education",
+    title: "Education",
+    type: "item",
+    icon: <Icon.BookOpen size={20} />,
+    permissions: ["admin"],
+    navLink: "/education",
   },
   {
     id: "message",

@@ -27,6 +27,10 @@ const Portfolio = lazy(() => import("./views/pages/portfolio/Portfolio"));
 const PortfolioModify = lazy(() =>
   import("./views/pages/portfolio/PortfolioModify")
 );
+const Education = lazy(() => import("./views/pages/education/Education"));
+const EducationModify = lazy(() =>
+  import("./views/pages/education/EducationModify")
+);
 const Message = lazy(() => import("./views/pages/message/Message"));
 const Error404 = lazy(() => import("./views/misc/404"));
 
@@ -98,6 +102,8 @@ const AppRouter = () => {
           path="/experience/modify"
           component={ExperienceModify}
         />
+        <AppRoute exact path="/education" component={Education} />
+        <AppRoute exact path="/education/modify" component={EducationModify} />
         <AppRoute exact path="/portfolio" component={Portfolio} />
         <AppRoute exact path="/portfolio/modify" component={PortfolioModify} />
         <AppRoute exact path="/message" component={Message} />
