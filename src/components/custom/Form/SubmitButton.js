@@ -12,7 +12,6 @@ const SubmitButton = ({ isSubmitting, label, ...props }) => {
 
   return (
     <Button.Ripple
-      type="submit"
       onClick={(e) => handleClick(e)}
       disabled={isSubmitting}
       {...props}

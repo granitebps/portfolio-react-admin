@@ -7,6 +7,7 @@ import {
   Form,
   Row,
   Col,
+  FormGroup,
 } from "reactstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -15,11 +16,13 @@ import { toast } from "react-toastify";
 
 import Header from "../../components/custom/Header";
 import InputText from "../../components/custom/Form/InputText";
+import InputTag from "../../components/custom/Form/InputTag";
 import InputFile from "../../components/custom/Form/InputFile";
 import SubmitButton from "../../components/custom/Form/SubmitButton";
 import InputImage from "../../components/custom/Form/InputImage";
 import Spinner from "../../components/@vuexy/spinner/Loading-spinner";
 import Error505 from "../misc/505";
+import Radio from "../../components/custom/Form/Radio";
 
 import {
   validURL,
@@ -44,8 +47,11 @@ const Profile = () => {
     email: Yup.string().email("Invalid email").required("Required"),
     username: Yup.string().required("Required"),
     about: Yup.string().required("Required"),
+    age: Yup.number().required("Required"),
     phone: Yup.number().required("Required"),
     address: Yup.string().required("Required"),
+    nationality: Yup.string().required("Required"),
+    languages: Yup.array().required("Required"),
     instagram: Yup.string().required("Required").url("Must Be Valid URL"),
     facebook: Yup.string().required("Required").url("Must Be Valid URL"),
     twitter: Yup.string().required("Required").url("Must Be Valid URL"),
@@ -71,7 +77,13 @@ const Profile = () => {
       const formData = new FormData();
       values = removeEmptyStrings(values);
       Object.keys(values).forEach((key) => {
-        formData.append(key, values[key]);
+        if (key === "languages") {
+          values[key].forEach((item) => {
+            formData.append(key + "[]", item);
+          });
+        } else {
+          formData.append(key, values[key]);
+        }
       });
 
       const { data } = await baseAxios.post("profile", formData, {
@@ -123,8 +135,11 @@ const Profile = () => {
               email: data ? data.data.email : "",
               username: data ? data.data.username : "",
               about: data ? data.data.profile.about : "",
+              age: data ? data.data.profile.age : "",
               phone: data ? data.data.profile.phone : "",
               address: data ? data.data.profile.address : "",
+              nationality: data ? data.data.profile.nationality : "",
+              languages: data ? data.data.profile.languages : [],
               instagram: data ? data.data.profile.instagram : "",
               facebook: data ? data.data.profile.facebook : "",
               twitter: data ? data.data.profile.twitter : "",
@@ -132,6 +147,7 @@ const Profile = () => {
               github: data ? data.data.profile.github : "",
               youtube: data ? data.data.profile.youtube : "",
               cv: "",
+              freelance: data ? data.data.profile.freelance : 0,
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}
@@ -180,6 +196,14 @@ const Profile = () => {
                   </Col>
                   <Col sm="12">
                     <InputText
+                      name="age"
+                      placeholder="Masukkan Umur"
+                      label="Age"
+                      type="number"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <InputText
                       name="phone"
                       placeholder="Masukkan No Telp"
                       label="Phone Number"
@@ -193,6 +217,20 @@ const Profile = () => {
                       label="Alamat"
                       type="textarea"
                       rows="5"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <InputText
+                      name="nationality"
+                      placeholder="Nationality"
+                      label="Masukkan Kebangsaan"
+                      type="text"
+                    />
+                  </Col>
+                  <Col sm="12">
+                    <InputTag
+                      name="languages"
+                      label="Masukkan Bahasa (Bisa Lebih Dari 2)"
                     />
                   </Col>
                   <Col sm="12">
@@ -250,6 +288,12 @@ const Profile = () => {
                       label="CV"
                       accept="application/pdf"
                     />
+                  </Col>
+                  <Col sm="12">
+                    <FormGroup>
+                      <Radio label="Not Available" name="freelance" value="0" />
+                      <Radio label="Available" name="freelance" value="1" />
+                    </FormGroup>
                   </Col>
                 </Row>
                 <SubmitButton
