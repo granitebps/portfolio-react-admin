@@ -90,7 +90,15 @@ const Profile = () => {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
-      Cookies.set("token", data.data.token);
+      Cookies.set("token", data.data.token, {
+        secure: true,
+        domain: "granitebps.com",
+        sameSite: "lax",
+      });
+      const cookiesToken = Cookies.get("token");
+      if (!cookiesToken) {
+        notAuthenticated(dispatch);
+      }
       refetch();
       dispatch({
         type: LOGIN,

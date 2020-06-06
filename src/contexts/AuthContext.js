@@ -48,7 +48,7 @@ const AuthContextProvider = ({ children }) => {
           });
         }
       } catch (error) {
-        Cookies.remove("token");
+        Cookies.remove("token", { domain: "granitebps.com" });
         dispatch({
           type: LOGOUT,
         });

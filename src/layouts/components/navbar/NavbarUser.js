@@ -20,7 +20,7 @@ const UserDropdown = (props) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    Cookies.remove("token");
+    Cookies.remove("token", { domain: "granitebps.com" });
     dispatch({
       type: LOGOUT,
     });

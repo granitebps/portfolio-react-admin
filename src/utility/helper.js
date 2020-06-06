@@ -26,7 +26,7 @@ export const removeEmptyStrings = (obj) => {
 };
 
 export const notAuthenticated = (dispatch) => {
-  Cookies.remove("token");
+  Cookies.remove("token", { domain: "granitebps.com" });
   dispatch({
     type: LOGOUT,
   });

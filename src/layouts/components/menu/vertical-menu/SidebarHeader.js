@@ -17,7 +17,12 @@ class SidebarHeader extends Component {
         <ul className="nav navbar-nav flex-row">
           <li className="nav-item mr-auto">
             <NavLink to="/" className="navbar-brand">
-              <div className="brand-logo" />
+              <img
+                src={require("../../../../assets/img/logo/gbps.png")}
+                alt=""
+                width="24px"
+                height="24px"
+              />
               <h2 className="brand-text mb-0">GBPS</h2>
             </NavLink>
           </li>

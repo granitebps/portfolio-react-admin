@@ -48,7 +48,15 @@ const Login = () => {
       };
       const { data } = await baseAxios.post("auth/login", request);
 
-      Cookies.set("token", data.data.token);
+      Cookies.set("token", data.data.token, {
+        secure: true,
+        domain: "granitebps.com",
+        sameSite: "lax",
+      });
+      const cookiesToken = Cookies.get("token");
+      if (!cookiesToken) {
+        return;
+      }
       dispatch({
         type: LOGIN,
         payload: {

@@ -93,7 +93,7 @@ const ServiceModify = () => {
                     <InputText
                       name="icon"
                       type="text"
-                      label="Service Icon"
+                      label="Service Icon (LineIcons)"
                       placeholder="Masukkan Icon Service"
                     />
                   </Col>
