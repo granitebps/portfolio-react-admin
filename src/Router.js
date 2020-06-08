@@ -32,6 +32,8 @@ const Education = lazy(() => import("./views/pages/education/Education"));
 const EducationModify = lazy(() =>
   import("./views/pages/education/EducationModify")
 );
+const Blog = lazy(() => import("./views/pages/blog/Blog"));
+const BlogModify = lazy(() => import("./views/pages/blog/BlogModify"));
 const Message = lazy(() => import("./views/pages/message/Message"));
 const Error404 = lazy(() => import("./views/misc/404"));
 
@@ -119,6 +121,8 @@ const AppRouter = () => {
         <AppRoute exact path="/education/modify" component={EducationModify} />
         <AppRoute exact path="/portfolio" component={Portfolio} />
         <AppRoute exact path="/portfolio/modify" component={PortfolioModify} />
+        <AppRoute exact path="/blog" component={Blog} />
+        <AppRoute exact path="/blog/modify" component={BlogModify} />
         <AppRoute exact path="/message" component={Message} />
         <AppRoute component={Error404} />
       </Switch>

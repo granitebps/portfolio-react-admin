@@ -83,6 +83,14 @@ const navigationConfig = [
     navLink: "/education",
   },
   {
+    id: "blog",
+    title: "Blog",
+    type: "item",
+    icon: <Icon.Tag size={20} />,
+    permissions: ["admin"],
+    navLink: "/blog",
+  },
+  {
     id: "message",
     title: "Message",
     type: "item",

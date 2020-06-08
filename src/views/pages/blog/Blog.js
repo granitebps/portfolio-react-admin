@@ -3,6 +3,7 @@ import { Card, CardBody, Button, Row, Col, Spinner } from "reactstrap";
 import Cookies from "js-cookie";
 import { Edit, Trash2 } from "react-feather";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 import Header from "../../../components/custom/Header";
 import { history } from "../../../history";
@@ -14,8 +15,8 @@ import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
 import Error505 from "../../misc/505";
 import { notAuthenticated } from "../../../utility/helper";
 
-const Technology = () => {
-  const [{ data, loading, error }, refetch] = useAxios("technology", {
+const Blog = () => {
+  const [{ data, loading, error }, refetch] = useAxios("blog", {
     useCache: false,
   });
   const [value, setValue] = useState("");
@@ -25,19 +26,16 @@ const Technology = () => {
   const authToken = Cookies.get("token");
 
   const handleAdd = () => {
-    history.push("/technology/modify");
+    history.push("/blog/modify");
   };
 
   const handleDelete = async (data) => {
     try {
       setLoadingDelete(true);
 
-      const { data: dataDelete } = await baseAxios.delete(
-        `technology/${data.id}`,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
+      const { data: dataDelete } = await baseAxios.delete(`blog/${data.id}`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
@@ -57,10 +55,10 @@ const Technology = () => {
 
     if (text.length) {
       filter = data.data.filter((item) => {
-        let startsWithCondition = item.name
+        let startsWithCondition = item.title
           .toLowerCase()
           .startsWith(text.toLowerCase());
-        let includesCondition = item.name
+        let includesCondition = item.title
           .toLowerCase()
           .includes(text.toLowerCase());
 
@@ -76,25 +74,35 @@ const Technology = () => {
 
   const columns = [
     {
-      name: "Technology Name",
-      selector: "name",
-      sortable: true,
-      cell: (row) => <p className="text-bold-500 my-1">{row.name}</p>,
-    },
-    {
-      name: "Technology Picture",
-      selector: "pic",
+      name: "Blog Picture",
+      selector: "image",
       sortable: false,
       cell: (row) => (
-        <a href={row.pic} target="_blank" rel="noopener noreferrer">
+        <a href={row.image} target="_blank" rel="noopener noreferrer">
           <img
             className="img-fluid img-thumbnail my-1"
             height="80"
             width="80"
-            src={row.pic}
-            alt={row.name}
+            src={row.image}
+            alt={row.title}
           />
         </a>
+      ),
+    },
+    {
+      name: "Blog Title",
+      selector: "title",
+      sortable: true,
+      cell: (row) => <p className="text-bold-500 my-1">{row.title}</p>,
+    },
+    {
+      name: "Tanggal",
+      selector: "created_at",
+      sortable: true,
+      cell: (row) => (
+        <p className="text-bold-500 my-1">
+          {moment(row.created_at).format("DD MMMM YYYY")}
+        </p>
       ),
     },
     {
@@ -105,9 +113,7 @@ const Technology = () => {
           <Col md="6">
             <Button.Ripple
               color="success"
-              onClick={() =>
-                history.push("/technology/modify", { technology: row })
-              }
+              onClick={() => history.push("/blog/modify", { blog: row })}
               className="btn-icon rounded-circle"
             >
               <Edit />
@@ -134,12 +140,12 @@ const Technology = () => {
 
   return (
     <React.Fragment>
-      <Header title="Technology" />
+      <Header title="Blog" />
 
       <Card>
         <CardBody>
           <DataTable
-            title="Technology"
+            title="Blog"
             className="dataTable-custom"
             data={value.length ? filteredData : data && data.data}
             columns={columns}
@@ -153,7 +159,7 @@ const Technology = () => {
               <CustomHeader
                 value={value}
                 handleFilter={handleFilter}
-                label="Technology"
+                label="Blog"
                 handleAdd={handleAdd}
               />
             }
@@ -164,4 +170,4 @@ const Technology = () => {
   );
 };
 
-export default Technology;
+export default Blog;
