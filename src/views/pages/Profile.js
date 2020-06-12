@@ -90,11 +90,12 @@ const Profile = () => {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
-      Cookies.set("token", data.data.token, {
-        secure: true,
-        domain: "granitebps.com",
-        sameSite: "lax",
-      });
+      const cookiesConfig =
+        process.env.NODE_ENV === "development"
+          ? {}
+          : { secure: true, domain: "granitebps.com", sameSite: "lax" };
+
+      Cookies.set("token", data.data.token, cookiesConfig);
       const cookiesToken = Cookies.get("token");
       if (!cookiesToken) {
         notAuthenticated(dispatch);

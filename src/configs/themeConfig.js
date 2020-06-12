@@ -11,6 +11,6 @@ const themeConfig = {
   disableCustomizer: true, // options[Boolean]: true, false(default)
   hideScrollToTop: false, // options[Boolean]: true, false(default)
   menuTheme: "primary", // options[String]: primary / success / danger / info / warning / dark
-}
+};
 
-export default themeConfig
+export default themeConfig;

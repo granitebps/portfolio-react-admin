@@ -48,11 +48,12 @@ const Login = () => {
       };
       const { data } = await baseAxios.post("auth/login", request);
 
-      Cookies.set("token", data.data.token, {
-        secure: true,
-        domain: "granitebps.com",
-        sameSite: "lax",
-      });
+      const cookiesConfig =
+        process.env.NODE_ENV === "development"
+          ? {}
+          : { secure: true, domain: "granitebps.com", sameSite: "lax" };
+
+      Cookies.set("token", data.data.token, cookiesConfig);
       const cookiesToken = Cookies.get("token");
       if (!cookiesToken) {
         return;
