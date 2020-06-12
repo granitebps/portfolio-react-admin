@@ -47,14 +47,15 @@ const InputMultipleImage = ({ name, images, label }, props) => {
         className="img-thumbnail img-fluid"
         alt={file.name}
       />
-      <Button.Ripple
+      <Button
         color="danger"
         size="sm"
         tag="button"
+        className="btn-block"
         onClick={(e) => handleRemoveThumb(index)}
       >
         Remove
-      </Button.Ripple>
+      </Button>
     </Col>
   ));
 
@@ -77,7 +78,7 @@ const InputMultipleImage = ({ name, images, label }, props) => {
             <em>(Allowed JPG, JPEG or PNG. Max size of 2048kB)</em>
           </p>
         </div>
-        <Row>{thumbs}</Row>
+        <Row className="mt-1">{thumbs}</Row>
         {error && touch && (
           <div className="field-error text-danger">{error}</div>
         )}

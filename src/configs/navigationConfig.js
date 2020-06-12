@@ -91,6 +91,14 @@ const navigationConfig = [
     navLink: "/blog",
   },
   {
+    id: "gallery",
+    title: "Gallery",
+    type: "item",
+    icon: <Icon.Image size={20} />,
+    permissions: ["admin"],
+    navLink: "/gallery",
+  },
+  {
     id: "message",
     title: "Message",
     type: "item",
