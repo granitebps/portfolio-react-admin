@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 export const avatarDefault = (
   <pre>
@@ -23,7 +23,7 @@ export default AvatarDefault
 `}
     </code>
   </pre>
-)
+);
 
 export const avatarSizes = (
   <pre>
@@ -48,7 +48,7 @@ export default AvatarSizes
 `}
     </code>
   </pre>
-)
+);
 
 export const avatarColors = (
   <pre>
@@ -72,7 +72,7 @@ export default AvatarColors
 `}
     </code>
   </pre>
-)
+);
 
 export const avatarBadge = (
   <pre>
@@ -96,7 +96,7 @@ export default AvatarBadge
 `}
     </code>
   </pre>
-)
+);
 
 export const avatarIcons = (
   <pre>
@@ -129,7 +129,7 @@ export default AvatarIcons
 `}
     </code>
   </pre>
-)
+);
 
 export const avatarStatus = (
   <pre>
@@ -155,4 +155,4 @@ export default AvatarStatus
 `}
     </code>
   </pre>
-)
+);

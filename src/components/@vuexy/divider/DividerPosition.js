@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import {
   Card,
   CardHeader,
@@ -8,22 +8,22 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
-} from "reactstrap"
-import classnames from "classnames"
-import { Eye, Code } from "react-feather"
-import { dividerPosition } from "./DividerSourceCode"
+  NavLink,
+} from 'reactstrap';
+import classnames from 'classnames';
+import { Eye, Code } from 'react-feather';
+import { dividerPosition } from './DividerSourceCode';
 
 class DividerPosition extends React.Component {
   state = {
-    activeTab: "1"
-  }
+    activeTab: '1',
+  };
 
-  toggleTab = tab => {
+  toggleTab = (tab) => {
     if (this.state.activeTab !== tab) {
-      this.setState({ activeTab: tab })
+      this.setState({ activeTab: tab });
     }
-  }
+  };
 
   render() {
     return (
@@ -36,24 +36,22 @@ class DividerPosition extends React.Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "1"
+                      active: this.state.activeTab === '1',
                     })}
                     onClick={() => {
-                      this.toggleTab("1")
-                    }}
-                  >
+                      this.toggleTab('1');
+                    }}>
                     <Eye size={15} />
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "2"
+                      active: this.state.activeTab === '2',
                     })}
                     onClick={() => {
-                      this.toggleTab("2")
-                    }}
-                  >
+                      this.toggleTab('2');
+                    }}>
                     <Code size={15} />
                   </NavLink>
                 </NavItem>
@@ -62,9 +60,8 @@ class DividerPosition extends React.Component {
           </CardHeader>
           <CardBody>
             <p>
-              Use class{" "}
-              <code>.divider-[left | left-center | right | right-center]</code>{" "}
-              with <code>.divider</code> to set text position.
+              Use class <code>.divider-[left | left-center | right | right-center]</code> with{' '}
+              <code>.divider</code> to set text position.
             </p>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
@@ -88,12 +85,14 @@ class DividerPosition extends React.Component {
                   <div className="divider-text">Right</div>
                 </div>
               </TabPane>
-               <TabPane className="component-code" tabId="2">{dividerPosition}</TabPane>
+              <TabPane className="component-code" tabId="2">
+                {dividerPosition}
+              </TabPane>
             </TabContent>
           </CardBody>
         </Card>
       </React.Fragment>
-    )
+    );
   }
 }
-export default DividerPosition
+export default DividerPosition;

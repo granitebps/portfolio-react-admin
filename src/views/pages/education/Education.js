@@ -1,43 +1,40 @@
-import React, { useState } from "react";
-import Header from "../../../components/custom/Header";
-import { Card, CardBody, Button, Spinner, Col, Row } from "reactstrap";
-import Cookies from "js-cookie";
-import { Trash2, Edit } from "react-feather";
-import DataTable from "react-data-table-component";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import Header from '../../../components/custom/Header';
+import { Card, CardBody, Button, Spinner, Col, Row } from 'reactstrap';
+import Cookies from 'js-cookie';
+import { Trash2, Edit } from 'react-feather';
+import DataTable from 'react-data-table-component';
+import { toast } from 'react-toastify';
 
-import { history } from "../../../history";
-import baseAxios, { useAxios } from "../../../utility/baseAxios";
-import { useAuthContext } from "../../../contexts/AuthContext";
-import CustomHeader from "../../../components/custom/Table/CustomHeader";
-import { notAuthenticated } from "../../../utility/helper";
-import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
-import Error505 from "../../misc/505";
+import { history } from '../../../history';
+import baseAxios, { useAxios } from '../../../utility/baseAxios';
+import { useAuthContext } from '../../../contexts/AuthContext';
+import CustomHeader from '../../../components/custom/Table/CustomHeader';
+import { notAuthenticated } from '../../../utility/helper';
+import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
+import Error505 from '../../misc/505';
 
 const Education = () => {
-  const [{ data, loading, error }, refetch] = useAxios("education", {
+  const [{ data, loading, error }, refetch] = useAxios('education', {
     useCache: false,
   });
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { dispatch } = useAuthContext();
-  const authToken = Cookies.get("token");
+  const authToken = Cookies.get('token');
 
   const handleAdd = () => {
-    history.push("/education/modify");
+    history.push('/education/modify');
   };
 
   const handleDelete = async (data) => {
     try {
       setLoadingDelete(true);
 
-      const { data: dataDelete } = await baseAxios.delete(
-        `education/${data.id}`,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
+      const { data: dataDelete } = await baseAxios.delete(`education/${data.id}`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
@@ -45,7 +42,7 @@ const Education = () => {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
       } else {
-        toast.error("Something Wrong!");
+        toast.error('Something Wrong!');
       }
     }
   };
@@ -80,42 +77,39 @@ const Education = () => {
 
   const columns = [
     {
-      name: "Education Name",
-      selector: "name",
+      name: 'Education Name',
+      selector: 'name',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.name}</p>,
     },
     {
-      name: "Education Institute",
-      selector: "institute",
+      name: 'Education Institute',
+      selector: 'institute',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.institute}</p>,
     },
     {
-      name: "Start Year",
-      selector: "start_year",
+      name: 'Start Year',
+      selector: 'start_year',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.start_year}</p>,
     },
     {
-      name: "End Year",
-      selector: "end_year",
+      name: 'End Year',
+      selector: 'end_year',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.end_year}</p>,
     },
     {
-      name: "Action",
-      selector: "",
+      name: 'Action',
+      selector: '',
       cell: (row) => (
         <Row>
           <Col md="6">
             <Button.Ripple
               color="success"
-              onClick={() =>
-                history.push("/education/modify", { education: row })
-              }
-              className="btn-icon rounded-circle"
-            >
+              onClick={() => history.push('/education/modify', { education: row })}
+              className="btn-icon rounded-circle">
               <Edit />
             </Button.Ripple>
           </Col>
@@ -124,8 +118,7 @@ const Education = () => {
               color="danger"
               onClick={() => handleDelete(row)}
               disabled={loadingDelete}
-              className="btn-icon rounded-circle"
-            >
+              className="btn-icon rounded-circle">
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
           </Col>

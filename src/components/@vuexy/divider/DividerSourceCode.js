@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 export const dividerDefault = (
   <pre>
@@ -32,7 +32,7 @@ export default DividerDefault
 `}
     </code>
   </pre>
-)
+);
 
 export const dividerText = (
   <pre>
@@ -54,7 +54,7 @@ export default DividerText
 `}
     </code>
   </pre>
-)
+);
 
 export const dividerPosition = (
   <pre>
@@ -92,7 +92,7 @@ export default DividerPosition
 `}
     </code>
   </pre>
-)
+);
 
 export const dividerColors = (
   <pre>
@@ -135,7 +135,7 @@ export default DividerColors
 `}
     </code>
   </pre>
-)
+);
 
 export const dividerIcon = (
   <pre>
@@ -189,7 +189,7 @@ export default DividerIcons
 `}
     </code>
   </pre>
-)
+);
 
 export const dividerStyle = (
   <pre>
@@ -221,4 +221,4 @@ export default DividerStyle
 `}
     </code>
   </pre>
-)
+);

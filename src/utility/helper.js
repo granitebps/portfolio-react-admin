@@ -1,16 +1,16 @@
-import Cookies from "js-cookie";
-import { LOGOUT } from "../reducers/AuthReducer";
-import { history } from "../history";
+import Cookies from 'js-cookie';
+import { LOGOUT } from '../reducers/AuthReducer';
+import { history } from '../history';
 
 export const validURL = (str) => {
   var pattern = new RegExp(
-    "^(https?:\\/\\/)?" + // protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
+    '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i'
   ); // fragment locator
   return !!pattern.test(str);
 };
@@ -18,7 +18,7 @@ export const validURL = (str) => {
 export const removeEmptyStrings = (obj) => {
   let newObj = {};
   Object.keys(obj).forEach((prop) => {
-    if (obj[prop] !== "") {
+    if (obj[prop] !== '') {
       newObj[prop] = obj[prop];
     }
   });
@@ -26,11 +26,10 @@ export const removeEmptyStrings = (obj) => {
 };
 
 export const notAuthenticated = (dispatch) => {
-  const cookiesConfig =
-    process.env.NODE_ENV === "development" ? {} : { domain: "granitebps.com" };
-  Cookies.remove("token", cookiesConfig);
+  const cookiesConfig = process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
+  Cookies.remove('token', cookiesConfig);
   dispatch({
     type: LOGOUT,
   });
-  history.push("/");
+  history.push('/');
 };

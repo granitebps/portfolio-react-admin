@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 export const basicExample = (
   <pre>
@@ -36,7 +36,7 @@ export default AutoCompleteBasic
 `}
     </code>
   </pre>
-)
+);
 
 export const sectionExample = (
   <pre>
@@ -85,7 +85,7 @@ export default AutoCompleteSections
 `}
     </code>
   </pre>
-)
+);
 
 export const ajaxExample = (
   <pre>
@@ -120,7 +120,7 @@ export default AutoCompleteAjax
 `}
     </code>
   </pre>
-)
+);
 
 export const customRenderExample = (
   <pre>
@@ -208,7 +208,7 @@ export default AutoCompleteRender
 `}
     </code>
   </pre>
-)
+);
 
 export const defaultSuggestionsExample = (
   <pre>
@@ -247,7 +247,7 @@ export default AutoCompleteDefaultSuggestions
 `}
     </code>
   </pre>
-)
+);
 
 export const searchLimitExample = (
   <pre>
@@ -285,4 +285,4 @@ export default AutoCompleteSearchLimit
 `}
     </code>
   </pre>
-)
+);

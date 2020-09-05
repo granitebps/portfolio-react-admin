@@ -1,31 +1,31 @@
-import React, { useState } from "react";
-import { Card, CardBody, Button, Row, Col, Spinner } from "reactstrap";
-import DataTable from "react-data-table-component";
-import Cookies from "js-cookie";
-import { toast } from "react-toastify";
-import { Edit, Trash2 } from "react-feather";
+import React, { useState } from 'react';
+import { Card, CardBody, Button, Row, Col, Spinner } from 'reactstrap';
+import DataTable from 'react-data-table-component';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { Edit, Trash2 } from 'react-feather';
 
-import { history } from "../../../history";
-import baseAxios, { useAxios } from "../../../utility/baseAxios";
-import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
-import Error505 from "../../misc/505";
-import Header from "../../../components/custom/Header";
-import CustomHeader from "../../../components/custom/Table/CustomHeader";
-import { notAuthenticated } from "../../../utility/helper";
-import { useAuthContext } from "../../../contexts/AuthContext";
+import { history } from '../../../history';
+import baseAxios, { useAxios } from '../../../utility/baseAxios';
+import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
+import Error505 from '../../misc/505';
+import Header from '../../../components/custom/Header';
+import CustomHeader from '../../../components/custom/Table/CustomHeader';
+import { notAuthenticated } from '../../../utility/helper';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 const Skill = () => {
-  const [{ data, loading, error }, refetch] = useAxios("skill", {
+  const [{ data, loading, error }, refetch] = useAxios('skill', {
     useCache: false,
   });
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { dispatch } = useAuthContext();
-  const authToken = Cookies.get("token");
+  const authToken = Cookies.get('token');
 
   const handleAdd = () => {
-    history.push("/skill/modify");
+    history.push('/skill/modify');
   };
 
   const handleDelete = async (data) => {
@@ -42,7 +42,7 @@ const Skill = () => {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
       } else {
-        toast.error("Something Wrong!");
+        toast.error('Something Wrong!');
       }
     }
   };
@@ -73,28 +73,27 @@ const Skill = () => {
 
   const columns = [
     {
-      name: "Skill Name",
-      selector: "name",
+      name: 'Skill Name',
+      selector: 'name',
       sortable: true,
       cell: (row) => <p className="text-bold-500 mb-0">{row.name}</p>,
     },
     {
-      name: "Skill Percentage",
-      selector: "percentage",
+      name: 'Skill Percentage',
+      selector: 'percentage',
       sortable: true,
       cell: (row) => <p className="text-bold-500 mb-0">{row.percentage}</p>,
     },
     {
-      name: "Action",
-      selector: "",
+      name: 'Action',
+      selector: '',
       cell: (row) => (
         <Row>
           <Col md="6">
             <Button.Ripple
               color="success"
-              onClick={() => history.push("/skill/modify", { skill: row })}
-              className="btn-icon rounded-circle"
-            >
+              onClick={() => history.push('/skill/modify', { skill: row })}
+              className="btn-icon rounded-circle">
               <Edit />
             </Button.Ripple>
           </Col>
@@ -103,8 +102,7 @@ const Skill = () => {
               color="danger"
               onClick={() => handleDelete(row)}
               disabled={loadingDelete}
-              className="btn-icon rounded-circle"
-            >
+              className="btn-icon rounded-circle">
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
           </Col>

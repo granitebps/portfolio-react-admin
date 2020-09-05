@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Media, Button, Input, Label } from "reactstrap";
-import defaultImage from "../../../assets/img/default.png";
-import { useFormikContext, getIn } from "formik";
+import React, { useState } from 'react';
+import { Media, Button, Input, Label } from 'reactstrap';
+import defaultImage from '../../../assets/img/default.png';
+import { useFormikContext, getIn } from 'formik';
 
 const InputImage = ({ name, image, label }) => {
   const [imagePreview, setImagePreview] = useState();
@@ -48,12 +48,7 @@ const InputImage = ({ name, image, label }) => {
         </Media>
         <Media className="mt-25" body>
           <div className="d-flex flex-sm-row flex-column justify-content-start px-0">
-            <Button.Ripple
-              tag="label"
-              className="mr-50 cursor-pointer"
-              color="primary"
-              outline
-            >
+            <Button.Ripple tag="label" className="mr-50 cursor-pointer" color="primary" outline>
               Upload Photo
               <Input
                 type="file"

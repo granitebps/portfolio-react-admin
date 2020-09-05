@@ -1,9 +1,9 @@
-import React from "react"
-import BreadCrumbs from "../../@vuexy/breadCrumbs/BreadCrumb"
-import {Row, Col} from "reactstrap" 
-import WizardBasic from "./WizardBasic"
-import WizardIcons from "./WizardIcons"
-import WizardValidation from "./WizardValidation"
+import React from 'react';
+import BreadCrumbs from '../../@vuexy/breadCrumbs/BreadCrumb';
+import { Row, Col } from 'reactstrap';
+import WizardBasic from './WizardBasic';
+import WizardIcons from './WizardIcons';
+import WizardValidation from './WizardValidation';
 class Wizard extends React.Component {
   render() {
     return (
@@ -25,7 +25,7 @@ class Wizard extends React.Component {
           </Col>
         </Row>
       </React.Fragment>
-    )
+    );
   }
 }
-export default Wizard
+export default Wizard;

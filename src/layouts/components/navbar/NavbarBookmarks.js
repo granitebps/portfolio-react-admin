@@ -1,17 +1,17 @@
-import React from "react";
-import { NavItem, NavLink } from "reactstrap";
-import * as Icon from "react-feather";
+import React from 'react';
+import { NavItem, NavLink } from 'reactstrap';
+import * as Icon from 'react-feather';
 
 class NavbarBookmarks extends React.PureComponent {
   state = {
     showBookmarks: false,
-    value: "",
+    value: '',
   };
 
   handleBookmarksVisibility = () => {
     this.setState({
       showBookmarks: !this.state.showBookmarks,
-      value: "",
+      value: '',
       suggestions: [],
       noSuggestions: false,
       starred: null,
@@ -31,8 +31,7 @@ class NavbarBookmarks extends React.PureComponent {
           <NavItem className="mobile-menu mr-auto">
             <NavLink
               className="nav-menu-main menu-toggle hidden-xs is-active"
-              onClick={sidebarVisibility}
-            >
+              onClick={sidebarVisibility}>
               <Icon.Menu className="ficon" />
             </NavLink>
           </NavItem>

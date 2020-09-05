@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   UncontrolledDropdown,
   DropdownMenu,
@@ -6,34 +6,32 @@ import {
   DropdownToggle,
   Media,
   Badge,
-} from "reactstrap";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import * as Icon from "react-feather";
-import Cookies from "js-cookie";
+} from 'reactstrap';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import * as Icon from 'react-feather';
+import Cookies from 'js-cookie';
 
-import { history } from "../../../history";
-import { useAuthContext } from "../../../contexts/AuthContext";
-import { LOGOUT } from "../../../reducers/AuthReducer";
+import { history } from '../../../history';
+import { useAuthContext } from '../../../contexts/AuthContext';
+import { LOGOUT } from '../../../reducers/AuthReducer';
 
-const UserDropdown = (props) => {
+const UserDropdown = () => {
   const { dispatch } = useAuthContext();
 
   const handleLogout = (e) => {
     e.preventDefault();
     const cookiesConfig =
-      process.env.NODE_ENV === "development"
-        ? {}
-        : { domain: "granitebps.com" };
-    Cookies.remove("token", cookiesConfig);
+      process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
+    Cookies.remove('token', cookiesConfig);
     dispatch({
       type: LOGOUT,
     });
-    history.push("/");
+    history.push('/');
   };
 
   const handleProfile = (e) => {
     e.preventDefault();
-    history.push("/profile");
+    history.push('/profile');
   };
 
   return (
@@ -60,8 +58,8 @@ const NavbarUser = (props) => {
         <DropdownToggle tag="a" className="nav-link nav-link-label">
           <Icon.Bell size={21} />
           <Badge pill color="primary" className="badge-up">
-            {" "}
-            5{" "}
+            {' '}
+            5{' '}
           </Badge>
         </DropdownToggle>
         <DropdownMenu tag="ul" right className="dropdown-menu-media">
@@ -75,29 +73,20 @@ const NavbarUser = (props) => {
             className="media-list overflow-hidden position-relative"
             options={{
               wheelPropagation: false,
-            }}
-          >
+            }}>
             <div className="d-flex justify-content-between">
               <Media className="d-flex align-items-start">
                 <Media left href="#">
-                  <Icon.PlusSquare
-                    className="font-medium-5 primary"
-                    size={21}
-                  />
+                  <Icon.PlusSquare className="font-medium-5 primary" size={21} />
                 </Media>
                 <Media body>
                   <Media heading className="primary media-heading" tag="h6">
                     You have new order!
                   </Media>
-                  <p className="notification-text">
-                    Are your going to meet me tonight?
-                  </p>
+                  <p className="notification-text">Are your going to meet me tonight?</p>
                 </Media>
                 <small>
-                  <time
-                    className="media-meta"
-                    dateTime="2015-06-11T18:29:20+08:00"
-                  >
+                  <time className="media-meta" dateTime="2015-06-11T18:29:20+08:00">
                     9 hours ago
                   </time>
                 </small>
@@ -106,24 +95,16 @@ const NavbarUser = (props) => {
             <div className="d-flex justify-content-between">
               <Media className="d-flex align-items-start">
                 <Media left href="#">
-                  <Icon.DownloadCloud
-                    className="font-medium-5 success"
-                    size={21}
-                  />
+                  <Icon.DownloadCloud className="font-medium-5 success" size={21} />
                 </Media>
                 <Media body>
                   <Media heading className="success media-heading" tag="h6">
                     99% Server load
                   </Media>
-                  <p className="notification-text">
-                    You got new order of goods?
-                  </p>
+                  <p className="notification-text">You got new order of goods?</p>
                 </Media>
                 <small>
-                  <time
-                    className="media-meta"
-                    dateTime="2015-06-11T18:29:20+08:00"
-                  >
+                  <time className="media-meta" dateTime="2015-06-11T18:29:20+08:00">
                     5 hours ago
                   </time>
                 </small>
@@ -132,24 +113,16 @@ const NavbarUser = (props) => {
             <div className="d-flex justify-content-between">
               <Media className="d-flex align-items-start">
                 <Media left href="#">
-                  <Icon.AlertTriangle
-                    className="font-medium-5 danger"
-                    size={21}
-                  />
+                  <Icon.AlertTriangle className="font-medium-5 danger" size={21} />
                 </Media>
                 <Media body>
                   <Media heading className="danger media-heading" tag="h6">
                     Warning Notification
                   </Media>
-                  <p className="notification-text">
-                    Server has used 99% of CPU
-                  </p>
+                  <p className="notification-text">Server has used 99% of CPU</p>
                 </Media>
                 <small>
-                  <time
-                    className="media-meta"
-                    dateTime="2015-06-11T18:29:20+08:00"
-                  >
+                  <time className="media-meta" dateTime="2015-06-11T18:29:20+08:00">
                     Today
                   </time>
                 </small>
@@ -164,15 +137,10 @@ const NavbarUser = (props) => {
                   <Media heading className="info media-heading" tag="h6">
                     Complete the task
                   </Media>
-                  <p className="notification-text">
-                    One of your task is pending.
-                  </p>
+                  <p className="notification-text">One of your task is pending.</p>
                 </Media>
                 <small>
-                  <time
-                    className="media-meta"
-                    dateTime="2015-06-11T18:29:20+08:00"
-                  >
+                  <time className="media-meta" dateTime="2015-06-11T18:29:20+08:00">
                     Last week
                   </time>
                 </small>
@@ -187,15 +155,10 @@ const NavbarUser = (props) => {
                   <Media heading className="warning media-heading" tag="h6">
                     Generate monthly report
                   </Media>
-                  <p className="notification-text">
-                    Reminder to generate monthly report
-                  </p>
+                  <p className="notification-text">Reminder to generate monthly report</p>
                 </Media>
                 <small>
-                  <time
-                    className="media-meta"
-                    dateTime="2015-06-11T18:29:20+08:00"
-                  >
+                  <time className="media-meta" dateTime="2015-06-11T18:29:20+08:00">
                     Last month
                   </time>
                 </small>
@@ -215,13 +178,7 @@ const NavbarUser = (props) => {
             <span className="user-name text-bold-600">{state.user.name}</span>
           </div>
           <span data-tour="user">
-            <img
-              src={state.user.avatar}
-              className="round"
-              height="40"
-              width="40"
-              alt="avatar"
-            />
+            <img src={state.user.avatar} className="round" height="40" width="40" alt="avatar" />
           </span>
         </DropdownToggle>
         <UserDropdown {...props} />

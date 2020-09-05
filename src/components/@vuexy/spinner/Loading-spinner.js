@@ -1,5 +1,5 @@
-import React from "react"
-import "../../../assets/scss/components/app-loader.scss"
+import React from 'react';
+import '../../../assets/scss/components/app-loader.scss';
 class ComponentSpinner extends React.Component {
   render() {
     return (
@@ -10,8 +10,8 @@ class ComponentSpinner extends React.Component {
           <div className="effect-3 effects"></div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default ComponentSpinner
+export default ComponentSpinner;

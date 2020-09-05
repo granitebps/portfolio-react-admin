@@ -1,8 +1,8 @@
-import React from "react";
-import { FormGroup, CustomInput } from "reactstrap";
-import { getIn, useFormikContext, ErrorMessage } from "formik";
+import React from 'react';
+import { FormGroup, CustomInput } from 'reactstrap';
+import { getIn, useFormikContext, ErrorMessage } from 'formik';
 
-const CustomRadio = ({ label, name, value, ...props }) => {
+const CustomRadio = ({ label, name, value }) => {
   const { values, setFieldValue } = useFormikContext();
   const checkedValue = getIn(values, name);
 

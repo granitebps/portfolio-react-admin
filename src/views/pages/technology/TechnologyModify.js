@@ -1,38 +1,29 @@
-import React from "react";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardBody,
-  Form,
-  Row,
-  Col,
-  Button,
-} from "reactstrap";
-import Cookies from "js-cookie";
+import React from 'react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
+import Cookies from 'js-cookie';
 
-import Header from "../../../components/custom/Header";
-import InputText from "../../../components/custom/Form/InputText";
-import SubmitButton from "../../../components/custom/Form/SubmitButton";
-import { history } from "../../../history";
-import InputImage from "../../../components/custom/Form/InputImage";
-import { validURL, notAuthenticated } from "../../../utility/helper";
-import baseAxios from "../../../utility/baseAxios";
-import { toast } from "react-toastify";
-import { useAuthContext } from "../../../contexts/AuthContext";
+import Header from '../../../components/custom/Header';
+import InputText from '../../../components/custom/Form/InputText';
+import SubmitButton from '../../../components/custom/Form/SubmitButton';
+import { history } from '../../../history';
+import InputImage from '../../../components/custom/Form/InputImage';
+import { validURL, notAuthenticated } from '../../../utility/helper';
+import baseAxios from '../../../utility/baseAxios';
+import { toast } from 'react-toastify';
+import { useAuthContext } from '../../../contexts/AuthContext';
 
 const FILE_SIZE = 2048 * 1024;
 
 const TechnologyModify = () => {
-  const authToken = Cookies.get("token");
+  const authToken = Cookies.get('token');
   const { dispatch } = useAuthContext();
   const param = history.location.state;
   const formSchema = Yup.object().shape({
-    name: Yup.string().required("Required"),
+    name: Yup.string().required('Required'),
     pic: Yup.mixed()
-      .test("required", "Required", (value) => {
+      .test('required', 'Required', (value) => {
         if (param) {
           return true;
         } else {
@@ -43,7 +34,7 @@ const TechnologyModify = () => {
           }
         }
       })
-      .test("fileSize", "File too large", (value) => {
+      .test('fileSize', 'File too large', (value) => {
         if (validURL(value)) {
           return true;
         } else {
@@ -60,13 +51,13 @@ const TechnologyModify = () => {
       });
 
       if (param) {
-        formData.append("_method", "PUT");
+        formData.append('_method', 'PUT');
       }
 
-      const url = param ? `technology/${param.technology.id}` : "technology";
+      const url = param ? `technology/${param.technology.id}` : 'technology';
       const { data } = await baseAxios({
         url: url,
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -74,33 +65,32 @@ const TechnologyModify = () => {
       });
 
       toast.success(data.message);
-      history.push("/technology");
+      history.push('/technology');
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
       } else {
-        toast.error("Something Wrong!");
+        toast.error('Something Wrong!');
       }
     }
   };
 
   return (
     <React.Fragment>
-      <Header title={param ? "Edit Technology" : "Add Technology"} />
+      <Header title={param ? 'Edit Technology' : 'Add Technology'} />
 
       <Card>
         <CardHeader>
-          <CardTitle>{param ? "Edit Technology" : "Add Technology"}</CardTitle>
+          <CardTitle>{param ? 'Edit Technology' : 'Add Technology'}</CardTitle>
         </CardHeader>
         <CardBody>
           <Formik
             initialValues={{
-              name: param ? param.technology.name : "",
-              pic: "",
+              name: param ? param.technology.name : '',
+              pic: '',
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}
-          >
+            onSubmit={handleSubmit}>
             {({ isSubmitting }) => (
               <Form>
                 <Row>
@@ -113,24 +103,13 @@ const TechnologyModify = () => {
                     />
                   </Col>
                   <Col sm="12">
-                    <InputImage
-                      name="pic"
-                      image={param ? param.technology.pic : null}
-                    />
+                    <InputImage name="pic" image={param ? param.technology.pic : null} />
                   </Col>
                 </Row>
-                <Button.Ripple
-                  className="mr-1"
-                  color="warning"
-                  onClick={() => history.goBack()}
-                >
+                <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
                   Back
                 </Button.Ripple>
-                <SubmitButton
-                  color="primary"
-                  label="Submit"
-                  isSubmitting={isSubmitting}
-                />
+                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
               </Form>
             )}
           </Formik>

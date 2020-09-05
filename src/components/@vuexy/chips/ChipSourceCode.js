@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 export const chipsDefault = (
   <pre>
@@ -22,7 +22,7 @@ export default chipDefault
 `}
     </code>
   </pre>
-)
+);
 
 export const chipsColors = (
   <pre>
@@ -45,7 +45,7 @@ export default chipColors
 `}
     </code>
   </pre>
-)
+);
 
 export const chipsAvatarColors = (
   <pre>
@@ -70,7 +70,7 @@ export default chipAvatarColors
 `}
     </code>
   </pre>
-)
+);
 
 export const chipsIcons = (
   <pre>
@@ -96,7 +96,7 @@ export default chipIcons
 `}
     </code>
   </pre>
-)
+);
 
 export const chipsClosable = (
   <pre>
@@ -120,7 +120,7 @@ export default chipClosable
 `}
     </code>
   </pre>
-)
+);
 
 export const chipsClosableIcons = (
   <pre>
@@ -143,4 +143,4 @@ export default ChipClosableIcons
 `}
     </code>
   </pre>
-)
+);

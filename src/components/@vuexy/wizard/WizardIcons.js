@@ -1,5 +1,5 @@
-import React from "react"
-import Wizard from "./WizardComponent"
+import React from 'react';
+import Wizard from './WizardComponent';
 import {
   Form,
   FormGroup,
@@ -12,10 +12,10 @@ import {
   CardBody,
   CardTitle,
   CardHeader,
-  Button
-} from "reactstrap"
-import Checkbox from "../checkbox/CheckboxesVuexy"
-import { Check, Home, Briefcase, Image } from "react-feather"
+  Button,
+} from 'reactstrap';
+import Checkbox from '../checkbox/CheckboxesVuexy';
+import { Check, Home, Briefcase, Image } from 'react-feather';
 class WizardIcons extends React.Component {
   state = {
     activeStep: 0,
@@ -152,23 +152,23 @@ class WizardIcons extends React.Component {
             <Button color="primary" onClick={() => this.handleActiveStep(1)}>
               Prev
             </Button>
-            <Button color="primary" onClick={() => alert("Form Submitted")}>
+            <Button color="primary" onClick={() => alert('Form Submitted')}>
               Submit
             </Button>
           </div>
         </Form>
-      )
-    }
-  }
+      ),
+    },
+  };
 
-  handleActiveStep = step => {
+  handleActiveStep = (step) => {
     this.setState({
-      activeStep: step
-    })
-  }
+      activeStep: step,
+    });
+  };
 
   render() {
-    const { steps } = this.state
+    const { steps } = this.state;
     return (
       <Card>
         <CardHeader>
@@ -177,17 +177,13 @@ class WizardIcons extends React.Component {
         <CardBody>
           <Wizard
             activeStep={this.state.activeStep}
-            stepsTitle={[
-              <Home size={20} />,
-              <Briefcase size={20} />,
-              <Image size={20} />
-            ]}
-            stepsContent={[steps.step_1, steps.step_2, steps.step_3]}
-          ></Wizard>
+            // eslint-disable-next-line react/jsx-key
+            stepsTitle={[<Home size={20} />, <Briefcase size={20} />, <Image size={20} />]}
+            stepsContent={[steps.step_1, steps.step_2, steps.step_3]}></Wizard>
         </CardBody>
       </Card>
-    )
+    );
   }
 }
 
-export default WizardIcons
+export default WizardIcons;

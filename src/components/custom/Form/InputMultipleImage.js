@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
-import { Label, FormGroup, Col, Row, Button } from "reactstrap";
-import { useFormikContext, getIn } from "formik";
+import React, { useState, useEffect } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { Label, FormGroup, Col, Row, Button } from 'reactstrap';
+import { useFormikContext, getIn } from 'formik';
 
-import "../../../assets/scss/plugins/extensions/dropzone.scss";
+import '../../../assets/scss/plugins/extensions/dropzone.scss';
 
-const InputMultipleImage = ({ name, images, label }, props) => {
+const InputMultipleImage = ({ name, images, label }) => {
   const { setFieldValue, errors, touched } = useFormikContext();
   const [files, setFiles] = useState([]);
   const error = getIn(errors, name);
@@ -20,7 +20,7 @@ const InputMultipleImage = ({ name, images, label }, props) => {
   );
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
+    accept: 'image/*',
     onDrop: (acceptedFiles) => {
       setFieldValue(name, acceptedFiles);
       setFiles(
@@ -42,18 +42,13 @@ const InputMultipleImage = ({ name, images, label }, props) => {
 
   const thumbs = files.map((file, index) => (
     <Col md="1" key={file.name}>
-      <img
-        src={file.preview}
-        className="img-thumbnail img-fluid"
-        alt={file.name}
-      />
+      <img src={file.preview} className="img-thumbnail img-fluid" alt={file.name} />
       <Button
         color="danger"
         size="sm"
         tag="button"
         className="btn-block"
-        onClick={(e) => handleRemoveThumb(index)}
-      >
+        onClick={() => handleRemoveThumb(index)}>
         Remove
       </Button>
     </Col>
@@ -72,16 +67,14 @@ const InputMultipleImage = ({ name, images, label }, props) => {
       <section className="pb-1">
         <Label for={name}>{label}</Label>
         {images.length > 0 && <Row className="mb-2">{defaultPictures}</Row>}
-        <div {...getRootProps({ className: "dropzone" })}>
+        <div {...getRootProps({ className: 'dropzone' })}>
           <input {...getInputProps()} />
           <p className="mx-1">
             <em>(Allowed JPG, JPEG or PNG. Max size of 2048kB)</em>
           </p>
         </div>
         <Row className="mt-1">{thumbs}</Row>
-        {error && touch && (
-          <div className="field-error text-danger">{error}</div>
-        )}
+        {error && touch && <div className="field-error text-danger">{error}</div>}
       </section>
     </FormGroup>
   );

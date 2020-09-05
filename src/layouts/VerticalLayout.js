@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react";
-import classnames from "classnames";
-import Customizer from "../components/@vuexy/customizer/Customizer";
-import Sidebar from "./components/menu/vertical-menu/Sidebar";
-import Navbar from "./components/navbar/Navbar";
-import Footer from "./components/footer/Footer";
-import { connect } from "react-redux";
+import React, { PureComponent } from 'react';
+import classnames from 'classnames';
+import Customizer from '../components/@vuexy/customizer/Customizer';
+import Sidebar from './components/menu/vertical-menu/Sidebar';
+import Navbar from './components/navbar/Navbar';
+import Footer from './components/footer/Footer';
+import { connect } from 'react-redux';
 import {
   changeMode,
   collapseSidebar,
@@ -13,7 +13,7 @@ import {
   changeFooterType,
   changeMenuColor,
   hideScrollToTop,
-} from "../redux/actions/customizer/index";
+} from '../redux/actions/customizer/index';
 
 class VerticalLayout extends PureComponent {
   state = {
@@ -22,7 +22,7 @@ class VerticalLayout extends PureComponent {
     layout: this.props.app.customizer.theme,
     collapsedContent: this.props.app.customizer.sidebarCollapsed,
     sidebarHidden: false,
-    currentLang: "en",
+    currentLang: 'en',
     appOverlay: false,
     customizer: false,
     isTouropen: false,
@@ -30,7 +30,7 @@ class VerticalLayout extends PureComponent {
   };
   collapsedPaths = [];
   updateWidth = () => {
-    this.setState((prevState) => ({
+    this.setState(() => ({
       width: window.innerWidth,
     }));
   };
@@ -49,8 +49,8 @@ class VerticalLayout extends PureComponent {
       },
     } = this.props;
 
-    if (window !== "undefined") {
-      window.addEventListener("resize", this.updateWidth, false);
+    if (window !== 'undefined') {
+      window.addEventListener('resize', this.updateWidth, false);
     }
     if (this.collapsedPaths.includes(pathname)) {
       this.setState({
@@ -61,17 +61,16 @@ class VerticalLayout extends PureComponent {
 
     let layout = theme;
     let dir = direction;
-    if (dir === "rtl")
-      document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
-    else document.getElementsByTagName("html")[0].setAttribute("dir", "ltr");
-    return layout === "dark"
-      ? document.body.classList.add("dark-layout")
-      : layout === "semi-dark"
-      ? document.body.classList.add("semi-dark-layout")
+    if (dir === 'rtl') document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+    else document.getElementsByTagName('html')[0].setAttribute('dir', 'ltr');
+    return layout === 'dark'
+      ? document.body.classList.add('dark-layout')
+      : layout === 'semi-dark'
+      ? document.body.classList.add('semi-dark-layout')
       : null;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     let {
       location: { pathname },
       app: {
@@ -80,30 +79,26 @@ class VerticalLayout extends PureComponent {
     } = this.props;
 
     let layout = theme;
-    if (layout === "dark") {
-      document.body.classList.remove("semi-dark-layout");
-      document.body.classList.add("dark-layout");
+    if (layout === 'dark') {
+      document.body.classList.remove('semi-dark-layout');
+      document.body.classList.add('dark-layout');
     }
-    if (layout === "semi-dark") {
-      document.body.classList.remove("dark-layout");
-      document.body.classList.add("semi-dark-layout");
+    if (layout === 'semi-dark') {
+      document.body.classList.remove('dark-layout');
+      document.body.classList.add('semi-dark-layout');
     }
-    if (layout !== "dark" && layout !== "semi-dark") {
-      document.body.classList.remove("dark-layout", "semi-dark-layout");
+    if (layout !== 'dark' && layout !== 'semi-dark') {
+      document.body.classList.remove('dark-layout', 'semi-dark-layout');
     }
 
-    if (
-      prevProps.app.customizer.sidebarCollapsed !==
-      this.props.app.customizer.sidebarCollapsed
-    ) {
+    if (prevProps.app.customizer.sidebarCollapsed !== this.props.app.customizer.sidebarCollapsed) {
       this.setState({
         collapsedContent: sidebarCollapsed,
         sidebarState: sidebarCollapsed,
       });
     } else if (
       prevProps.location.pathname !== this.props.location.pathname &&
-      prevProps.app.customizer.sidebarCollapsed ===
-        this.props.app.customizer.sidebarCollapsed
+      prevProps.app.customizer.sidebarCollapsed === this.props.app.customizer.sidebarCollapsed
     ) {
       this.setState({
         collapsedContent: sidebarCollapsed,
@@ -111,8 +106,7 @@ class VerticalLayout extends PureComponent {
       });
     } else if (
       prevProps.location.pathname === this.props.location.pathname &&
-      prevProps.app.customizer.sidebarCollapsed ===
-        this.props.app.customizer.sidebarCollapsed
+      prevProps.app.customizer.sidebarCollapsed === this.props.app.customizer.sidebarCollapsed
     ) {
       return;
     }
@@ -144,7 +138,7 @@ class VerticalLayout extends PureComponent {
     }
   };
 
-  toggleSidebarMenu = (val) => {
+  toggleSidebarMenu = () => {
     this.setState({
       sidebarState: !this.state.sidebarState,
       collapsedContent: !this.state.collapsedContent,
@@ -158,7 +152,7 @@ class VerticalLayout extends PureComponent {
   };
 
   handleSidebarVisibility = () => {
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       if (this.state.sidebarHidden) {
         this.setState({
           sidebarHidden: !this.state.sidebarHidden,
@@ -181,7 +175,7 @@ class VerticalLayout extends PureComponent {
       this.setState({
         appOverlay: true,
       });
-    } else if (value.length < 0 || value === "") {
+    } else if (value.length < 0 || value === '') {
       this.setState({
         appOverlay: false,
       });
@@ -196,14 +190,7 @@ class VerticalLayout extends PureComponent {
 
   render() {
     let appProps = this.props.app.customizer;
-    let menuThemeArr = [
-      "primary",
-      "success",
-      "danger",
-      "info",
-      "warning",
-      "dark",
-    ];
+    let menuThemeArr = ['primary', 'success', 'danger', 'info', 'warning', 'dark'];
     let sidebarProps = {
       toggleSidebarMenu: this.props.collapseSidebar,
       toggle: this.toggleSidebarMenu,
@@ -256,39 +243,28 @@ class VerticalLayout extends PureComponent {
     };
     return (
       <div
-        className={classnames(
-          `wrapper vertical-layout theme-${appProps.menuTheme}`,
-          {
-            "menu-collapsed":
-              this.state.collapsedContent === true && this.state.width >= 1200,
-            "fixed-footer": appProps.footerType === "sticky",
-            "navbar-static": appProps.navbarType === "static",
-            "navbar-sticky": appProps.navbarType === "sticky",
-            "navbar-floating": appProps.navbarType === "floating",
-            "navbar-hidden": appProps.navbarType === "hidden",
-            "theme-primary": !menuThemeArr.includes(appProps.menuTheme),
-          }
-        )}
-      >
+        className={classnames(`wrapper vertical-layout theme-${appProps.menuTheme}`, {
+          'menu-collapsed': this.state.collapsedContent === true && this.state.width >= 1200,
+          'fixed-footer': appProps.footerType === 'sticky',
+          'navbar-static': appProps.navbarType === 'static',
+          'navbar-sticky': appProps.navbarType === 'sticky',
+          'navbar-floating': appProps.navbarType === 'floating',
+          'navbar-hidden': appProps.navbarType === 'hidden',
+          'theme-primary': !menuThemeArr.includes(appProps.menuTheme),
+        })}>
         <Sidebar {...sidebarProps} />
         <div
-          className={classnames("app-content content", {
-            "show-overlay": this.state.appOverlay === true,
+          className={classnames('app-content content', {
+            'show-overlay': this.state.appOverlay === true,
           })}
-          onClick={this.handleAppOverlayClick}
-        >
+          onClick={this.handleAppOverlayClick}>
           <Navbar {...navbarProps} />
           <div className="content-wrapper">{this.props.children}</div>
         </div>
 
         <Footer {...footerProps} />
-        {appProps.disableCustomizer !== true ? (
-          <Customizer {...customizerProps} />
-        ) : null}
-        <div
-          className="sidenav-overlay"
-          onClick={this.handleSidebarVisibility}
-        />
+        {appProps.disableCustomizer !== true ? <Customizer {...customizerProps} /> : null}
+        <div className="sidenav-overlay" onClick={this.handleSidebarVisibility} />
       </div>
     );
   }

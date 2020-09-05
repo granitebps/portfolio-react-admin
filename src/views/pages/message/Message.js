@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import Cookies from "js-cookie";
-import { Trash2 } from "react-feather";
-import { toast } from "react-toastify";
-import { Card, CardBody, Button, Row, Col, Spinner } from "reactstrap";
-import moment from "moment";
+import React, { useState } from 'react';
+import Cookies from 'js-cookie';
+import { Trash2 } from 'react-feather';
+import { toast } from 'react-toastify';
+import { Card, CardBody, Button, Row, Col, Spinner } from 'reactstrap';
+import moment from 'moment';
 
-import Header from "../../../components/custom/Header";
-import baseAxios, { useAxios } from "../../../utility/baseAxios";
-import { useAuthContext } from "../../../contexts/AuthContext";
-import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
-import Error505 from "../../misc/505";
-import DataTable from "react-data-table-component";
-import CustomHeader from "../../../components/custom/Table/CustomHeader";
-import { notAuthenticated } from "../../../utility/helper";
+import Header from '../../../components/custom/Header';
+import baseAxios, { useAxios } from '../../../utility/baseAxios';
+import { useAuthContext } from '../../../contexts/AuthContext';
+import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
+import Error505 from '../../misc/505';
+import DataTable from 'react-data-table-component';
+import CustomHeader from '../../../components/custom/Table/CustomHeader';
+import { notAuthenticated } from '../../../utility/helper';
 
 const Message = () => {
-  const authToken = Cookies.get("token");
+  const authToken = Cookies.get('token');
   const [{ data, loading, error }, refetch] = useAxios(
     {
-      url: "message",
-      method: "GET",
+      url: 'message',
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
@@ -28,7 +28,7 @@ const Message = () => {
       useCache: false,
     }
   );
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { dispatch } = useAuthContext();
@@ -37,12 +37,9 @@ const Message = () => {
     try {
       setLoadingDelete(true);
 
-      const { data: dataDelete } = await baseAxios.delete(
-        `message/${data.id}`,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
+      const { data: dataDelete } = await baseAxios.delete(`message/${data.id}`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
@@ -50,7 +47,7 @@ const Message = () => {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
       } else {
-        toast.error("Something Wrong!");
+        toast.error('Something Wrong!');
       }
     }
   };
@@ -87,48 +84,46 @@ const Message = () => {
 
   const columns = [
     {
-      name: "First Name",
-      selector: "first_name",
+      name: 'First Name',
+      selector: 'first_name',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.first_name}</p>,
     },
     {
-      name: "Last Name",
-      selector: "last_name",
+      name: 'Last Name',
+      selector: 'last_name',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.last_name}</p>,
     },
     {
-      name: "Email",
-      selector: "email",
+      name: 'Email',
+      selector: 'email',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.email}</p>,
     },
     {
-      name: "Phone",
-      selector: "phone",
+      name: 'Phone',
+      selector: 'phone',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.phone}</p>,
     },
     {
-      name: "Message",
-      selector: "message",
+      name: 'Message',
+      selector: 'message',
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.message}</p>,
     },
     {
-      name: "Date",
-      selector: "created_at",
+      name: 'Date',
+      selector: 'created_at',
       sortable: true,
       cell: (row) => (
-        <p className="text-bold-500 my-1">
-          {moment(row.created_at).format("DD MMMM YYYY")}
-        </p>
+        <p className="text-bold-500 my-1">{moment(row.created_at).format('DD MMMM YYYY')}</p>
       ),
     },
     {
-      name: "Action",
-      selector: "",
+      name: 'Action',
+      selector: '',
       cell: (row) => (
         <Row>
           <Col md="12">
@@ -136,8 +131,7 @@ const Message = () => {
               color="danger"
               onClick={() => handleDelete(row)}
               disabled={loadingDelete}
-              className="btn-icon rounded-circle"
-            >
+              className="btn-icon rounded-circle">
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
           </Col>

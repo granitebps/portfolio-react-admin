@@ -1,6 +1,6 @@
-import React from "react";
-import { Button, Spinner } from "reactstrap";
-import { useFormikContext } from "formik";
+import React from 'react';
+import { Button, Spinner } from 'reactstrap';
+import { useFormikContext } from 'formik';
 
 const SubmitButton = ({ isSubmitting, label, ...props }) => {
   const { handleSubmit } = useFormikContext();
@@ -11,11 +11,7 @@ const SubmitButton = ({ isSubmitting, label, ...props }) => {
   };
 
   return (
-    <Button.Ripple
-      onClick={(e) => handleClick(e)}
-      disabled={isSubmitting}
-      {...props}
-    >
+    <Button.Ripple onClick={(e) => handleClick(e)} disabled={isSubmitting} {...props}>
       {isSubmitting ? (
         <React.Fragment>
           <Spinner color="white" size="sm" />

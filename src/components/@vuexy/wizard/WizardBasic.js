@@ -1,5 +1,5 @@
-import React from "react";
-import Wizard from "./WizardComponent";
+import React from 'react';
+import Wizard from './WizardComponent';
 import {
   Form,
   FormGroup,
@@ -12,10 +12,10 @@ import {
   CardBody,
   CardTitle,
   CardHeader,
-  Button
-} from "reactstrap";
-import Checkbox from "../checkbox/CheckboxesVuexy";
-import { Check } from "react-feather";
+  Button,
+} from 'reactstrap';
+import Checkbox from '../checkbox/CheckboxesVuexy';
+import { Check } from 'react-feather';
 class WizardBasic extends React.Component {
   state = {
     activeStep: 0,
@@ -152,18 +152,18 @@ class WizardBasic extends React.Component {
             <Button color="primary" onClick={() => this.handleActiveStep(1)}>
               Prev
             </Button>
-            <Button color="primary" onClick={() => alert("Form Submitted")}>
+            <Button color="primary" onClick={() => alert('Form Submitted')}>
               Submit
             </Button>
           </div>
         </Form>
-      )
-    }
+      ),
+    },
   };
 
-  handleActiveStep = step => {
+  handleActiveStep = (step) => {
     this.setState({
-      activeStep: step
+      activeStep: step,
     });
   };
 
@@ -178,8 +178,7 @@ class WizardBasic extends React.Component {
           <Wizard
             activeStep={this.state.activeStep}
             stepsTitle={[1, 2, 3]}
-            stepsContent={[steps.step_1, steps.step_2, steps.step_3]}
-          ></Wizard>
+            stepsContent={[steps.step_1, steps.step_2, steps.step_3]}></Wizard>
         </CardBody>
       </Card>
     );

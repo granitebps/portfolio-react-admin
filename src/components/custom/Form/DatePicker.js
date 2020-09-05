@@ -1,10 +1,10 @@
-import React from "react";
-import { FormGroup, Label } from "reactstrap";
-import { getIn, useFormikContext, ErrorMessage } from "formik";
-import Flatpickr from "react-flatpickr";
+import React from 'react';
+import { FormGroup, Label } from 'reactstrap';
+import { getIn, useFormikContext, ErrorMessage } from 'formik';
+import Flatpickr from 'react-flatpickr';
 
-import "flatpickr/dist/themes/light.css";
-import "../../../assets/scss/plugins/forms/flatpickr/flatpickr.scss";
+import 'flatpickr/dist/themes/light.css';
+import '../../../assets/scss/plugins/forms/flatpickr/flatpickr.scss';
 
 const DatePicker = ({ label, name, ...props }) => {
   const { values, setFieldValue } = useFormikContext();
@@ -20,7 +20,7 @@ const DatePicker = ({ label, name, ...props }) => {
       <Flatpickr
         className="form-control"
         value={value}
-        options={{ altInput: true, altFormat: "j F Y", dateFormat: "Y-m-d" }}
+        options={{ altInput: true, altFormat: 'j F Y', dateFormat: 'Y-m-d' }}
         onChange={(date) => handleChange(date)}
         {...props}
       />

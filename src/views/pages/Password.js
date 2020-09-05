@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -8,33 +8,33 @@ import {
   Row,
   Col,
   UncontrolledAlert,
-} from "reactstrap";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import Cookies from "js-cookie";
+} from 'reactstrap';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import Cookies from 'js-cookie';
 
-import Header from "../../components/custom/Header";
-import SubmitButton from "../../components/custom/Form/SubmitButton";
-import InputPassword from "../../components/custom/Form/InputPassword";
-import baseAxios from "../../utility/baseAxios";
-import { useAuthContext } from "../../contexts/AuthContext";
-import { notAuthenticated } from "../../utility/helper";
-import { toast } from "react-toastify";
+import Header from '../../components/custom/Header';
+import SubmitButton from '../../components/custom/Form/SubmitButton';
+import InputPassword from '../../components/custom/Form/InputPassword';
+import baseAxios from '../../utility/baseAxios';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { notAuthenticated } from '../../utility/helper';
+import { toast } from 'react-toastify';
 
 const Password = () => {
-  const authToken = Cookies.get("token");
+  const authToken = Cookies.get('token');
   const { dispatch } = useAuthContext();
   const [serverError, setServerError] = useState();
 
   const formSchema = Yup.object().shape({
-    old_password: Yup.string().required("Required").min(8),
-    password: Yup.string().required("Required").min(8),
-    password_confirmation: Yup.string().required("Required").min(8),
+    old_password: Yup.string().required('Required').min(8),
+    password: Yup.string().required('Required').min(8),
+    password_confirmation: Yup.string().required('Required').min(8),
   });
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const { data } = await baseAxios.post("profile-password", values, {
+      const { data } = await baseAxios.post('profile-password', values, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
@@ -47,7 +47,7 @@ const Password = () => {
       } else if (error.response.status === 400) {
         setServerError(error.response.data.message);
       } else {
-        toast.error("Something Wrong!");
+        toast.error('Something Wrong!');
       }
     }
   };
@@ -55,10 +55,10 @@ const Password = () => {
   const handleValidation = (values) => {
     const errors = {};
     if (values.password === values.old_password) {
-      errors.password = "Password Cannot Be Same To Old Password";
+      errors.password = 'Password Cannot Be Same To Old Password';
     }
     if (values.password !== values.password_confirmation) {
-      errors.password_confirmation = "Password Not Match";
+      errors.password_confirmation = 'Password Not Match';
     }
     return errors;
   };
@@ -79,14 +79,13 @@ const Password = () => {
           )}
           <Formik
             initialValues={{
-              old_password: "",
-              password: "",
-              password_confirmation: "",
+              old_password: '',
+              password: '',
+              password_confirmation: '',
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}
-            validate={handleValidation}
-          >
+            validate={handleValidation}>
             {({ isSubmitting }) => (
               <Form>
                 <Row>
@@ -112,11 +111,7 @@ const Password = () => {
                     />
                   </Col>
                 </Row>
-                <SubmitButton
-                  color="primary"
-                  label="Submit"
-                  isSubmitting={isSubmitting}
-                />
+                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
               </Form>
             )}
           </Formik>

@@ -1,19 +1,8 @@
-import React, {
-  createContext,
-  useReducer,
-  useEffect,
-  useContext,
-  useState,
-} from "react";
-import Cookies from "js-cookie";
-import {
-  authReducer,
-  authInitialState,
-  LOGOUT,
-  LOGIN,
-} from "../reducers/AuthReducer";
-import baseAxios from "../utility/baseAxios";
-import Spinner from "../components/@vuexy/spinner/Fallback-spinner";
+import React, { createContext, useReducer, useEffect, useContext, useState } from 'react';
+import Cookies from 'js-cookie';
+import { authReducer, authInitialState, LOGOUT, LOGIN } from '../reducers/AuthReducer';
+import baseAxios from '../utility/baseAxios';
+import Spinner from '../components/@vuexy/spinner/Fallback-spinner';
 
 export const AuthContext = createContext();
 
@@ -28,9 +17,9 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const getAuth = async () => {
       try {
-        const authToken = Cookies.get("token");
+        const authToken = Cookies.get('token');
         if (authToken) {
-          const { data } = await baseAxios.get("auth/me", {
+          const { data } = await baseAxios.get('auth/me', {
             headers: { Authorization: `Bearer ${authToken}` },
           });
           dispatch({
@@ -49,10 +38,8 @@ const AuthContextProvider = ({ children }) => {
         }
       } catch (error) {
         const cookiesConfig =
-          process.env.NODE_ENV === "development"
-            ? {}
-            : { domain: "granitebps.com" };
-        Cookies.remove("token", cookiesConfig);
+          process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
+        Cookies.remove('token', cookiesConfig);
         dispatch({
           type: LOGOUT,
         });

@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import {
   Card,
   CardHeader,
@@ -8,32 +8,30 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
-} from "reactstrap"
-import { Eye, Code } from "react-feather"
-import classnames from "classnames"
-import axios from "axios"
-import AutoComplete from "./AutoCompleteComponent"
-import { ajaxExample } from "./AutoCompleteSourceCode"
+  NavLink,
+} from 'reactstrap';
+import { Eye, Code } from 'react-feather';
+import classnames from 'classnames';
+import axios from 'axios';
+import AutoComplete from './AutoCompleteComponent';
+import { ajaxExample } from './AutoCompleteSourceCode';
 
 class AutoCompleteAjax extends React.Component {
   state = {
-    activeTab: "1",
-    suggestions: []
-  }
+    activeTab: '1',
+    suggestions: [],
+  };
 
-  toggleTab = tab => {
+  toggleTab = (tab) => {
     if (this.state.activeTab !== tab) {
-      this.setState({ activeTab: tab })
+      this.setState({ activeTab: tab });
     }
-  }
+  };
 
   componentDidMount() {
     axios
-      .get("/api/autocomplete/data")
-      .then(response =>
-        this.setState({ suggestions: response.data.autoComplete })
-      )
+      .get('/api/autocomplete/data')
+      .then((response) => this.setState({ suggestions: response.data.autoComplete }));
   }
 
   render() {
@@ -47,24 +45,22 @@ class AutoCompleteAjax extends React.Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "1"
+                      active: this.state.activeTab === '1',
                     })}
                     onClick={() => {
-                      this.toggleTab("1")
-                    }}
-                  >
+                      this.toggleTab('1');
+                    }}>
                     <Eye size={15} />
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "2"
+                      active: this.state.activeTab === '2',
                     })}
                     onClick={() => {
-                      this.toggleTab("2")
-                    }}
-                  >
+                      this.toggleTab('2');
+                    }}>
                     <Code size={15} />
                   </NavLink>
                 </NavItem>
@@ -79,7 +75,7 @@ class AutoCompleteAjax extends React.Component {
                   className="form-control"
                   filterKey="title"
                   suggestionLimit={4}
-                  placeholder = "Search for any of the top 250 IMDB movies"
+                  placeholder="Search for any of the top 250 IMDB movies"
                 />
               </TabPane>
               <TabPane className="component-code" tabId="2">
@@ -89,7 +85,7 @@ class AutoCompleteAjax extends React.Component {
           </CardBody>
         </Card>
       </React.Fragment>
-    )
+    );
   }
 }
-export default AutoCompleteAjax
+export default AutoCompleteAjax;
