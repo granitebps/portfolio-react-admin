@@ -36,7 +36,7 @@ const PortofolioModify = () => {
   const formSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
     desc: Yup.string().required('Required'),
-    url: Yup.string().url(),
+    url: Yup.string().url().nullable(),
     thumbnail: Yup.mixed()
       .test('required', 'Required', (value) => {
         if (param) {

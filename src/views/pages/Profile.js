@@ -270,8 +270,8 @@ const Profile = () => {
                   </Col>
                   <Col sm="12">
                     <FormGroup>
-                      <Radio label="Not Available" name="freelance" value="0" />
-                      <Radio label="Available" name="freelance" value="1" />
+                      <Radio label="Not Available" name="freelance" value={0} />
+                      <Radio label="Available" name="freelance" value={1} />
                     </FormGroup>
                   </Col>
                 </Row>

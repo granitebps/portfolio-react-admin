@@ -31,9 +31,10 @@ const InputPassword = ({ label, name, placeholder, ...props }) => {
         <div
           className="form-control-position"
           onClick={handleShowPassword}
-          onKeyPress
+          onKeyPress={() => {}}
           role="button"
-          tabIndex="-1">
+          tabIndex="-1"
+          style={{ cursor: 'pointer' }}>
           {showPassword ? <Eye /> : <EyeOff />}
         </div>
         <ErrorMessage name={name}>
