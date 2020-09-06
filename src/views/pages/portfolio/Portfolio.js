@@ -112,7 +112,7 @@ const Portfolio = () => {
       sortable: true,
       cell: (row) => (
         <p className="text-bold-500 my-1">
-          {row.type === '1' ? 'Personal Project' : 'Client Project'}
+          {row.type === 1 ? 'Personal Project' : 'Client Project'}
         </p>
       ),
     },
