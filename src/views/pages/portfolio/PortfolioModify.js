@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -31,6 +31,7 @@ const FILE_SIZE = 2048 * 1024;
 const PortofolioModify = () => {
   const authToken = Cookies.get('token');
   const { dispatch } = useAuthContext();
+  const [loadingRemoveDefaultPic, setLoadingRemoveDefaultPic] = useState(false);
   const param = history.location.state;
 
   const formSchema = Yup.object().shape({
@@ -121,6 +122,32 @@ const PortofolioModify = () => {
     }
   };
 
+  const handleRemovePic = async (id) => {
+    try {
+      setLoadingRemoveDefaultPic(true);
+      await baseAxios({
+        url: `portfolio-photo/${id}`,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      const oldPics = param.portfolio.pic;
+      const filteredPics = oldPics.filter((p) => p.id !== id);
+
+      const stateCopy = { ...param };
+      stateCopy.portfolio.pic = filteredPics;
+      history.replace({ state: stateCopy });
+    } catch (error) {
+      if (error.response.status === 401) {
+        notAuthenticated(dispatch);
+      } else {
+        toast.error('Something Wrong!');
+      }
+    }
+    setLoadingRemoveDefaultPic(false);
+  };
+
   return (
     <React.Fragment>
       <Header title={param ? 'Edit Portfolio' : 'Add Portfolio'} />
@@ -188,6 +215,8 @@ const PortofolioModify = () => {
                       label="Porfolio Pictures"
                       name="pic"
                       images={param ? param.portfolio.pic : []}
+                      removeDefaultPic={handleRemovePic}
+                      loadingRemoveDefaultPic={loadingRemoveDefaultPic}
                     />
                   </Col>
                 </Row>

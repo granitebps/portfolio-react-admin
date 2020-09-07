@@ -39,7 +39,7 @@ const CustomCarousel = ({ images }) => {
   const slides = images.map((item, index) => {
     return (
       <CarouselItem onExiting={onExiting} onExited={onExited} key={index}>
-        <img src={item} className="img-fluid img-thumbnail" alt={index} width="100%" />
+        <img src={item.pic} className="img-fluid img-thumbnail" alt={index} width="100%" />
         <CarouselCaption captionHeader={`Picture ${index + 1}`} captionText="" />
       </CarouselItem>
     );

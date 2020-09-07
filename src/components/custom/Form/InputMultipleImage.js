@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Label, FormGroup, Col, Row, Button } from 'reactstrap';
+import { Label, FormGroup, Col, Row, Button, Spinner } from 'reactstrap';
 import { useFormikContext, getIn } from 'formik';
 
 import '../../../assets/scss/plugins/extensions/dropzone.scss';
 
-const InputMultipleImage = ({ name, images, label }) => {
+const InputMultipleImage = ({
+  name,
+  images,
+  label,
+  removeDefaultPic = () => {},
+  loadingRemoveDefaultPic = false,
+}) => {
   const { setFieldValue, errors, touched } = useFormikContext();
   const [files, setFiles] = useState([]);
   const error = getIn(errors, name);
@@ -56,9 +62,18 @@ const InputMultipleImage = ({ name, images, label }) => {
 
   const defaultPictures = images.map((image, index) => (
     <Col md="2" key={index}>
-      <a href={image} target="_blank" rel="noopener noreferrer">
-        <img src={image} className="img-fluid img-thumbnail" alt={index} />
+      <a href={image.pic} target="_blank" rel="noopener noreferrer">
+        <img src={image.pic} className="img-fluid img-thumbnail" alt={index} />
       </a>
+      <Button
+        color="danger"
+        size="sm"
+        tag="button"
+        className="btn-block"
+        onClick={() => removeDefaultPic(image.id)}
+        disabled={loadingRemoveDefaultPic}>
+        {loadingRemoveDefaultPic ? <Spinner color="white" size="sm" /> : 'Remove'}
+      </Button>
     </Col>
   ));
 
