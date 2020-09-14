@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { Card, CardBody, Button, Row, Col, Spinner } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  Button,
+  Row,
+  Col,
+  Spinner,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap';
 import Cookies from 'js-cookie';
 import { Edit, Trash2 } from 'react-feather';
 import { toast } from 'react-toastify';
@@ -19,6 +30,7 @@ const Technology = () => {
     useCache: false,
   });
   const [value, setValue] = useState('');
+  const [deleteId, setDeleteId] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { dispatch } = useAuthContext();
@@ -28,16 +40,17 @@ const Technology = () => {
     history.push('/technology/modify');
   };
 
-  const handleDelete = async (data) => {
+  const handleDelete = async () => {
     try {
       setLoadingDelete(true);
 
-      const { data: dataDelete } = await baseAxios.delete(`technology/${data.id}`, {
+      const { data: dataDelete } = await baseAxios.delete(`technology/${deleteId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
+      setDeleteId('');
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
@@ -106,7 +119,7 @@ const Technology = () => {
           <Col md="6">
             <Button.Ripple
               color="danger"
-              onClick={() => handleDelete(row)}
+              onClick={() => setDeleteId(row.id)}
               disabled={loadingDelete}
               className="btn-icon rounded-circle">
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
@@ -124,6 +137,22 @@ const Technology = () => {
   return (
     <React.Fragment>
       <Header title="Technology" />
+
+      <Modal
+        isOpen={deleteId !== ''}
+        toggle={() => setDeleteId('')}
+        className="modal-dialog-centered modal-sm">
+        <ModalHeader toggle={() => setDeleteId('')}>WARNING!!!</ModalHeader>
+        <ModalBody>Are you sure want to delete this data?</ModalBody>
+        <ModalFooter>
+          <Button disabled={loadingDelete} color="danger" onClick={() => setDeleteId('')}>
+            {loadingDelete ? <Spinner color="white" size="sm" /> : 'No'}
+          </Button>
+          <Button disabled={loadingDelete} color="primary" onClick={handleDelete} outline>
+            {loadingDelete ? <Spinner color="white" size="sm" /> : 'Yes'}
+          </Button>
+        </ModalFooter>
+      </Modal>
 
       <Card>
         <CardBody>

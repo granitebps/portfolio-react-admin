@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import Header from '../../../components/custom/Header';
-import { Card, CardBody, Button, Spinner, Col, Row, CardTitle, CardHeader } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  Button,
+  Spinner,
+  Col,
+  Row,
+  CardTitle,
+  CardHeader,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -25,6 +38,7 @@ const Gallery = () => {
       useCache: false,
     }
   );
+  const [deleteId, setDeleteId] = useState('');
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { dispatch } = useAuthContext();
 
@@ -32,16 +46,17 @@ const Gallery = () => {
     history.push('/gallery/modify');
   };
 
-  const handleDelete = async (data) => {
+  const handleDelete = async () => {
     try {
       setLoadingDelete(true);
 
-      const { data: dataDelete } = await baseAxios.delete(`gallery/${data.id}`, {
+      const { data: dataDelete } = await baseAxios.delete(`gallery/${deleteId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
+      setDeleteId('');
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
@@ -61,6 +76,22 @@ const Gallery = () => {
   return (
     <React.Fragment>
       <Header title="Experience" />
+
+      <Modal
+        isOpen={deleteId !== ''}
+        toggle={() => setDeleteId('')}
+        className="modal-dialog-centered modal-sm">
+        <ModalHeader toggle={() => setDeleteId('')}>WARNING!!!</ModalHeader>
+        <ModalBody>Are you sure want to delete this data?</ModalBody>
+        <ModalFooter>
+          <Button disabled={loadingDelete} color="danger" onClick={() => setDeleteId('')}>
+            {loadingDelete ? <Spinner color="white" size="sm" /> : 'No'}
+          </Button>
+          <Button disabled={loadingDelete} color="primary" onClick={handleDelete} outline>
+            {loadingDelete ? <Spinner color="white" size="sm" /> : 'Yes'}
+          </Button>
+        </ModalFooter>
+      </Modal>
 
       <Card>
         <CardHeader>
@@ -82,7 +113,7 @@ const Gallery = () => {
                   size="sm"
                   tag="button"
                   className="btn-block"
-                  onClick={() => handleDelete(image)}
+                  onClick={() => setDeleteId(image.id)}
                   disabled={loadingDelete}>
                   {loadingDelete ? <Spinner color="white" size="sm" /> : 'Delete'}
                 </Button>

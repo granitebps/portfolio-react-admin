@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { Card, CardBody, Button, Spinner, Row, Col } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  Button,
+  Spinner,
+  Row,
+  Col,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap';
 import Cookies from 'js-cookie';
 import { Edit, Trash2, Eye, Link } from 'react-feather';
 import { toast } from 'react-toastify';
@@ -31,6 +42,7 @@ const Portfolio = () => {
   const [value, setValue] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState('');
   const { dispatch } = useAuthContext();
   const authToken = Cookies.get('token');
   const [showModal, setShowModal] = useState(false);
@@ -40,16 +52,17 @@ const Portfolio = () => {
     history.push('/portfolio/modify');
   };
 
-  const handleDelete = async (data) => {
+  const handleDelete = async () => {
     try {
       setLoadingDelete(true);
 
-      const { data: dataDelete } = await baseAxios.delete(`portfolio/${data.id}`, {
+      const { data: dataDelete } = await baseAxios.delete(`portfolio/${deleteId}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
+      setDeleteId('');
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
@@ -155,7 +168,7 @@ const Portfolio = () => {
           <Col md="6">
             <Button.Ripple
               color="danger"
-              onClick={() => handleDelete(row)}
+              onClick={() => setDeleteId(row.id)}
               disabled={loadingDelete}
               className="btn-icon rounded-circle">
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
@@ -195,6 +208,22 @@ const Portfolio = () => {
   return (
     <>
       <Header title="Portfolio" />
+
+      <Modal
+        isOpen={deleteId !== ''}
+        toggle={() => setDeleteId('')}
+        className="modal-dialog-centered modal-sm">
+        <ModalHeader toggle={() => setDeleteId('')}>WARNING!!!</ModalHeader>
+        <ModalBody>Are you sure want to delete this data?</ModalBody>
+        <ModalFooter>
+          <Button disabled={loadingDelete} color="danger" onClick={() => setDeleteId('')}>
+            {loadingDelete ? <Spinner color="white" size="sm" /> : 'No'}
+          </Button>
+          <Button disabled={loadingDelete} color="primary" onClick={handleDelete} outline>
+            {loadingDelete ? <Spinner color="white" size="sm" /> : 'Yes'}
+          </Button>
+        </ModalFooter>
+      </Modal>
 
       <Card>
         <CardBody>
