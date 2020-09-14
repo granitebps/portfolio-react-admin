@@ -4,6 +4,14 @@ import Cookies from 'js-cookie';
 import { Edit, Trash2, Eye, Link } from 'react-feather';
 import { toast } from 'react-toastify';
 import DataTable from 'react-data-table-component';
+import {
+  LinkedinShareButton,
+  LinkedinIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+} from 'react-share';
 
 import Header from '../../../components/custom/Header';
 import { history } from '../../../history';
@@ -153,6 +161,28 @@ const Portfolio = () => {
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
           </Col>
+          {row.type === 1 && (
+            <>
+              <Col md="6">
+                <LinkedinShareButton url={row.url} summary={row.desc} title={row.name}>
+                  <LinkedinIcon round size={32} />
+                </LinkedinShareButton>
+              </Col>
+              <Col md="6">
+                <FacebookShareButton url={row.url} quote={row.name}>
+                  <FacebookIcon round size={32} />
+                </FacebookShareButton>
+              </Col>
+              <Col md="6">
+                <TwitterShareButton
+                  url={row.url}
+                  title={row.name}
+                  hashtags={['web', 'mobile', 'programming', 'webdeveloper', 'mobiledeveloper']}>
+                  <TwitterIcon size={32} round />
+                </TwitterShareButton>
+              </Col>
+            </>
+          )}
         </Row>
       ),
     },

@@ -4,6 +4,14 @@ import Cookies from 'js-cookie';
 import { Edit, Trash2 } from 'react-feather';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import {
+  LinkedinShareButton,
+  LinkedinIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+} from 'react-share';
 
 import Header from '../../../components/custom/Header';
 import { history } from '../../../history';
@@ -120,6 +128,29 @@ const Blog = () => {
               className="btn-icon rounded-circle">
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
+          </Col>
+          <Col md="6">
+            <LinkedinShareButton
+              url={`https://granitebps.com/blogs/blog-details/${row.id}/${row.slug}`}
+              summary={row.body}
+              title={row.title}>
+              <LinkedinIcon round size={32} />
+            </LinkedinShareButton>
+          </Col>
+          <Col md="6">
+            <FacebookShareButton
+              url={`https://granitebps.com/blogs/blog-details/${row.id}/${row.slug}`}
+              quote={row.title}>
+              <FacebookIcon round size={32} />
+            </FacebookShareButton>
+          </Col>
+          <Col md="6">
+            <TwitterShareButton
+              url={`https://granitebps.com/blogs/blog-details/${row.id}/${row.slug}`}
+              title={row.title}
+              hashtags={['web', 'mobile', 'programming', 'webdeveloper', 'mobiledeveloper']}>
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
           </Col>
         </Row>
       ),
