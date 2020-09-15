@@ -48,10 +48,11 @@ const Login = () => {
       };
       const { data } = await baseAxios.post('auth/login', request);
 
+      const cookiesExpires = new Date(new Date().getTime() + 60 * 60 * 1000);
       const cookiesConfig =
         process.env.NODE_ENV === 'development'
-          ? {}
-          : { secure: true, domain: 'granitebps.com', sameSite: 'lax' };
+          ? { expires: cookiesExpires }
+          : { secure: true, domain: 'granitebps.com', sameSite: 'lax', expires: cookiesExpires };
 
       Cookies.set('token', data.data.token, cookiesConfig);
       const cookiesToken = Cookies.get('token');

@@ -1,11 +1,10 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { history } from './history';
 import Spinner from './components/@vuexy/spinner/Loading-spinner';
 import { ContextLayout } from './utility/context/Layout';
 import { ToastContainer } from 'react-toastify';
-import baseAxios from './utility/baseAxios';
 
 // Route-based code splitting
 const login = lazy(() => import('./views/pages/authentication/login/Login'));
@@ -34,20 +33,6 @@ const Error404 = lazy(() => import('./views/misc/404'));
 // Set Layout and Component Using App Route
 const AppRoute = ({ component: Component, fullLayout, ...rest }) => {
   const authToken = Cookies.get('token');
-  useEffect(() => {
-    const getAuth = async () => {
-      try {
-        await baseAxios.get('auth/me', {
-          headers: { Authorization: `Bearer ${authToken}` },
-        });
-      } catch (error) {
-        const cookiesConfig =
-          process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
-        Cookies.remove('token', cookiesConfig);
-      }
-    };
-    getAuth();
-  });
 
   if (history.location.pathname !== '/' && !authToken) {
     return <Redirect to="/" />;
