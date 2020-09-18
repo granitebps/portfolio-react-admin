@@ -27,6 +27,8 @@ const Blog = lazy(() => import('./views/pages/blog/Blog'));
 const BlogModify = lazy(() => import('./views/pages/blog/BlogModify'));
 const Gallery = lazy(() => import('./views/pages/gallery/Gallery'));
 const GalleryModify = lazy(() => import('./views/pages/gallery/GalleryModify'));
+const Certification = lazy(() => import('./views/pages/certification/Certification'));
+const CertificationModify = lazy(() => import('./views/pages/certification/CertificationModify'));
 const Message = lazy(() => import('./views/pages/message/Message'));
 const Error404 = lazy(() => import('./views/misc/404'));
 
@@ -92,6 +94,8 @@ const AppRouter = () => {
         <AppRoute exact path="/blog/modify" component={BlogModify} />
         <AppRoute exact path="/gallery" component={Gallery} />
         <AppRoute exact path="/gallery/modify" component={GalleryModify} />
+        <AppRoute exact path="/certification" component={Certification} />
+        <AppRoute exact path="/certification/modify" component={CertificationModify} />
         <AppRoute exact path="/message" component={Message} />
         <AppRoute component={Error404} />
       </Switch>
