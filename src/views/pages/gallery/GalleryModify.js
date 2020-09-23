@@ -38,7 +38,7 @@ const GalleryModify = () => {
     return errors;
   };
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
@@ -64,6 +64,9 @@ const GalleryModify = () => {
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
+      } else if (error.response.status === 422) {
+        error.response.data.errors.image &&
+          setFieldError('image', error.response.data.errors.image[0]);
       } else {
         toast.error('Something Wrong!');
       }

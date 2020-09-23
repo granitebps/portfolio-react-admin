@@ -25,7 +25,7 @@ const ServiceModify = () => {
 
   const param = history.location.state;
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       if (param) {
         values._method = 'PUT';
@@ -45,6 +45,13 @@ const ServiceModify = () => {
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
+      } else if (error.response.status === 422) {
+        error.response.data.errors.name &&
+          setFieldError('name', error.response.data.errors.name[0]);
+        error.response.data.errors.icon &&
+          setFieldError('icon', error.response.data.errors.icon[0]);
+        error.response.data.errors.desc &&
+          setFieldError('desc', error.response.data.errors.desc[0]);
       } else {
         toast.error('Something Wrong!');
       }

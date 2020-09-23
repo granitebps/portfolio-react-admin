@@ -46,7 +46,7 @@ const BlogModify = () => {
       }),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
@@ -72,6 +72,13 @@ const BlogModify = () => {
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
+      } else if (error.response.status === 422) {
+        error.response.data.errors.title &&
+          setFieldError('title', error.response.data.errors.title[0]);
+        error.response.data.errors.body &&
+          setFieldError('body', error.response.data.errors.body[0]);
+        error.response.data.errors.image &&
+          setFieldError('image', error.response.data.errors.image[0]);
       } else {
         toast.error('Something Wrong!');
       }

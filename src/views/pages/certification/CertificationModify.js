@@ -27,7 +27,7 @@ const CertificationModify = () => {
 
   const param = history.location.state;
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       if (param) {
         values._method = 'PUT';
@@ -47,6 +47,15 @@ const CertificationModify = () => {
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
+      } else if (error.response.status === 422) {
+        error.response.data.errors.name &&
+          setFieldError('name', error.response.data.errors.name[0]);
+        error.response.data.errors.institution &&
+          setFieldError('institution', error.response.data.errors.institution[0]);
+        error.response.data.errors.link &&
+          setFieldError('link', error.response.data.errors.link[0]);
+        error.response.data.errors.published &&
+          setFieldError('published', error.response.data.errors.published[0]);
       } else {
         toast.error('Something Wrong!');
       }

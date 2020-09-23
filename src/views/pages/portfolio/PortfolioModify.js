@@ -85,7 +85,7 @@ const PortofolioModify = () => {
     return errors;
   };
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
@@ -116,6 +116,17 @@ const PortofolioModify = () => {
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
+      } else if (error.response.status === 422) {
+        error.response.data.errors.name &&
+          setFieldError('name', error.response.data.errors.name[0]);
+        error.response.data.errors.desc &&
+          setFieldError('desc', error.response.data.errors.desc[0]);
+        error.response.data.errors.thumbnail &&
+          setFieldError('thumbnail', error.response.data.errors.thumbnail[0]);
+        error.response.data.errors.type &&
+          setFieldError('type', error.response.data.errors.type[0]);
+        error.response.data.errors.pic && setFieldError('pic', error.response.data.errors.pic[0]);
+        error.response.data.errors.url && setFieldError('url', error.response.data.errors.url[0]);
       } else {
         toast.error('Something Wrong!');
       }

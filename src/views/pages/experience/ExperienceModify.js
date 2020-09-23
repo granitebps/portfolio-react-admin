@@ -30,7 +30,7 @@ const ExperienceModify = () => {
 
   const param = history.location.state;
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       if (param) {
         values._method = 'PUT';
@@ -50,6 +50,19 @@ const ExperienceModify = () => {
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
+      } else if (error.response.status === 422) {
+        error.response.data.errors.company &&
+          setFieldError('company', error.response.data.errors.company[0]);
+        error.response.data.errors.position &&
+          setFieldError('position', error.response.data.errors.position[0]);
+        error.response.data.errors.desc &&
+          setFieldError('desc', error.response.data.errors.desc[0]);
+        error.response.data.errors.current_job &&
+          setFieldError('current_job', error.response.data.errors.current_job[0]);
+        error.response.data.errors.start_date &&
+          setFieldError('start_date', error.response.data.errors.start_date[0]);
+        error.response.data.errors.end_date &&
+          setFieldError('end_date', error.response.data.errors.end_date[0]);
       } else {
         toast.error('Something Wrong!');
       }

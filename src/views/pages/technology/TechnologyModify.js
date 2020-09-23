@@ -43,7 +43,7 @@ const TechnologyModify = () => {
       }),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
@@ -69,6 +69,10 @@ const TechnologyModify = () => {
     } catch (error) {
       if (error.response.status === 401) {
         notAuthenticated(dispatch);
+      } else if (error.response.status === 422) {
+        error.response.data.errors.name &&
+          setFieldError('name', error.response.data.errors.name[0]);
+        error.response.data.errors.pic && setFieldError('pic', error.response.data.errors.pic[0]);
       } else {
         toast.error('Something Wrong!');
       }
