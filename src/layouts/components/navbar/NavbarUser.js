@@ -13,11 +13,10 @@ import Cookies from 'js-cookie';
 
 import { history } from '../../../history';
 import { useAuthContext } from '../../../contexts/AuthContext';
-import { LOGOUT } from '../../../reducers/AuthReducer';
 import baseAxios from '../../../utility/baseAxios';
 
 const UserDropdown = () => {
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
 
   const handleLogout = async (e) => {
@@ -32,13 +31,7 @@ const UserDropdown = () => {
         },
       });
 
-      const cookiesConfig =
-        process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
-      Cookies.remove('token', cookiesConfig);
-      dispatch({
-        type: LOGOUT,
-      });
-      history.push('/');
+      logout();
     } catch (error) {
       console.log(error);
     }

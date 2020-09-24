@@ -23,7 +23,6 @@ import { useAuthContext } from '../../../contexts/AuthContext';
 import CustomHeader from '../../../components/custom/Table/CustomHeader';
 import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
 import Error505 from '../../misc/505';
-import { notAuthenticated } from '../../../utility/helper';
 
 const Service = () => {
   const [{ data, loading, error }, refetch] = useAxios('service', {
@@ -33,7 +32,7 @@ const Service = () => {
   const [deleteId, setDeleteId] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
 
   const handleAdd = () => {
@@ -53,7 +52,7 @@ const Service = () => {
       setDeleteId('');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else {
         toast.error('Something Wrong!');
       }

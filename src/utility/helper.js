@@ -1,7 +1,3 @@
-import Cookies from 'js-cookie';
-import { LOGOUT } from '../reducers/AuthReducer';
-import { history } from '../history';
-
 export const validURL = (str) => {
   var pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
@@ -23,13 +19,4 @@ export const removeEmptyStrings = (obj) => {
     }
   });
   return newObj;
-};
-
-export const notAuthenticated = (dispatch) => {
-  const cookiesConfig = process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
-  Cookies.remove('token', cookiesConfig);
-  dispatch({
-    type: LOGOUT,
-  });
-  history.push('/');
 };

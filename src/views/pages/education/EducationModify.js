@@ -10,11 +10,10 @@ import InputText from '../../../components/custom/Form/InputText';
 import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import { history } from '../../../history';
 import baseAxios from '../../../utility/baseAxios';
-import { notAuthenticated } from '../../../utility/helper';
 import { useAuthContext } from '../../../contexts/AuthContext';
 
 const EducationModify = () => {
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
 
   const formSchema = Yup.object().shape({
@@ -45,7 +44,7 @@ const EducationModify = () => {
       history.push('/education');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else if (error.response.status === 422) {
         error.response.data.errors.name &&
           setFieldError('name', error.response.data.errors.name[0]);

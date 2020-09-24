@@ -12,7 +12,6 @@ import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
 import Error505 from '../../misc/505';
 import DataTable from 'react-data-table-component';
 import CustomHeader from '../../../components/custom/Table/CustomHeader';
-import { notAuthenticated } from '../../../utility/helper';
 
 const Message = () => {
   const authToken = Cookies.get('token');
@@ -31,7 +30,7 @@ const Message = () => {
   const [value, setValue] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
 
   const handleDelete = async (data) => {
     try {
@@ -45,7 +44,7 @@ const Message = () => {
       setLoadingDelete(false);
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else {
         toast.error('Something Wrong!');
       }

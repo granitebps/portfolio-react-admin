@@ -13,11 +13,10 @@ import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import { history } from '../../../history';
 import DatePicker from '../../../components/custom/Form/DatePicker';
 import baseAxios from '../../../utility/baseAxios';
-import { notAuthenticated } from '../../../utility/helper';
 import { useAuthContext } from '../../../contexts/AuthContext';
 
 const ExperienceModify = () => {
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
 
   const formSchema = Yup.object().shape({
@@ -49,7 +48,7 @@ const ExperienceModify = () => {
       history.push('/experience');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else if (error.response.status === 422) {
         error.response.data.errors.company &&
           setFieldError('company', error.response.data.errors.company[0]);

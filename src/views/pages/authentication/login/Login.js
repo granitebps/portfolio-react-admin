@@ -11,22 +11,19 @@ import {
   UncontrolledAlert,
 } from 'reactstrap';
 import { Lock, Check, User } from 'react-feather';
-import Cookies from 'js-cookie';
 import * as Yup from 'yup';
 import { Helmet } from 'react-helmet';
-import Checkbox from '../../../../components/@vuexy/checkbox/CheckboxesVuexy';
+import { Formik, Field, ErrorMessage } from 'formik';
 
+import Checkbox from '../../../../components/@vuexy/checkbox/CheckboxesVuexy';
 import loginImg from '../../../../assets/img/pages/login.png';
 import '../../../../assets/scss/pages/authentication.scss';
 import { useAuthContext } from '../../../../contexts/AuthContext';
-import { LOGIN } from '../../../../reducers/AuthReducer';
 import { history } from '../../../../history';
-import baseAxios from '../../../../utility/baseAxios';
-import { Formik, Field, ErrorMessage } from 'formik';
 import SubmitButton from '../../../../components/custom/Form/SubmitButton';
 
 const Login = () => {
-  const { state, dispatch } = useAuthContext();
+  const { state, login } = useAuthContext();
   const [serverError, setServerError] = useState();
 
   useEffect(() => {
@@ -42,32 +39,7 @@ const Login = () => {
 
   const handleLogin = async (values, { setFieldError }) => {
     try {
-      const request = {
-        username: values.username,
-        password: values.password,
-      };
-      const { data } = await baseAxios.post('auth/login', request);
-
-      const cookiesExpires = new Date(new Date().getTime() + 60 * 60 * 1000);
-      const cookiesConfig =
-        process.env.NODE_ENV === 'development'
-          ? { expires: cookiesExpires }
-          : { secure: true, domain: 'granitebps.com', sameSite: 'lax', expires: cookiesExpires };
-
-      Cookies.set('token', data.data.token, cookiesConfig);
-      const cookiesToken = Cookies.get('token');
-      if (!cookiesToken) {
-        return;
-      }
-      dispatch({
-        type: LOGIN,
-        payload: {
-          user: {
-            name: data.data.name,
-            avatar: data.data.avatar,
-          },
-        },
-      });
+      await login(values.username, values.password);
     } catch (error) {
       if (error.response.status === 401) {
         setServerError(error.response.data.message);

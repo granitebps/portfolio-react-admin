@@ -21,7 +21,6 @@ import moment from 'moment';
 import { history } from '../../../history';
 import baseAxios, { useAxios } from '../../../utility/baseAxios';
 import { useAuthContext } from '../../../contexts/AuthContext';
-import { notAuthenticated } from '../../../utility/helper';
 import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
 import Error505 from '../../misc/505';
 
@@ -40,7 +39,7 @@ const Gallery = () => {
   );
   const [deleteId, setDeleteId] = useState('');
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
 
   const handleAdd = () => {
     history.push('/gallery/modify');
@@ -59,7 +58,7 @@ const Gallery = () => {
       setDeleteId('');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else {
         toast.error('Something Wrong!');
       }

@@ -15,7 +15,7 @@ import Spinner from '../../components/@vuexy/spinner/Loading-spinner';
 import Error505 from '../misc/505';
 import Radio from '../../components/custom/Form/Radio';
 
-import { validURL, removeEmptyStrings, notAuthenticated } from '../../utility/helper';
+import { validURL, removeEmptyStrings } from '../../utility/helper';
 import baseAxios, { useAxios } from '../../utility/baseAxios';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { LOGIN } from '../../reducers/AuthReducer';
@@ -27,7 +27,7 @@ const Profile = () => {
   const [{ data, loading, error }, refetch] = useAxios('profile', {
     useCache: false,
   });
-  const { dispatch } = useAuthContext();
+  const { dispatch, logout } = useAuthContext();
 
   const formSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
@@ -86,7 +86,7 @@ const Profile = () => {
       Cookies.set('token', data.data.token, cookiesConfig);
       const cookiesToken = Cookies.get('token');
       if (!cookiesToken) {
-        notAuthenticated(dispatch);
+        logout();
       }
       refetch();
       dispatch({
@@ -101,7 +101,7 @@ const Profile = () => {
       toast.success(data.message);
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else {
         toast.error('Something Wrong!');
       }

@@ -9,12 +9,11 @@ import { history } from '../../../history';
 import Header from '../../../components/custom/Header';
 import InputText from '../../../components/custom/Form/InputText';
 import SubmitButton from '../../../components/custom/Form/SubmitButton';
-import { notAuthenticated } from '../../../utility/helper';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import baseAxios from '../../../utility/baseAxios';
 
 const SkillModify = () => {
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
 
   const formSchema = Yup.object().shape({
@@ -42,7 +41,7 @@ const SkillModify = () => {
       history.push('/skill');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else if (error.response.status === 422) {
         error.response.data.errors.name &&
           setFieldError('name', error.response.data.errors.name[0]);

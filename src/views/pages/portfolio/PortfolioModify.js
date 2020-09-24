@@ -21,7 +21,7 @@ import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import InputImage from '../../../components/custom/Form/InputImage';
 import InputMultipleImage from '../../../components/custom/Form/InputMultipleImage';
 import { history } from '../../../history';
-import { validURL, notAuthenticated } from '../../../utility/helper';
+import { validURL } from '../../../utility/helper';
 import Radio from '../../../components/custom/Form/Radio';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import baseAxios from '../../../utility/baseAxios';
@@ -30,7 +30,7 @@ const FILE_SIZE = 2048 * 1024;
 
 const PortofolioModify = () => {
   const authToken = Cookies.get('token');
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const [loadingRemoveDefaultPic, setLoadingRemoveDefaultPic] = useState(false);
   const param = history.location.state;
 
@@ -115,7 +115,7 @@ const PortofolioModify = () => {
       history.push('/portfolio');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else if (error.response.status === 422) {
         error.response.data.errors.name &&
           setFieldError('name', error.response.data.errors.name[0]);
@@ -151,7 +151,7 @@ const PortofolioModify = () => {
       history.replace({ state: stateCopy });
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else {
         toast.error('Something Wrong!');
       }

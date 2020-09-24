@@ -22,7 +22,6 @@ import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
 import Error505 from '../../misc/505';
 import Header from '../../../components/custom/Header';
 import CustomHeader from '../../../components/custom/Table/CustomHeader';
-import { notAuthenticated } from '../../../utility/helper';
 import { useAuthContext } from '../../../contexts/AuthContext';
 
 const Skill = () => {
@@ -33,7 +32,7 @@ const Skill = () => {
   const [deleteId, setDeleteId] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
 
   const handleAdd = () => {
@@ -53,7 +52,7 @@ const Skill = () => {
       setDeleteId('');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else {
         toast.error('Something Wrong!');
       }

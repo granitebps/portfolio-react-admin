@@ -9,7 +9,6 @@ import Header from '../../../components/custom/Header';
 import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import InputMultipleImage from '../../../components/custom/Form/InputMultipleImage';
 import { history } from '../../../history';
-import { notAuthenticated } from '../../../utility/helper';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import baseAxios from '../../../utility/baseAxios';
 
@@ -17,7 +16,7 @@ const FILE_SIZE = 2048 * 1024;
 
 const GalleryModify = () => {
   const authToken = Cookies.get('token');
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
 
   const formSchema = Yup.object().shape({
     image: Yup.array().required('Required'),
@@ -63,7 +62,7 @@ const GalleryModify = () => {
       history.push('/gallery');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else if (error.response.status === 422) {
         error.response.data.errors.image &&
           setFieldError('image', error.response.data.errors.image[0]);

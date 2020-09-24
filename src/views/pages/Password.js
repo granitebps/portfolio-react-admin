@@ -18,12 +18,11 @@ import SubmitButton from '../../components/custom/Form/SubmitButton';
 import InputPassword from '../../components/custom/Form/InputPassword';
 import baseAxios from '../../utility/baseAxios';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { notAuthenticated } from '../../utility/helper';
 import { toast } from 'react-toastify';
 
 const Password = () => {
   const authToken = Cookies.get('token');
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const [serverError, setServerError] = useState();
 
   const formSchema = Yup.object().shape({
@@ -43,7 +42,7 @@ const Password = () => {
     } catch (error) {
       resetForm();
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else if (error.response.status === 400) {
         setServerError(error.response.data.message);
       } else {

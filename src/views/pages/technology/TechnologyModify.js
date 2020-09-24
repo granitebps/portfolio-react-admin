@@ -9,7 +9,7 @@ import InputText from '../../../components/custom/Form/InputText';
 import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import { history } from '../../../history';
 import InputImage from '../../../components/custom/Form/InputImage';
-import { validURL, notAuthenticated } from '../../../utility/helper';
+import { validURL } from '../../../utility/helper';
 import baseAxios from '../../../utility/baseAxios';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../../../contexts/AuthContext';
@@ -18,7 +18,7 @@ const FILE_SIZE = 2048 * 1024;
 
 const TechnologyModify = () => {
   const authToken = Cookies.get('token');
-  const { dispatch } = useAuthContext();
+  const { logout } = useAuthContext();
   const param = history.location.state;
   const formSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
@@ -68,7 +68,7 @@ const TechnologyModify = () => {
       history.push('/technology');
     } catch (error) {
       if (error.response.status === 401) {
-        notAuthenticated(dispatch);
+        logout();
       } else if (error.response.status === 422) {
         error.response.data.errors.name &&
           setFieldError('name', error.response.data.errors.name[0]);
