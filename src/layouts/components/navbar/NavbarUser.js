@@ -14,19 +14,34 @@ import Cookies from 'js-cookie';
 import { history } from '../../../history';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import { LOGOUT } from '../../../reducers/AuthReducer';
+import baseAxios from '../../../utility/baseAxios';
 
 const UserDropdown = () => {
   const { dispatch } = useAuthContext();
+  const authToken = Cookies.get('token');
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    const cookiesConfig =
-      process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
-    Cookies.remove('token', cookiesConfig);
-    dispatch({
-      type: LOGOUT,
-    });
-    history.push('/');
+  const handleLogout = async (e) => {
+    try {
+      e.preventDefault();
+
+      await baseAxios({
+        url: 'auth/logout',
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      const cookiesConfig =
+        process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
+      Cookies.remove('token', cookiesConfig);
+      dispatch({
+        type: LOGOUT,
+      });
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleProfile = (e) => {
