@@ -8,6 +8,11 @@
   <br>
 </h1>
 
+![CI/CD](https://github.com/granitebps/portfolio-react-admin/workflows/CI/badge.svg)
+[![CircleCI](https://circleci.com/gh/granitebps/portfolio-react-admin.svg?style=svg)](https://circleci.com/gh/granitebps/portfolio-react-admin)
+[![codecov](https://codecov.io/gh/granitebps/portfolio-react-admin/branch/master/graph/badge.svg)](https://codecov.io/gh/granitebps/portfolio-react-admin)
+![License](https://img.shields.io/github/license/granitebps/portfolio-react-admin)
+
 ## Link
 
 - [Website](https://granitebps.com)
