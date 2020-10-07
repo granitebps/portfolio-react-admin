@@ -14,9 +14,11 @@ const App = () => {
 
   useEffect(() => {
     const getAuth = async () => {
+      console.log('test');
       await initialAuth();
     };
     getAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (state.loading) {
