@@ -21,7 +21,7 @@ import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import InputImage from '../../../components/custom/Form/InputImage';
 import InputMultipleImage from '../../../components/custom/Form/InputMultipleImage';
 import { history } from '../../../history';
-import { validURL } from '../../../utility/helper';
+import { removeEmptyStrings, validURL } from '../../../utility/helper';
 import Radio from '../../../components/custom/Form/Radio';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import baseAxios from '../../../utility/baseAxios';
@@ -88,6 +88,7 @@ const PortofolioModify = () => {
   const handleSubmit = async (values, { setFieldError }) => {
     try {
       const formData = new FormData();
+      values = removeEmptyStrings(values);
       Object.keys(values).forEach((key) => {
         if (key === 'pic') {
           values[key].forEach((item) => {
@@ -172,7 +173,7 @@ const PortofolioModify = () => {
             initialValues={{
               name: param ? param.portfolio.name : '',
               desc: param ? param.portfolio.desc : '',
-              thumbnail: null,
+              thumbnail: '',
               type: param ? param.portfolio.type : 1,
               pic: [],
               url: param ? param.portfolio.url : '',

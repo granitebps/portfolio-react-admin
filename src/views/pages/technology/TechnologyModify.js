@@ -9,7 +9,7 @@ import InputText from '../../../components/custom/Form/InputText';
 import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import { history } from '../../../history';
 import InputImage from '../../../components/custom/Form/InputImage';
-import { validURL } from '../../../utility/helper';
+import { removeEmptyStrings, validURL } from '../../../utility/helper';
 import baseAxios from '../../../utility/baseAxios';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../../../contexts/AuthContext';
@@ -46,6 +46,7 @@ const TechnologyModify = () => {
   const handleSubmit = async (values, { setFieldError }) => {
     try {
       const formData = new FormData();
+      values = removeEmptyStrings(values);
       Object.keys(values).forEach((key) => {
         formData.append(key, values[key]);
       });
