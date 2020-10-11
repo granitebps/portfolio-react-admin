@@ -14,7 +14,6 @@ const App = () => {
 
   useEffect(() => {
     const getAuth = async () => {
-      console.log('test');
       await initialAuth();
     };
     getAuth();
