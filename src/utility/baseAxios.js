@@ -2,7 +2,10 @@ import axios from 'axios';
 import { makeUseAxios } from 'axios-hooks';
 
 const baseAxios = axios.create({
-  baseURL: 'https://api.granitebps.com/api/v1',
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? 'https://api.granitebps.com/api/v1'
+      : 'http://localhost:8000/api/v1',
   // baseURL: 'http://localhost:8000/api/v1',
   // baseURL: 'http://34.101.144.18/api/v1',
   headers: {
