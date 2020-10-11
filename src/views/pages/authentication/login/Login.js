@@ -92,6 +92,7 @@ const Login = () => {
                             name="username"
                             placeholder="Username"
                             type="text"
+                            disabled={isSubmitting}
                           />
                           <div className="form-control-position">
                             <User size={15} />
@@ -111,6 +112,7 @@ const Login = () => {
                             name="password"
                             placeholder="Password"
                             type="password"
+                            disabled={isSubmitting}
                           />
                           <div className="form-control-position">
                             <Lock size={15} />
@@ -130,7 +132,7 @@ const Login = () => {
                           />
                         </FormGroup>
                         <div className="d-flex justify-content-between">
-                          <SubmitButton color="primary" isSubmitting={isSubmitting} label="Login" />
+                          <SubmitButton color="primary" label="Login" />
                         </div>
                       </Form>
                     )}

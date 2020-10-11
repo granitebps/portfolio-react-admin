@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -11,31 +10,11 @@ import InputMultipleImage from '../../../components/custom/Form/InputMultipleIma
 import { history } from '../../../history';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import baseAxios from '../../../utility/baseAxios';
-
-const FILE_SIZE = 2048 * 1024;
+import formSchema from './formSchema';
 
 const GalleryModify = () => {
   const authToken = Cookies.get('token');
   const { logout } = useAuthContext();
-
-  const formSchema = Yup.object().shape({
-    image: Yup.array().required('Required'),
-  });
-
-  const handleValidation = (values) => {
-    const errors = {};
-
-    if (values.image.length > 0) {
-      values.image.map((file) => {
-        if (file.size >= FILE_SIZE) {
-          errors.image = 'File too large';
-        }
-        return file;
-      });
-    }
-
-    return errors;
-  };
 
   const handleSubmit = async (values, { setFieldError }) => {
     try {
@@ -86,21 +65,18 @@ const GalleryModify = () => {
               image: [],
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}
-            validate={handleValidation}>
-            {({ isSubmitting }) => (
-              <Form>
-                <Row>
-                  <Col sm="12">
-                    <InputMultipleImage label="Images" name="image" images={[]} />
-                  </Col>
-                </Row>
-                <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
-                  Back
-                </Button.Ripple>
-                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
-              </Form>
-            )}
+            onSubmit={handleSubmit}>
+            <Form>
+              <Row>
+                <Col sm="12">
+                  <InputMultipleImage label="Images" name="image" images={[]} />
+                </Col>
+              </Row>
+              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+                Back
+              </Button.Ripple>
+              <SubmitButton color="primary" label="Submit" />
+            </Form>
           </Formik>
         </CardBody>
       </Card>

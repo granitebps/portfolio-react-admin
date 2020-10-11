@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import {
   Card,
   CardHeader,
@@ -21,69 +20,18 @@ import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import InputImage from '../../../components/custom/Form/InputImage';
 import InputMultipleImage from '../../../components/custom/Form/InputMultipleImage';
 import { history } from '../../../history';
-import { removeEmptyStrings, validURL } from '../../../utility/helper';
+import { removeEmptyStrings } from '../../../utility/helper';
 import Radio from '../../../components/custom/Form/Radio';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import baseAxios from '../../../utility/baseAxios';
-
-const FILE_SIZE = 2048 * 1024;
+import validation from './formSchema';
 
 const PortofolioModify = () => {
   const authToken = Cookies.get('token');
   const { logout } = useAuthContext();
   const [loadingRemoveDefaultPic, setLoadingRemoveDefaultPic] = useState(false);
   const param = history.location.state;
-
-  const formSchema = Yup.object().shape({
-    name: Yup.string().required('Required'),
-    desc: Yup.string().required('Required'),
-    url: Yup.string().url().nullable(),
-    thumbnail: Yup.mixed()
-      .test('required', 'Required', (value) => {
-        if (param) {
-          return true;
-        } else {
-          if (!value) {
-            return false;
-          } else {
-            return true;
-          }
-        }
-      })
-      .test('fileSize', 'File too large', (value) => {
-        if (validURL(value)) {
-          return true;
-        } else {
-          return !value || (value && value.size <= FILE_SIZE);
-        }
-      }),
-    pic: Yup.array().test('required', 'Required', (value) => {
-      if (param) {
-        return true;
-      } else {
-        if (!value) {
-          return false;
-        } else {
-          return true;
-        }
-      }
-    }),
-  });
-
-  const handleValidation = (values) => {
-    const errors = {};
-
-    if (values.pic.length > 0) {
-      values.pic.map((file) => {
-        if (file.size >= FILE_SIZE) {
-          errors.pic = 'File too large';
-        }
-        return file;
-      });
-    }
-
-    return errors;
-  };
+  const formSchema = validation(param);
 
   const handleSubmit = async (values, { setFieldError }) => {
     try {
@@ -179,65 +127,62 @@ const PortofolioModify = () => {
               url: param ? param.portfolio.url : '',
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}
-            validate={handleValidation}>
-            {({ isSubmitting }) => (
-              <Form>
-                <Row>
-                  <Col sm="12">
-                    <InputText
-                      name="name"
-                      type="text"
-                      label="Portfolio Name"
-                      placeholder="Masukkan Nama Portfolio"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText
-                      name="desc"
-                      type="textarea"
-                      label="Portfolio Description"
-                      placeholder="Masukkan Deskripsi Portfolio"
-                      rows="5"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText
-                      name="url"
-                      type="text"
-                      label="Portfolio URL"
-                      placeholder="Masukkan URL Portfolio"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <FormGroup>
-                      <Radio label="Personal Project" name="type" value={1} />
-                      <Radio label="Client Project" name="type" value={2} />
-                    </FormGroup>
-                  </Col>
-                  <Col sm="12">
-                    <InputImage
-                      name="thumbnail"
-                      image={param ? param.portfolio.thumbnail : null}
-                      label="Porfolio Thumbnail"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputMultipleImage
-                      label="Porfolio Pictures"
-                      name="pic"
-                      images={param ? param.portfolio.pic : []}
-                      removeDefaultPic={handleRemovePic}
-                      loadingRemoveDefaultPic={loadingRemoveDefaultPic}
-                    />
-                  </Col>
-                </Row>
-                <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
-                  Back
-                </Button.Ripple>
-                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
-              </Form>
-            )}
+            onSubmit={handleSubmit}>
+            <Form>
+              <Row>
+                <Col sm="12">
+                  <InputText
+                    name="name"
+                    type="text"
+                    label="Portfolio Name"
+                    placeholder="Masukkan Nama Portfolio"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="desc"
+                    type="textarea"
+                    label="Portfolio Description"
+                    placeholder="Masukkan Deskripsi Portfolio"
+                    rows="5"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="url"
+                    type="text"
+                    label="Portfolio URL"
+                    placeholder="Masukkan URL Portfolio"
+                  />
+                </Col>
+                <Col sm="12">
+                  <FormGroup>
+                    <Radio label="Personal Project" name="type" value={1} />
+                    <Radio label="Client Project" name="type" value={2} />
+                  </FormGroup>
+                </Col>
+                <Col sm="12">
+                  <InputImage
+                    name="thumbnail"
+                    image={param ? param.portfolio.thumbnail : null}
+                    label="Porfolio Thumbnail"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputMultipleImage
+                    label="Porfolio Pictures"
+                    name="pic"
+                    images={param ? param.portfolio.pic : []}
+                    removeDefaultPic={handleRemovePic}
+                    loadingRemoveDefaultPic={loadingRemoveDefaultPic}
+                  />
+                </Col>
+              </Row>
+              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+                Back
+              </Button.Ripple>
+              <SubmitButton color="primary" label="Submit" />
+            </Form>
           </Formik>
         </CardBody>
       </Card>

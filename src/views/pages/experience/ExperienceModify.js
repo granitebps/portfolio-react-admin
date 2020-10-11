@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
 import moment from 'moment';
 import Cookies from 'js-cookie';
@@ -14,18 +13,11 @@ import { history } from '../../../history';
 import DatePicker from '../../../components/custom/Form/DatePicker';
 import baseAxios from '../../../utility/baseAxios';
 import { useAuthContext } from '../../../contexts/AuthContext';
+import formSchema from './formSchema';
 
 const ExperienceModify = () => {
   const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
-
-  const formSchema = Yup.object().shape({
-    company: Yup.string().required('Required'),
-    position: Yup.string().required('Required'),
-    desc: Yup.string().required('Required'),
-    current_job: Yup.boolean(),
-    start_date: Yup.date().required('Required'),
-  });
 
   const param = history.location.state;
 
@@ -111,50 +103,48 @@ const ExperienceModify = () => {
             validationSchema={formSchema}
             onSubmit={handleSubmit}
             validate={handleValidattion}>
-            {({ isSubmitting }) => (
-              <Form>
-                <Row>
-                  <Col sm="12">
-                    <InputText
-                      name="company"
-                      type="text"
-                      label="Company Name"
-                      placeholder="Masukkan Nama Perusahaan"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText
-                      name="position"
-                      type="text"
-                      label="Position"
-                      placeholder="Masukkan Posisi"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText
-                      name="desc"
-                      type="textarea"
-                      label="Description"
-                      placeholder="Masukkan Deskripsi"
-                      rows={5}
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <DatePicker name="start_date" label="Start Date" />
-                  </Col>
-                  <Col sm="12">
-                    <DatePicker name="end_date" label="End Date" />
-                  </Col>
-                  <Col sm="12">
-                    <Checkbox color="success" label="My Current Job" name="current_job" />
-                  </Col>
-                </Row>
-                <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
-                  Back
-                </Button.Ripple>
-                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
-              </Form>
-            )}
+            <Form>
+              <Row>
+                <Col sm="12">
+                  <InputText
+                    name="company"
+                    type="text"
+                    label="Company Name"
+                    placeholder="Masukkan Nama Perusahaan"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="position"
+                    type="text"
+                    label="Position"
+                    placeholder="Masukkan Posisi"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="desc"
+                    type="textarea"
+                    label="Description"
+                    placeholder="Masukkan Deskripsi"
+                    rows={5}
+                  />
+                </Col>
+                <Col sm="12">
+                  <DatePicker name="start_date" label="Start Date" />
+                </Col>
+                <Col sm="12">
+                  <DatePicker name="end_date" label="End Date" />
+                </Col>
+                <Col sm="12">
+                  <Checkbox color="success" label="My Current Job" name="current_job" />
+                </Col>
+              </Row>
+              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+                Back
+              </Button.Ripple>
+              <SubmitButton color="primary" label="Submit" />
+            </Form>
           </Formik>
         </CardBody>
       </Card>

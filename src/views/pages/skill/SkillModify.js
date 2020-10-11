@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -11,15 +10,12 @@ import InputText from '../../../components/custom/Form/InputText';
 import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import baseAxios from '../../../utility/baseAxios';
+import formSchema from './formSchema';
 
 const SkillModify = () => {
   const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
 
-  const formSchema = Yup.object().shape({
-    name: Yup.string().required('Required'),
-    percentage: Yup.number().required('Required').min(1).max(100),
-  });
   const param = history.location.state;
 
   const handleSubmit = async (values, { setFieldError }) => {
@@ -69,32 +65,30 @@ const SkillModify = () => {
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}>
-            {({ isSubmitting }) => (
-              <Form>
-                <Row>
-                  <Col sm="12">
-                    <InputText
-                      name="name"
-                      type="text"
-                      label="Skill Name"
-                      placeholder="Masukkan Nama Skill"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText
-                      name="percentage"
-                      type="number"
-                      label="Skill Percentage"
-                      placeholder="Masukkan Persentase Skill"
-                    />
-                  </Col>
-                </Row>
-                <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
-                  Back
-                </Button.Ripple>
-                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
-              </Form>
-            )}
+            <Form>
+              <Row>
+                <Col sm="12">
+                  <InputText
+                    name="name"
+                    type="text"
+                    label="Skill Name"
+                    placeholder="Masukkan Nama Skill"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="percentage"
+                    type="number"
+                    label="Skill Percentage"
+                    placeholder="Masukkan Persentase Skill"
+                  />
+                </Col>
+              </Row>
+              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+                Back
+              </Button.Ripple>
+              <SubmitButton color="primary" label="Submit" />
+            </Form>
           </Formik>
         </CardBody>
       </Card>

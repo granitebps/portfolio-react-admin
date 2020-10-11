@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -11,16 +10,11 @@ import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import { history } from '../../../history';
 import baseAxios from '../../../utility/baseAxios';
 import { useAuthContext } from '../../../contexts/AuthContext';
+import formSchema from './formSchema';
 
 const ServiceModify = () => {
   const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
-
-  const formSchema = Yup.object().shape({
-    name: Yup.string().required('Required'),
-    icon: Yup.string().required('Required'),
-    desc: Yup.string().required('Required'),
-  });
 
   const param = history.location.state;
 
@@ -74,41 +68,39 @@ const ServiceModify = () => {
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}>
-            {({ isSubmitting }) => (
-              <Form>
-                <Row>
-                  <Col sm="12">
-                    <InputText
-                      name="name"
-                      type="text"
-                      label="Service Name"
-                      placeholder="Masukkan Nama Service"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText
-                      name="icon"
-                      type="text"
-                      label="Service Icon (LineIcons)"
-                      placeholder="Masukkan Icon Service"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText
-                      name="desc"
-                      type="textarea"
-                      label="Service Description"
-                      placeholder="Masukkan Deskripsi Service"
-                      rows="5"
-                    />
-                  </Col>
-                </Row>
-                <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
-                  Back
-                </Button.Ripple>
-                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
-              </Form>
-            )}
+            <Form>
+              <Row>
+                <Col sm="12">
+                  <InputText
+                    name="name"
+                    type="text"
+                    label="Service Name"
+                    placeholder="Masukkan Nama Service"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="icon"
+                    type="text"
+                    label="Service Icon (LineIcons)"
+                    placeholder="Masukkan Icon Service"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="desc"
+                    type="textarea"
+                    label="Service Description"
+                    placeholder="Masukkan Deskripsi Service"
+                    rows="5"
+                  />
+                </Col>
+              </Row>
+              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+                Back
+              </Button.Ripple>
+              <SubmitButton color="primary" label="Submit" />
+            </Form>
           </Formik>
         </CardBody>
       </Card>

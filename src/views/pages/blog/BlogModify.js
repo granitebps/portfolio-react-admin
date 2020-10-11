@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -11,40 +10,18 @@ import InputText from '../../../components/custom/Form/InputText';
 import SubmitButton from '../../../components/custom/Form/SubmitButton';
 import { history } from '../../../history';
 import InputImage from '../../../components/custom/Form/InputImage';
-import { removeEmptyStrings, validURL } from '../../../utility/helper';
+import { removeEmptyStrings } from '../../../utility/helper';
 import baseAxios from '../../../utility/baseAxios';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../../../contexts/AuthContext';
 import InputMarkdown from '../../../components/custom/Form/InputMarkdown';
-
-const FILE_SIZE = 2048 * 1024;
+import validation from './formSchema';
 
 const BlogModify = () => {
   const authToken = Cookies.get('token');
   const { logout } = useAuthContext();
   const param = history.location.state;
-  const formSchema = Yup.object().shape({
-    title: Yup.string().required('Required'),
-    image: Yup.mixed()
-      .test('required', 'Required', (value) => {
-        if (param) {
-          return true;
-        } else {
-          if (!value) {
-            return false;
-          } else {
-            return true;
-          }
-        }
-      })
-      .test('fileSize', 'File too large', (value) => {
-        if (validURL(value)) {
-          return true;
-        } else {
-          return !value || (value && value.size <= FILE_SIZE);
-        }
-      }),
-  });
+  const formSchema = validation(param);
 
   const handleSubmit = async (values, { setFieldError }) => {
     try {
@@ -103,34 +80,32 @@ const BlogModify = () => {
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}>
-            {({ isSubmitting }) => (
-              <Form>
-                <Row>
-                  <Col sm="12">
-                    <InputText
-                      name="title"
-                      type="text"
-                      label="Blog Title"
-                      placeholder="Masukkan Judul Blog"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputMarkdown
-                      name="body"
-                      label="Blog Content"
-                      placeholder="Masukkan Isi Blog"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputImage name="image" image={param ? param.blog.image : null} />
-                  </Col>
-                </Row>
-                <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
-                  Back
-                </Button.Ripple>
-                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
-              </Form>
-            )}
+            <Form>
+              <Row>
+                <Col sm="12">
+                  <InputText
+                    name="title"
+                    type="text"
+                    label="Blog Title"
+                    placeholder="Masukkan Judul Blog"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputMarkdown name="body" label="Blog Content" placeholder="Masukkan Isi Blog" />
+                </Col>
+                <Col sm="12">
+                  <InputImage
+                    name="image"
+                    image={param ? param.blog.image : null}
+                    label="Blog Image"
+                  />
+                </Col>
+              </Row>
+              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+                Back
+              </Button.Ripple>
+              <SubmitButton color="primary" label="Submit" />
+            </Form>
           </Formik>
         </CardBody>
       </Card>

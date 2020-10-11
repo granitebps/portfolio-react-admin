@@ -1,6 +1,5 @@
 import React from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -12,17 +11,11 @@ import { history } from '../../../history';
 import DatePicker from '../../../components/custom/Form/DatePicker';
 import baseAxios from '../../../utility/baseAxios';
 import { useAuthContext } from '../../../contexts/AuthContext';
+import formSchema from './formSchema';
 
 const CertificationModify = () => {
   const { logout } = useAuthContext();
   const authToken = Cookies.get('token');
-
-  const formSchema = Yup.object().shape({
-    name: Yup.string().required(),
-    institution: Yup.string().required(),
-    link: Yup.string().required().url(),
-    published: Yup.date().required(),
-  });
 
   const param = history.location.state;
 
@@ -79,38 +72,36 @@ const CertificationModify = () => {
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}>
-            {({ isSubmitting }) => (
-              <Form>
-                <Row>
-                  <Col sm="12">
-                    <InputText
-                      name="name"
-                      type="text"
-                      label="Certification Name"
-                      placeholder="Masukkan Nama Sertifikasi"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText
-                      name="institution"
-                      type="text"
-                      label="Institution"
-                      placeholder="Masukkan Institusi"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputText name="link" type="text" label="Link" placeholder="Masukkan Link" />
-                  </Col>
-                  <Col sm="12">
-                    <DatePicker name="published" label="Published Date" />
-                  </Col>
-                </Row>
-                <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
-                  Back
-                </Button.Ripple>
-                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
-              </Form>
-            )}
+            <Form>
+              <Row>
+                <Col sm="12">
+                  <InputText
+                    name="name"
+                    type="text"
+                    label="Certification Name"
+                    placeholder="Masukkan Nama Sertifikasi"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="institution"
+                    type="text"
+                    label="Institution"
+                    placeholder="Masukkan Institusi"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText name="link" type="text" label="Link" placeholder="Masukkan Link" />
+                </Col>
+                <Col sm="12">
+                  <DatePicker name="published" label="Published Date" />
+                </Col>
+              </Row>
+              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+                Back
+              </Button.Ripple>
+              <SubmitButton color="primary" label="Submit" />
+            </Form>
           </Formik>
         </CardBody>
       </Card>

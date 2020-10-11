@@ -10,26 +10,20 @@ import {
   UncontrolledAlert,
 } from 'reactstrap';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 import Header from '../../components/custom/Header';
 import SubmitButton from '../../components/custom/Form/SubmitButton';
 import InputPassword from '../../components/custom/Form/InputPassword';
 import baseAxios from '../../utility/baseAxios';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { toast } from 'react-toastify';
+import formSchema from './passwordFormSchema';
 
 const Password = () => {
   const authToken = Cookies.get('token');
   const { logout } = useAuthContext();
   const [serverError, setServerError] = useState();
-
-  const formSchema = Yup.object().shape({
-    old_password: Yup.string().required('Required').min(8),
-    password: Yup.string().required('Required').min(8),
-    password_confirmation: Yup.string().required('Required').min(8),
-  });
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -49,17 +43,6 @@ const Password = () => {
         toast.error('Something Wrong!');
       }
     }
-  };
-
-  const handleValidation = (values) => {
-    const errors = {};
-    if (values.password === values.old_password) {
-      errors.password = 'Password Cannot Be Same To Old Password';
-    }
-    if (values.password !== values.password_confirmation) {
-      errors.password_confirmation = 'Password Not Match';
-    }
-    return errors;
   };
 
   return (
@@ -83,36 +66,29 @@ const Password = () => {
               password_confirmation: '',
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}
-            validate={handleValidation}>
-            {({ isSubmitting }) => (
-              <Form>
-                <Row>
-                  <Col sm="12">
-                    <InputPassword
-                      name="old_password"
-                      placeholder="Masukkan Password Lama"
-                      label="Password Lama"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputPassword
-                      name="password"
-                      placeholder="Masukkan Password Baru"
-                      label="Password Baru"
-                    />
-                  </Col>
-                  <Col sm="12">
-                    <InputPassword
-                      name="password_confirmation"
-                      placeholder="Masukkan Password Verifikasi"
-                      label="Password Verifikasi"
-                    />
-                  </Col>
-                </Row>
-                <SubmitButton color="primary" label="Submit" isSubmitting={isSubmitting} />
-              </Form>
-            )}
+            onSubmit={handleSubmit}>
+            <Form>
+              <Row>
+                <Col sm="12">
+                  <InputPassword
+                    name="old_password"
+                    placeholder="Old Password"
+                    label="Old Password"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputPassword name="password" placeholder="New Password" label="New Password" />
+                </Col>
+                <Col sm="12">
+                  <InputPassword
+                    name="password_confirmation"
+                    placeholder="New Password Verification"
+                    label="New Password Verification"
+                  />
+                </Col>
+              </Row>
+              <SubmitButton color="primary" label="Submit" />
+            </Form>
           </Formik>
         </CardBody>
       </Card>
