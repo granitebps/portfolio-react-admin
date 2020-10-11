@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Spinner } from 'reactstrap';
 import { useFormikContext } from 'formik';
 
-const SubmitButton = ({ isSubmitting, label, ...props }) => {
-  const { handleSubmit } = useFormikContext();
+const SubmitButton = ({ label, ...props }) => {
+  const { handleSubmit, isSubmitting } = useFormikContext();
 
   const handleClick = (e) => {
     e.preventDefault();

@@ -3,7 +3,7 @@ import { FormGroup, Label, Input } from 'reactstrap';
 import { useFormikContext, ErrorMessage } from 'formik';
 
 const InputFile = ({ label, name, placeholder, ...props }) => {
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, isSubmitting } = useFormikContext();
 
   const handleChange = (e) => {
     setFieldValue(name, e.target.files[0]);
@@ -17,6 +17,7 @@ const InputFile = ({ label, name, placeholder, ...props }) => {
         placeholder={placeholder}
         onChange={(e) => handleChange(e)}
         type="file"
+        disabled={isSubmitting}
         {...props}
       />
       <ErrorMessage name={name}>

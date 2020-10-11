@@ -7,7 +7,7 @@ import 'flatpickr/dist/themes/light.css';
 import '../../../assets/scss/plugins/forms/flatpickr/flatpickr.scss';
 
 const DatePicker = ({ label, name, ...props }) => {
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, isSubmitting } = useFormikContext();
   const value = getIn(values, name);
 
   const handleChange = (date) => {
@@ -22,6 +22,7 @@ const DatePicker = ({ label, name, ...props }) => {
         value={value}
         options={{ altInput: true, altFormat: 'j F Y', dateFormat: 'Y-m-d' }}
         onChange={(date) => handleChange(date)}
+        disabled={isSubmitting}
         {...props}
       />
       <ErrorMessage name={name}>

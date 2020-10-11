@@ -5,9 +5,8 @@ import { useFormikContext, getIn } from 'formik';
 
 const InputImage = ({ name, image, label }) => {
   const [imagePreview, setImagePreview] = useState();
-  const { setFieldValue, errors, touched } = useFormikContext();
+  const { setFieldValue, errors, isSubmitting } = useFormikContext();
   const error = getIn(errors, name);
-  const touch = getIn(touched, name);
 
   const img = image ? image : defaultImage;
 
@@ -48,7 +47,12 @@ const InputImage = ({ name, image, label }) => {
         </Media>
         <Media className="mt-25" body>
           <div className="d-flex flex-sm-row flex-column justify-content-start px-0">
-            <Button.Ripple tag="label" className="mr-50 cursor-pointer" color="primary" outline>
+            <Button.Ripple
+              tag="label"
+              className="mr-50 cursor-pointer"
+              color="primary"
+              outline
+              disabled={isSubmitting}>
               Upload Photo
               <Input
                 type="file"
@@ -57,6 +61,7 @@ const InputImage = ({ name, image, label }) => {
                 hidden
                 onChange={handleChange}
                 accept="image/*"
+                disabled={isSubmitting}
               />
             </Button.Ripple>
           </div>
@@ -65,7 +70,7 @@ const InputImage = ({ name, image, label }) => {
           </p>
         </Media>
       </Media>
-      {error && touch && <div className="field-error text-danger">{error}</div>}
+      {error && <div className="field-error text-danger">{error}</div>}
     </React.Fragment>
   );
 };

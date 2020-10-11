@@ -3,7 +3,7 @@ import { FormGroup, Label, Input } from 'reactstrap';
 import { getIn, useFormikContext, ErrorMessage } from 'formik';
 
 const InputText = ({ label, name, placeholder, ...props }) => {
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, isSubmitting } = useFormikContext();
   const value = getIn(values, name);
 
   const handleChange = (e) => {
@@ -18,6 +18,7 @@ const InputText = ({ label, name, placeholder, ...props }) => {
         placeholder={placeholder}
         onChange={(e) => handleChange(e)}
         value={value}
+        disabled={isSubmitting}
         {...props}
       />
       <ErrorMessage name={name}>

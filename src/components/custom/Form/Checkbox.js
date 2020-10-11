@@ -6,7 +6,7 @@ import { Check } from 'react-feather';
 import Checkbox from '../../@vuexy/checkbox/CheckboxesVuexy';
 
 const CustomCheckbox = ({ name, ...props }) => {
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, isSubmitting } = useFormikContext();
   const value = getIn(values, name);
 
   const handleChange = (e) => {
@@ -18,9 +18,10 @@ const CustomCheckbox = ({ name, ...props }) => {
       <div className="d-inline-block mr-1">
         <Checkbox
           icon={<Check className="vx-icon" size={16} />}
-          {...props}
           checked={value}
           onChange={(e) => handleChange(e)}
+          disabled={isSubmitting}
+          {...props}
         />
       </div>
       <ErrorMessage name={name}>

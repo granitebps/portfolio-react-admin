@@ -5,7 +5,7 @@ import { EyeOff, Eye } from 'react-feather';
 
 const InputPassword = ({ label, name, placeholder, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, isSubmitting } = useFormikContext();
   const value = getIn(values, name);
 
   const handleChange = (e) => {
@@ -26,6 +26,7 @@ const InputPassword = ({ label, name, placeholder, ...props }) => {
           onChange={(e) => handleChange(e)}
           value={value}
           type={showPassword ? 'text' : 'password'}
+          disabled={isSubmitting}
           {...props}
         />
         <div

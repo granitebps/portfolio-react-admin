@@ -12,10 +12,9 @@ const InputMultipleImage = ({
   removeDefaultPic = () => {},
   loadingRemoveDefaultPic = false,
 }) => {
-  const { setFieldValue, errors, touched } = useFormikContext();
+  const { setFieldValue, errors, isSubmitting } = useFormikContext();
   const [files, setFiles] = useState([]);
   const error = getIn(errors, name);
-  const touch = getIn(touched, name);
 
   useEffect(
     () => () => {
@@ -71,7 +70,7 @@ const InputMultipleImage = ({
         tag="button"
         className="btn-block"
         onClick={() => removeDefaultPic(image.id)}
-        disabled={loadingRemoveDefaultPic}>
+        disabled={loadingRemoveDefaultPic || isSubmitting}>
         {loadingRemoveDefaultPic ? <Spinner color="white" size="sm" /> : 'Remove'}
       </Button>
     </Col>
@@ -83,13 +82,13 @@ const InputMultipleImage = ({
         <Label for={name}>{label}</Label>
         {images.length > 0 && <Row className="mb-2">{defaultPictures}</Row>}
         <div {...getRootProps({ className: 'dropzone' })}>
-          <input {...getInputProps()} />
+          <input {...getInputProps()} disabled={isSubmitting} />
           <p className="mx-1">
             <em>(Allowed JPG, JPEG or PNG. Max size of 2048kB)</em>
           </p>
         </div>
         <Row className="mt-1">{thumbs}</Row>
-        {error && touch && <div className="field-error text-danger">{error}</div>}
+        {error && <div className="field-error text-danger">{error}</div>}
       </section>
     </FormGroup>
   );

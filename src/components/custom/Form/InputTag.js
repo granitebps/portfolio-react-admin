@@ -4,7 +4,7 @@ import { FormGroup, Label } from 'reactstrap';
 import CreatableSelect from 'react-select/creatable';
 
 const InputTag = ({ name, label, ...props }) => {
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, isSubmitting } = useFormikContext();
   const value = getIn(values, name);
 
   const defaultValue = value.map((d) => ({ value: d, label: d }));
@@ -28,6 +28,7 @@ const InputTag = ({ name, label, ...props }) => {
         isMulti={true}
         noOptionsMessage={() => null}
         components={{ DropdownIndicator: () => null }}
+        isDisabled={isSubmitting}
         {...props}
       />
       <ErrorMessage name={name}>
