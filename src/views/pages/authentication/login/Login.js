@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 import { Helmet } from 'react-helmet';
 import { Formik, Field, ErrorMessage } from 'formik';
 
-import Checkbox from '../../../../components/@vuexy/checkbox/CheckboxesVuexy';
+import Checkbox from '../../../../components/custom/Form/Checkbox';
 import loginImg from '../../../../assets/img/pages/login.png';
 import '../../../../assets/scss/pages/authentication.scss';
 import { useAuthContext } from '../../../../contexts/AuthContext';
@@ -39,7 +39,7 @@ const Login = () => {
 
   const handleLogin = async (values, { setFieldError }) => {
     try {
-      await login(values.username, values.password);
+      await login(values.username, values.password, values.remember_me);
     } catch (error) {
       if (error.response.status === 401) {
         setServerError(error.response.data.message);
@@ -79,6 +79,7 @@ const Login = () => {
                     initialValues={{
                       username: '',
                       password: '',
+                      remember_me: false,
                     }}
                     onSubmit={handleLogin}
                     validationSchema={formSchema}>
@@ -129,6 +130,7 @@ const Login = () => {
                             color="primary"
                             icon={<Check className="vx-icon" size={16} />}
                             label="Remember me"
+                            name="remember_me"
                           />
                         </FormGroup>
                         <div className="d-flex justify-content-between">

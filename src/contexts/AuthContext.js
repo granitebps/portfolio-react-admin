@@ -38,10 +38,11 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
-  const login = async (username, password) => {
+  const login = async (username, password, remember_me) => {
     const request = {
       username,
       password,
+      remember_me,
     };
     const { data } = await baseAxios.post('auth/login', request);
 
