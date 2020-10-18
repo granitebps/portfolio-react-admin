@@ -46,7 +46,7 @@ const AuthContextProvider = ({ children }) => {
     };
     const { data } = await baseAxios.post('auth/login', request);
 
-    const cookiesExpires = new Date(new Date().getTime() + 60 * 60 * 1000);
+    const cookiesExpires = new Date(new Date().getTime() + data.data.expires_in * 1000);
     const cookiesConfig =
       process.env.NODE_ENV === 'development'
         ? { expires: cookiesExpires }

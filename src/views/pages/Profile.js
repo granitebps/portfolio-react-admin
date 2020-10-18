@@ -45,7 +45,7 @@ const Profile = () => {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
-      const cookiesExpires = new Date(new Date().getTime() + 60 * 60 * 1000);
+      const cookiesExpires = new Date(new Date().getTime() + data.data.expires_in * 1000);
       const cookiesConfig =
         process.env.NODE_ENV === 'development'
           ? { expires: cookiesExpires }
