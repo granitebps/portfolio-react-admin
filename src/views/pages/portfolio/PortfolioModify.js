@@ -66,16 +66,9 @@ const PortofolioModify = () => {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 422) {
-        error.response.data.errors.name &&
-          setFieldError('name', error.response.data.errors.name[0]);
-        error.response.data.errors.desc &&
-          setFieldError('desc', error.response.data.errors.desc[0]);
-        error.response.data.errors.thumbnail &&
-          setFieldError('thumbnail', error.response.data.errors.thumbnail[0]);
-        error.response.data.errors.type &&
-          setFieldError('type', error.response.data.errors.type[0]);
-        error.response.data.errors.pic && setFieldError('pic', error.response.data.errors.pic[0]);
-        error.response.data.errors.url && setFieldError('url', error.response.data.errors.url[0]);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

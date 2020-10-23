@@ -25,7 +25,7 @@ const Password = () => {
   const { logout } = useAuthContext();
   const [serverError, setServerError] = useState();
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleSubmit = async (values, { resetForm, setFieldError }) => {
     try {
       const { data } = await baseAxios.post('profile-password', values, {
         headers: { Authorization: `Bearer ${authToken}` },
@@ -39,6 +39,10 @@ const Password = () => {
         logout();
       } else if (error.response.status === 400) {
         setServerError(error.response.data.message);
+      } else if (error.response.status === 422) {
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

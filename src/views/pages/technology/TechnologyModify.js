@@ -48,9 +48,9 @@ const TechnologyModify = () => {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 422) {
-        error.response.data.errors.name &&
-          setFieldError('name', error.response.data.errors.name[0]);
-        error.response.data.errors.pic && setFieldError('pic', error.response.data.errors.pic[0]);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

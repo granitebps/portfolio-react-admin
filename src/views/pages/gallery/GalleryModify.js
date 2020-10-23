@@ -43,8 +43,9 @@ const GalleryModify = () => {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 422) {
-        error.response.data.errors.image &&
-          setFieldError('image', error.response.data.errors.image[0]);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

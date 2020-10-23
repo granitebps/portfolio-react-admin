@@ -27,7 +27,7 @@ const Profile = () => {
   });
   const { dispatch, logout } = useAuthContext();
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setFieldError }) => {
     try {
       const formData = new FormData();
       values = removeEmptyStrings(values);
@@ -70,6 +70,10 @@ const Profile = () => {
     } catch (error) {
       if (error.response.status === 401) {
         logout();
+      } else if (error.response.status === 422) {
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

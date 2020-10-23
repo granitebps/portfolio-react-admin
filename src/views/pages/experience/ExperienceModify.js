@@ -42,18 +42,9 @@ const ExperienceModify = () => {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 422) {
-        error.response.data.errors.company &&
-          setFieldError('company', error.response.data.errors.company[0]);
-        error.response.data.errors.position &&
-          setFieldError('position', error.response.data.errors.position[0]);
-        error.response.data.errors.desc &&
-          setFieldError('desc', error.response.data.errors.desc[0]);
-        error.response.data.errors.current_job &&
-          setFieldError('current_job', error.response.data.errors.current_job[0]);
-        error.response.data.errors.start_date &&
-          setFieldError('start_date', error.response.data.errors.start_date[0]);
-        error.response.data.errors.end_date &&
-          setFieldError('end_date', error.response.data.errors.end_date[0]);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

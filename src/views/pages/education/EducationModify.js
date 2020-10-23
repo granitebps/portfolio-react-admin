@@ -39,14 +39,9 @@ const EducationModify = () => {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 422) {
-        error.response.data.errors.name &&
-          setFieldError('name', error.response.data.errors.name[0]);
-        error.response.data.errors.institute &&
-          setFieldError('institute', error.response.data.errors.institute[0]);
-        error.response.data.errors.start_year &&
-          setFieldError('start_year', error.response.data.errors.start_year[0]);
-        error.response.data.errors.end_year &&
-          setFieldError('end_year', error.response.data.errors.end_year[0]);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

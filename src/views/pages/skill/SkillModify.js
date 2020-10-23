@@ -39,10 +39,9 @@ const SkillModify = () => {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 422) {
-        error.response.data.errors.name &&
-          setFieldError('name', error.response.data.errors.name[0]);
-        error.response.data.errors.percentage &&
-          setFieldError('percentage', error.response.data.errors.percentage[0]);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

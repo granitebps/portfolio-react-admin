@@ -51,12 +51,9 @@ const BlogModify = () => {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 422) {
-        error.response.data.errors.title &&
-          setFieldError('title', error.response.data.errors.title[0]);
-        error.response.data.errors.body &&
-          setFieldError('body', error.response.data.errors.body[0]);
-        error.response.data.errors.image &&
-          setFieldError('image', error.response.data.errors.image[0]);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }

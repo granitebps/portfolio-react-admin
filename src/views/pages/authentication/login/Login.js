@@ -44,11 +44,9 @@ const Login = () => {
       if (error.response.status === 401) {
         setServerError(error.response.data.message);
       } else if (error.response.status === 422) {
-        error.response.data.errors.username &&
-          setFieldError('username', error.response.data.errors.username[0]);
-        error.response.data.errors.password &&
-          setFieldError('password', error.response.data.errors.password[0]);
-        setServerError(error.response.data.message);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         setServerError('Something Wrong! Please Contact Customer Services!');
       }

@@ -40,14 +40,9 @@ const CertificationModify = () => {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 422) {
-        error.response.data.errors.name &&
-          setFieldError('name', error.response.data.errors.name[0]);
-        error.response.data.errors.institution &&
-          setFieldError('institution', error.response.data.errors.institution[0]);
-        error.response.data.errors.link &&
-          setFieldError('link', error.response.data.errors.link[0]);
-        error.response.data.errors.published &&
-          setFieldError('published', error.response.data.errors.published[0]);
+        error.response.data.message.forEach((e) => {
+          setFieldError(e.field, e.message);
+        });
       } else {
         toast.error('Something Wrong!');
       }
