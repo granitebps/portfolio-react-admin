@@ -115,6 +115,7 @@ const Profile = () => {
               linkedin: data ? data.data.profile.linkedin : '',
               github: data ? data.data.profile.github : '',
               youtube: data ? data.data.profile.youtube : '',
+              medium: data ? data.data.profile.medium : '',
               cv: '',
               freelance: data ? data.data.profile.freelance : 0,
             }}
@@ -224,6 +225,14 @@ const Profile = () => {
                     name="youtube"
                     placeholder="Masukkan YouTube"
                     label="YouTube"
+                    type="text"
+                  />
+                </Col>
+                <Col sm="12">
+                  <InputText
+                    name="medium"
+                    placeholder="Masukkan Medium"
+                    label="Medium"
                     type="text"
                   />
                 </Col>

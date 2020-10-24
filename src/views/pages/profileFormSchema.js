@@ -50,6 +50,10 @@ const formSchema = Yup.object().shape({
     .required('Youtube is Required')
     .url('Youtube Must Be Valid URL')
     .max(255, 'Youtube is too long. Max length is 255 characters'),
+  medium: Yup.string()
+    .required('Medium is Required')
+    .url('Medium Must Be Valid URL')
+    .max(255, 'Medium is too long. Max length is 255 characters'),
   cv: Yup.mixed().test(
     'fileSize',
     'CV is too big. Max size is 2048KB',
