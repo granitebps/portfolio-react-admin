@@ -78,8 +78,15 @@ const AuthContextProvider = ({ children }) => {
     history.push('/');
   };
 
+  const forgot = async (email) => {
+    const request = {
+      email,
+    };
+    await baseAxios.post('auth/request_reset_password', request);
+  };
+
   return (
-    <AuthContext.Provider value={{ state, dispatch, logout, initialAuth, login }}>
+    <AuthContext.Provider value={{ state, dispatch, logout, initialAuth, login, forgot }}>
       {children}
     </AuthContext.Provider>
   );

@@ -14,6 +14,7 @@ import { Lock, Check, User } from 'react-feather';
 import * as Yup from 'yup';
 import { Helmet } from 'react-helmet';
 import { Formik, Field, ErrorMessage } from 'formik';
+import { Link } from 'react-router-dom';
 
 import Checkbox from '../../../../components/custom/Form/Checkbox';
 import loginImg from '../../../../assets/img/pages/login.png';
@@ -130,6 +131,11 @@ const Login = () => {
                             label="Remember me"
                             name="remember_me"
                           />
+                          <FormGroup>
+                            <div className="float-right">
+                              <Link to="/forgot-password">Forgot Password?</Link>
+                            </div>
+                          </FormGroup>
                         </FormGroup>
                         <div className="d-flex justify-content-between">
                           <SubmitButton color="primary" label="Login" />

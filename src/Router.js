@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 
 // Route-based code splitting
 const login = lazy(() => import('./views/pages/authentication/login/Login'));
+const forgot = lazy(() => import('./views/pages/authentication/forgot/Forgot'));
 const Home = lazy(() => import('./views/pages/home/Home'));
 const Profile = lazy(() => import('./views/pages/Profile'));
 const Password = lazy(() => import('./views/pages/Password'));
@@ -36,7 +37,11 @@ const Error404 = lazy(() => import('./views/misc/404'));
 const AppRoute = ({ component: Component, fullLayout, ...rest }) => {
   const authToken = Cookies.get('token');
 
-  if (history.location.pathname !== '/' && !authToken) {
+  if (
+    history.location.pathname !== '/' &&
+    history.location.pathname !== '/forgot-password' &&
+    !authToken
+  ) {
     return <Redirect to="/" />;
   }
 
@@ -75,6 +80,7 @@ const AppRouter = () => {
       <ToastContainer />
       <Switch>
         <AppRoute exact path="/" component={login} fullLayout />
+        <AppRoute exact path="/forgot-password" component={forgot} fullLayout />
         <AppRoute exact path="/dashboard" component={Home} />
         <AppRoute exact path="/profile" component={Profile} />
         <AppRoute exact path="/password" component={Password} />
