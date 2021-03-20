@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Formik } from 'formik';
+import React, { useState } from "react";
+import { Formik } from "formik";
 import {
   Card,
   CardHeader,
@@ -10,24 +10,24 @@ import {
   Col,
   Button,
   FormGroup,
-} from 'reactstrap';
-import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
+} from "reactstrap";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
-import Header from '../../../components/custom/Header';
-import InputText from '../../../components/custom/Form/InputText';
-import SubmitButton from '../../../components/custom/Form/SubmitButton';
-import InputImage from '../../../components/custom/Form/InputImage';
-import InputMultipleImage from '../../../components/custom/Form/InputMultipleImage';
-import { history } from '../../../history';
-import { removeEmptyStrings } from '../../../utility/helper';
-import Radio from '../../../components/custom/Form/Radio';
-import { useAuthContext } from '../../../contexts/AuthContext';
-import baseAxios from '../../../utility/baseAxios';
-import validation from './formSchema';
+import Header from "../../../components/custom/Header";
+import InputText from "../../../components/custom/Form/InputText";
+import SubmitButton from "../../../components/custom/Form/SubmitButton";
+import InputImage from "../../../components/custom/Form/InputImage";
+import InputMultipleImage from "../../../components/custom/Form/InputMultipleImage";
+import { history } from "../../../history";
+import { removeEmptyStrings } from "../../../utility/helper";
+import Radio from "../../../components/custom/Form/Radio";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import baseAxios from "../../../utility/baseAxios";
+import validation from "./formSchema";
 
 const PortofolioModify = () => {
-  const authToken = Cookies.get('token');
+  const authToken = Cookies.get("token");
   const { logout } = useAuthContext();
   const [loadingRemoveDefaultPic, setLoadingRemoveDefaultPic] = useState(false);
   const param = history.location.state;
@@ -38,22 +38,22 @@ const PortofolioModify = () => {
       const formData = new FormData();
       values = removeEmptyStrings(values);
       Object.keys(values).forEach((key) => {
-        if (key === 'pic') {
+        if (key === "pic") {
           values[key].forEach((item) => {
-            formData.append(key + '[]', item);
+            formData.append(key + "[]", item);
           });
         }
         formData.append(key, values[key]);
       });
 
       if (param) {
-        formData.append('_method', 'PUT');
+        formData.append("_method", "PUT");
       }
 
-      const url = param ? `portfolio/${param.portfolio.id}` : 'portfolio';
+      const url = param ? `portfolio/${param.portfolio.id}` : "portfolio";
       const { data } = await baseAxios({
         url: url,
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -61,7 +61,7 @@ const PortofolioModify = () => {
       });
 
       toast.success(data.message);
-      history.push('/portfolio');
+      history.push("/portfolio");
     } catch (error) {
       if (error.response.status === 401) {
         logout();
@@ -70,7 +70,7 @@ const PortofolioModify = () => {
           setFieldError(e.field, e.message);
         });
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
   };
@@ -80,7 +80,7 @@ const PortofolioModify = () => {
       setLoadingRemoveDefaultPic(true);
       await baseAxios({
         url: `portfolio-photo/${id}`,
-        method: 'GET',
+        method: "GET",
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -95,7 +95,7 @@ const PortofolioModify = () => {
       if (error.response.status === 401) {
         logout();
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
     setLoadingRemoveDefaultPic(false);
@@ -103,24 +103,25 @@ const PortofolioModify = () => {
 
   return (
     <React.Fragment>
-      <Header title={param ? 'Edit Portfolio' : 'Add Portfolio'} />
+      <Header title={param ? "Edit Portfolio" : "Add Portfolio"} />
 
       <Card>
         <CardHeader>
-          <CardTitle>{param ? 'Edit Portfolio' : 'Add Portfolio'}</CardTitle>
+          <CardTitle>{param ? "Edit Portfolio" : "Add Portfolio"}</CardTitle>
         </CardHeader>
         <CardBody>
           <Formik
             initialValues={{
-              name: param ? param.portfolio.name : '',
-              desc: param ? param.portfolio.desc : '',
-              thumbnail: '',
+              name: param ? param.portfolio.name : "",
+              desc: param ? param.portfolio.desc : "",
+              thumbnail: "",
               type: param ? param.portfolio.type : 1,
               pic: [],
-              url: param ? param.portfolio.url : '',
+              url: param ? param.portfolio.url : "",
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+          >
             <Form>
               <Row>
                 <Col sm="12">
@@ -171,7 +172,11 @@ const PortofolioModify = () => {
                   />
                 </Col>
               </Row>
-              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+              <Button.Ripple
+                className="mr-1"
+                color="warning"
+                onClick={() => history.goBack()}
+              >
                 Back
               </Button.Ripple>
               <SubmitButton color="primary" label="Submit" />

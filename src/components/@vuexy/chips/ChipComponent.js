@@ -1,8 +1,8 @@
-import React from 'react';
-import { X } from 'react-feather';
+import React from "react";
+import { X } from "react-feather";
 class Chip extends React.Component {
   closeChip = (e) => {
-    e.target.closest('.chip').remove();
+    e.target.closest(".chip").remove();
   };
 
   render() {
@@ -10,14 +10,16 @@ class Chip extends React.Component {
       <div
         className={`chip ${this.props.className} ${
           this.props.color ? `chip-${this.props.color}` : null
-        }`}>
+        }`}
+      >
         <div className="chip-body">
           {(!this.props.avatarImg && this.props.avatarText) ||
           (!this.props.avatarImg && this.props.avatarIcon) ? (
             <div
               className={`avatar ${
                 this.props.avatarColor ? `bg-${this.props.avatarColor}` : null
-              }`}>
+              }`}
+            >
               <div className="avatar-content">
                 {this.props.avatarText ? this.props.avatarText : null}
                 {this.props.avatarIcon ? this.props.avatarIcon : null}
@@ -25,7 +27,12 @@ class Chip extends React.Component {
             </div>
           ) : this.props.avatarImg ? (
             <div className="avatar">
-              <img src={this.props.avatarImg} alt="chipImg" height="20" width="20" />
+              <img
+                src={this.props.avatarImg}
+                alt="chipImg"
+                height="20"
+                width="20"
+              />
             </div>
           ) : null}
           <div className="chip-text">{this.props.text}</div>

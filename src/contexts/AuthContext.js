@@ -1,9 +1,14 @@
-import React, { createContext, useReducer, useContext } from 'react';
-import Cookies from 'js-cookie';
+import React, { createContext, useReducer, useContext } from "react";
+import Cookies from "js-cookie";
 
-import { authReducer, authInitialState, LOGOUT, LOGIN } from '../reducers/AuthReducer';
-import baseAxios from '../utility/baseAxios';
-import { history } from '../history';
+import {
+  authReducer,
+  authInitialState,
+  LOGOUT,
+  LOGIN,
+} from "../reducers/AuthReducer";
+import baseAxios from "../utility/baseAxios";
+import { history } from "../history";
 
 export const AuthContext = createContext();
 
@@ -16,9 +21,9 @@ const AuthContextProvider = ({ children }) => {
 
   const initialAuth = async () => {
     try {
-      const authToken = Cookies.get('token');
+      const authToken = Cookies.get("token");
       if (authToken) {
-        const { data } = await baseAxios.get('auth/me', {
+        const { data } = await baseAxios.get("auth/me", {
           headers: { Authorization: `Bearer ${authToken}` },
         });
         dispatch({
@@ -44,16 +49,23 @@ const AuthContextProvider = ({ children }) => {
       password,
       remember_me,
     };
-    const { data } = await baseAxios.post('auth/login', request);
+    const { data } = await baseAxios.post("auth/login", request);
 
-    const cookiesExpires = new Date(new Date().getTime() + data.data.expires_in * 1000);
+    const cookiesExpires = new Date(
+      new Date().getTime() + data.data.expires_in * 1000
+    );
     const cookiesConfig =
-      process.env.NODE_ENV === 'development'
+      process.env.NODE_ENV === "development"
         ? { expires: cookiesExpires }
-        : { secure: true, domain: 'granitebps.com', sameSite: 'lax', expires: cookiesExpires };
+        : {
+            secure: true,
+            domain: "granitebps.com",
+            sameSite: "lax",
+            expires: cookiesExpires,
+          };
 
-    Cookies.set('token', data.data.token, cookiesConfig);
-    const cookiesToken = Cookies.get('token');
+    Cookies.set("token", data.data.token, cookiesConfig);
+    const cookiesToken = Cookies.get("token");
     if (!cookiesToken) {
       return;
     }
@@ -70,23 +82,27 @@ const AuthContextProvider = ({ children }) => {
 
   const logout = () => {
     const cookiesConfig =
-      process.env.NODE_ENV === 'development' ? {} : { domain: 'granitebps.com' };
-    Cookies.remove('token', cookiesConfig);
+      process.env.NODE_ENV === "development"
+        ? {}
+        : { domain: "granitebps.com" };
+    Cookies.remove("token", cookiesConfig);
     dispatch({
       type: LOGOUT,
     });
-    history.push('/');
+    history.push("/");
   };
 
   const forgot = async (email) => {
     const request = {
       email,
     };
-    await baseAxios.post('auth/request_reset_password', request);
+    await baseAxios.post("auth/request_reset_password", request);
   };
 
   return (
-    <AuthContext.Provider value={{ state, dispatch, logout, initialAuth, login, forgot }}>
+    <AuthContext.Provider
+      value={{ state, dispatch, logout, initialAuth, login, forgot }}
+    >
       {children}
     </AuthContext.Provider>
   );

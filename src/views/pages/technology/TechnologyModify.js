@@ -1,21 +1,30 @@
-import React from 'react';
-import { Formik } from 'formik';
-import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
-import Cookies from 'js-cookie';
+import React from "react";
+import { Formik } from "formik";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardBody,
+  Form,
+  Row,
+  Col,
+  Button,
+} from "reactstrap";
+import Cookies from "js-cookie";
 
-import Header from '../../../components/custom/Header';
-import InputText from '../../../components/custom/Form/InputText';
-import SubmitButton from '../../../components/custom/Form/SubmitButton';
-import { history } from '../../../history';
-import InputImage from '../../../components/custom/Form/InputImage';
-import { removeEmptyStrings } from '../../../utility/helper';
-import baseAxios from '../../../utility/baseAxios';
-import { toast } from 'react-toastify';
-import { useAuthContext } from '../../../contexts/AuthContext';
-import validation from './formSchema';
+import Header from "../../../components/custom/Header";
+import InputText from "../../../components/custom/Form/InputText";
+import SubmitButton from "../../../components/custom/Form/SubmitButton";
+import { history } from "../../../history";
+import InputImage from "../../../components/custom/Form/InputImage";
+import { removeEmptyStrings } from "../../../utility/helper";
+import baseAxios from "../../../utility/baseAxios";
+import { toast } from "react-toastify";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import validation from "./formSchema";
 
 const TechnologyModify = () => {
-  const authToken = Cookies.get('token');
+  const authToken = Cookies.get("token");
   const { logout } = useAuthContext();
   const param = history.location.state;
   const formSchema = validation(param);
@@ -29,13 +38,13 @@ const TechnologyModify = () => {
       });
 
       if (param) {
-        formData.append('_method', 'PUT');
+        formData.append("_method", "PUT");
       }
 
-      const url = param ? `technology/${param.technology.id}` : 'technology';
+      const url = param ? `technology/${param.technology.id}` : "technology";
       const { data } = await baseAxios({
         url: url,
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -43,7 +52,7 @@ const TechnologyModify = () => {
       });
 
       toast.success(data.message);
-      history.push('/technology');
+      history.push("/technology");
     } catch (error) {
       if (error.response.status === 401) {
         logout();
@@ -52,27 +61,28 @@ const TechnologyModify = () => {
           setFieldError(e.field, e.message);
         });
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
   };
 
   return (
     <React.Fragment>
-      <Header title={param ? 'Edit Technology' : 'Add Technology'} />
+      <Header title={param ? "Edit Technology" : "Add Technology"} />
 
       <Card>
         <CardHeader>
-          <CardTitle>{param ? 'Edit Technology' : 'Add Technology'}</CardTitle>
+          <CardTitle>{param ? "Edit Technology" : "Add Technology"}</CardTitle>
         </CardHeader>
         <CardBody>
           <Formik
             initialValues={{
-              name: param ? param.technology.name : '',
-              pic: '',
+              name: param ? param.technology.name : "",
+              pic: "",
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+          >
             <Form>
               <Row>
                 <Col sm="12">
@@ -84,10 +94,17 @@ const TechnologyModify = () => {
                   />
                 </Col>
                 <Col sm="12">
-                  <InputImage name="pic" image={param ? param.technology.pic : null} />
+                  <InputImage
+                    name="pic"
+                    image={param ? param.technology.pic : null}
+                  />
                 </Col>
               </Row>
-              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+              <Button.Ripple
+                className="mr-1"
+                color="warning"
+                onClick={() => history.goBack()}
+              >
                 Back
               </Button.Ripple>
               <SubmitButton color="primary" label="Submit" />

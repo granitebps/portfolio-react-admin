@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { FormGroup, Label, Input } from 'reactstrap';
-import { getIn, useFormikContext, ErrorMessage } from 'formik';
-import { EyeOff, Eye } from 'react-feather';
+import React, { useState } from "react";
+import { FormGroup, Label, Input } from "reactstrap";
+import { getIn, useFormikContext, ErrorMessage } from "formik";
+import { EyeOff, Eye } from "react-feather";
 
 const InputPassword = ({ label, name, placeholder, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +25,7 @@ const InputPassword = ({ label, name, placeholder, ...props }) => {
           placeholder={placeholder}
           onChange={(e) => handleChange(e)}
           value={value}
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           disabled={isSubmitting}
           {...props}
         />
@@ -35,7 +35,8 @@ const InputPassword = ({ label, name, placeholder, ...props }) => {
           onKeyPress={() => {}}
           role="button"
           tabIndex="-1"
-          style={{ cursor: 'pointer' }}>
+          style={{ cursor: "pointer" }}
+        >
           {showPassword ? <Eye /> : <EyeOff />}
         </div>
         <ErrorMessage name={name}>

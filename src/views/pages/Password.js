@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -8,26 +8,26 @@ import {
   Row,
   Col,
   UncontrolledAlert,
-} from 'reactstrap';
-import { Formik } from 'formik';
-import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
+} from "reactstrap";
+import { Formik } from "formik";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
-import Header from '../../components/custom/Header';
-import SubmitButton from '../../components/custom/Form/SubmitButton';
-import InputPassword from '../../components/custom/Form/InputPassword';
-import baseAxios from '../../utility/baseAxios';
-import { useAuthContext } from '../../contexts/AuthContext';
-import formSchema from './passwordFormSchema';
+import Header from "../../components/custom/Header";
+import SubmitButton from "../../components/custom/Form/SubmitButton";
+import InputPassword from "../../components/custom/Form/InputPassword";
+import baseAxios from "../../utility/baseAxios";
+import { useAuthContext } from "../../contexts/AuthContext";
+import formSchema from "./passwordFormSchema";
 
 const Password = () => {
-  const authToken = Cookies.get('token');
+  const authToken = Cookies.get("token");
   const { logout } = useAuthContext();
   const [serverError, setServerError] = useState();
 
   const handleSubmit = async (values, { resetForm, setFieldError }) => {
     try {
-      const { data } = await baseAxios.post('profile-password', values, {
+      const { data } = await baseAxios.post("profile-password", values, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
@@ -44,7 +44,7 @@ const Password = () => {
           setFieldError(e.field, e.message);
         });
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
   };
@@ -65,12 +65,13 @@ const Password = () => {
           )}
           <Formik
             initialValues={{
-              old_password: '',
-              password: '',
-              password_confirmation: '',
+              old_password: "",
+              password: "",
+              password_confirmation: "",
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+          >
             <Form>
               <Row>
                 <Col sm="12">
@@ -81,7 +82,11 @@ const Password = () => {
                   />
                 </Col>
                 <Col sm="12">
-                  <InputPassword name="password" placeholder="New Password" label="New Password" />
+                  <InputPassword
+                    name="password"
+                    placeholder="New Password"
+                    label="New Password"
+                  />
                 </Col>
                 <Col sm="12">
                   <InputPassword

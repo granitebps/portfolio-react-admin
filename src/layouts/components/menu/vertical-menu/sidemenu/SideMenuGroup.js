@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Badge } from 'reactstrap';
-import classnames from 'classnames';
-import { ChevronRight } from 'react-feather';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Badge } from "reactstrap";
+import classnames from "classnames";
+import { ChevronRight } from "react-feather";
 class SideMenuGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +43,8 @@ class SideMenuGroup extends React.Component {
       <ul className="menu-content">
         {item.children
           ? item.children.map((child) => {
-              const CustomAnchorTag = child.type === 'external-link' ? `a` : Link;
+              const CustomAnchorTag =
+                child.type === "external-link" ? `a` : Link;
               if (!this.parentArray.includes(item.id) && this.flag) {
                 this.parentArray.push(item.id);
               }
@@ -58,7 +59,8 @@ class SideMenuGroup extends React.Component {
                 this.flag = false;
               }
               if (
-                (child.permissions && child.permissions.includes(this.props.currentUser)) ||
+                (child.permissions &&
+                  child.permissions.includes(this.props.currentUser)) ||
                 child.permissions === undefined
               ) {
                 return (
@@ -66,12 +68,18 @@ class SideMenuGroup extends React.Component {
                     key={child.id}
                     className={classnames({
                       hover: this.props.hoverIndex === child.id,
-                      'has-sub': child.type === 'collapse',
-                      open: child.type === 'collapse' && activeGroup.includes(child.id),
-                      'sidebar-group-active': this.props.currentActiveGroup.includes(child.id),
+                      "has-sub": child.type === "collapse",
+                      open:
+                        child.type === "collapse" &&
+                        activeGroup.includes(child.id),
+                      "sidebar-group-active": this.props.currentActiveGroup.includes(
+                        child.id
+                      ),
                       active:
-                        (this.props.activeItemState === child.navLink && child.type === 'item') ||
-                        (item.parentOf && item.parentOf.includes(this.props.activeItemState)),
+                        (this.props.activeItemState === child.navLink &&
+                          child.type === "item") ||
+                        (item.parentOf &&
+                          item.parentOf.includes(this.props.activeItemState)),
                       disabled: child.disabled,
                     })}
                     onClick={(e) => {
@@ -80,16 +88,25 @@ class SideMenuGroup extends React.Component {
                       if (child.navLink && child.navLink !== undefined) {
                         handleActiveItem(child.navLink);
                       }
-                      if (this.props.deviceWidth <= 1200 && child.type === 'item') {
+                      if (
+                        this.props.deviceWidth <= 1200 &&
+                        child.type === "item"
+                      ) {
                         this.props.toggleMenu();
                       }
-                    }}>
+                    }}
+                  >
                     <CustomAnchorTag
                       className={classnames({
-                        'd-flex justify-content-between': child.type === 'collapse',
+                        "d-flex justify-content-between":
+                          child.type === "collapse",
                       })}
-                      to={child.navLink && child.type === 'item' ? child.navLink : ''}
-                      href={child.type === 'external-link' ? child.navLink : ''}
+                      to={
+                        child.navLink && child.type === "item"
+                          ? child.navLink
+                          : ""
+                      }
+                      href={child.type === "external-link" ? child.navLink : ""}
                       onMouseEnter={() => {
                         this.props.handleSidebarMouseEnter(child.id);
                       }}
@@ -98,24 +115,33 @@ class SideMenuGroup extends React.Component {
                       }}
                       key={child.id}
                       onClick={(e) => {
-                        return child.type === 'collapse' ? e.preventDefault() : '';
+                        return child.type === "collapse"
+                          ? e.preventDefault()
+                          : "";
                       }}
-                      target={child.newTab ? '_blank' : undefined}>
+                      target={child.newTab ? "_blank" : undefined}
+                    >
                       <div className="menu-text">
                         {child.icon}
-                        <span className="menu-item menu-title">{child.title}</span>
+                        <span className="menu-item menu-title">
+                          {child.title}
+                        </span>
                       </div>
                       {child.badge ? (
-                        <Badge color={child.badge} className="float-right mr-2" pill>
+                        <Badge
+                          color={child.badge}
+                          className="float-right mr-2"
+                          pill
+                        >
                           {child.badgeText}
                         </Badge>
                       ) : (
-                        ''
+                        ""
                       )}
-                      {child.type === 'collapse' ? (
+                      {child.type === "collapse" ? (
                         <ChevronRight className="menu-toggle-icon" size={13} />
                       ) : (
-                        ''
+                        ""
                       )}
                     </CustomAnchorTag>
 
@@ -127,7 +153,7 @@ class SideMenuGroup extends React.Component {
                           handleActiveItem,
                           item.id
                         )
-                      : ''}
+                      : ""}
                   </li>
                 );
               } else if (

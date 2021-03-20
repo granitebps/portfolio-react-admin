@@ -1,12 +1,12 @@
 /* eslint-disable react/no-string-refs */
 /* eslint-disable react/no-find-dom-node */
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { history } from '../../../history';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { AlertTriangle } from 'react-feather';
+import React from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import classnames from "classnames";
+import { history } from "../../../history";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import { AlertTriangle } from "react-feather";
 class Autocomplete extends React.Component {
   constructor(props) {
     super(props);
@@ -14,12 +14,12 @@ class Autocomplete extends React.Component {
     this.state = {
       activeSuggestion: 0,
       showSuggestions: false,
-      userInput: '',
+      userInput: "",
       focused: false,
     };
 
     this.filteredData = [];
-    document.body.addEventListener('click', this.handleExtenalClick);
+    document.body.addEventListener("click", this.handleExtenalClick);
   }
 
   // Suggestion Click Event
@@ -79,7 +79,10 @@ class Autocomplete extends React.Component {
     }
 
     // User pressed the down arrow
-    else if (e.keyCode === 40 && activeSuggestion < this.filteredData.length - 1) {
+    else if (
+      e.keyCode === 40 &&
+      activeSuggestion < this.filteredData.length - 1
+    ) {
       this.setState({ activeSuggestion: activeSuggestion + 1 });
 
       if (
@@ -95,7 +98,7 @@ class Autocomplete extends React.Component {
     else if (e.keyCode === 27) {
       this.setState({
         showSuggestions: false,
-        userInput: '',
+        userInput: "",
       });
     }
 
@@ -133,14 +136,15 @@ class Autocomplete extends React.Component {
       if (!customRender) {
         return (
           <li
-            className={classnames('suggestion-item', {
+            className={classnames("suggestion-item", {
               active: this.filteredData.indexOf(item) === activeSuggestion,
             })}
             key={item[filterKey]}
             onClick={(e) => onSuggestionItemClick(item.link, e)}
             onMouseEnter={() => {
               this.onSuggestionItemHover(this.filteredData.indexOf(item));
-            }}>
+            }}
+          >
             {item[filterKey]}
           </li>
         );
@@ -166,7 +170,12 @@ class Autocomplete extends React.Component {
 
   // Ungrouped Suggestions
   renderUngroupedSuggestions = () => {
-    const { filterKey, suggestions, customRender, suggestionLimit } = this.props;
+    const {
+      filterKey,
+      suggestions,
+      customRender,
+      suggestionLimit,
+    } = this.props;
     const {
       onSuggestionItemClick,
       onSuggestionItemHover,
@@ -176,8 +185,12 @@ class Autocomplete extends React.Component {
     this.filteredData = [];
     let sortSingleData = suggestions
       .filter((i) => {
-        let startCondition = i[filterKey].toLowerCase().startsWith(userInput.toLowerCase()),
-          includeCondition = i[filterKey].toLowerCase().includes(userInput.toLowerCase());
+        let startCondition = i[filterKey]
+            .toLowerCase()
+            .startsWith(userInput.toLowerCase()),
+          includeCondition = i[filterKey]
+            .toLowerCase()
+            .includes(userInput.toLowerCase());
         if (startCondition) {
           return startCondition;
         } else if (!startCondition && includeCondition) {
@@ -192,12 +205,18 @@ class Autocomplete extends React.Component {
       if (!customRender) {
         return (
           <li
-            className={classnames('suggestion-item', {
-              active: this.filteredData.indexOf(suggestion) === activeSuggestion,
+            className={classnames("suggestion-item", {
+              active:
+                this.filteredData.indexOf(suggestion) === activeSuggestion,
             })}
             key={suggestion[filterKey]}
-            onClick={(e) => onSuggestionItemClick(suggestion.link ? suggestion.link : null, e)}
-            onMouseEnter={() => this.onSuggestionItemHover(this.filteredData.indexOf(suggestion))}>
+            onClick={(e) =>
+              onSuggestionItemClick(suggestion.link ? suggestion.link : null, e)
+            }
+            onMouseEnter={() =>
+              this.onSuggestionItemHover(this.filteredData.indexOf(suggestion))
+            }
+          >
             {suggestion[filterKey]}
           </li>
         );
@@ -233,8 +252,12 @@ class Autocomplete extends React.Component {
       return suggestions.map((suggestion) => {
         let sortData = suggestion.data
           .filter((i) => {
-            let startCondition = i[filterKey].toLowerCase().startsWith(userInput.toLowerCase()),
-              includeCondition = i[filterKey].toLowerCase().includes(userInput.toLowerCase());
+            let startCondition = i[filterKey]
+                .toLowerCase()
+                .startsWith(userInput.toLowerCase()),
+              includeCondition = i[filterKey]
+                .toLowerCase()
+                .includes(userInput.toLowerCase());
             if (startCondition) {
               return startCondition;
             } else if (!startCondition && includeCondition) {
@@ -255,7 +278,8 @@ class Autocomplete extends React.Component {
               this.renderGroupedSuggestion(sortData)
             ) : (
               <li className="suggestion-item no-result">
-                <AlertTriangle size={15} /> <span className="align-middle ml-50">No Result</span>
+                <AlertTriangle size={15} />{" "}
+                <span className="align-middle ml-50">No Result</span>
               </li>
             )}
           </React.Fragment>
@@ -268,7 +292,7 @@ class Autocomplete extends React.Component {
   clearInput = (val) => {
     if (this.props.clearInput && !val) {
       this.setState({
-        userInput: '',
+        userInput: "",
       });
     }
   };
@@ -304,7 +328,7 @@ class Autocomplete extends React.Component {
     // Clear Input
     if (clearInput === false && this.state.userInput.length) {
       this.setState({
-        userInput: '',
+        userInput: "",
       });
     }
 
@@ -329,7 +353,7 @@ class Autocomplete extends React.Component {
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener('click', this.handleExtenalClick);
+    document.body.removeEventListener("click", this.handleExtenalClick);
   }
 
   render() {
@@ -343,10 +367,11 @@ class Autocomplete extends React.Component {
     if (showSuggestions) {
       suggestionsListComponent = (
         <PerfectScrollbar
-          className={'suggestions-list'}
+          className={"suggestions-list"}
           ref={(el) => (this.suggestionList = el)}
           component="ul"
-          options={{ wheelPropagation: false }}>
+          options={{ wheelPropagation: false }}
+        >
           {this.renderSuggestions()}
         </PerfectScrollbar>
       );
@@ -364,7 +389,9 @@ class Autocomplete extends React.Component {
           }}
           onKeyDown={(e) => onKeyDown(e)}
           value={userInput}
-          className={`vx-autocomplete-search ${this.props.className ? this.props.className : ''}`}
+          className={`vx-autocomplete-search ${
+            this.props.className ? this.props.className : ""
+          }`}
           placeholder={this.props.placeholder}
           onClick={this.onInputClick}
           ref={(el) => {

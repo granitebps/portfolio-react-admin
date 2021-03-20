@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -9,16 +9,16 @@ import {
   Nav,
   NavItem,
   NavLink,
-} from 'reactstrap';
-import classnames from 'classnames';
-import { Eye, Code, GitHub } from 'react-feather';
-import Avatar from './AvatarComponent';
-import { avatarDefault } from './AvatarSourceCode';
-import avatarImg from '../../../assets/img/portrait/small/avatar-s-20.jpg';
+} from "reactstrap";
+import classnames from "classnames";
+import { Eye, Code, GitHub } from "react-feather";
+import Avatar from "./AvatarComponent";
+import { avatarDefault } from "./AvatarSourceCode";
+import avatarImg from "../../../assets/img/portrait/small/avatar-s-20.jpg";
 
 class AvatarDefault extends React.Component {
   state = {
-    activeTab: '1',
+    activeTab: "1",
   };
 
   toggleTab = (tab) => {
@@ -38,22 +38,24 @@ class AvatarDefault extends React.Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '1',
+                      active: this.state.activeTab === "1",
                     })}
                     onClick={() => {
-                      this.toggleTab('1');
-                    }}>
+                      this.toggleTab("1");
+                    }}
+                  >
                     <Eye size={15} />
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '2',
+                      active: this.state.activeTab === "2",
                     })}
                     onClick={() => {
-                      this.toggleTab('2');
-                    }}>
+                      this.toggleTab("2");
+                    }}
+                  >
                     <Code size={15} />
                   </NavLink>
                 </NavItem>
@@ -62,8 +64,8 @@ class AvatarDefault extends React.Component {
           </CardHeader>
           <CardBody>
             <p>
-              Use Vuexys Avatar component and pass <code>icon</code> or <code>content</code> or{' '}
-              <code>img</code> to create an avatar.
+              Use Vuexys Avatar component and pass <code>icon</code> or{" "}
+              <code>content</code> or <code>img</code> to create an avatar.
             </p>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">

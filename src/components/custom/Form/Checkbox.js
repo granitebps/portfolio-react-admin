@@ -1,9 +1,9 @@
-import React from 'react';
-import { FormGroup } from 'reactstrap';
-import { getIn, useFormikContext, ErrorMessage } from 'formik';
-import { Check } from 'react-feather';
+import React from "react";
+import { FormGroup } from "reactstrap";
+import { getIn, useFormikContext, ErrorMessage } from "formik";
+import { Check } from "react-feather";
 
-import Checkbox from '../../@vuexy/checkbox/CheckboxesVuexy';
+import Checkbox from "../../@vuexy/checkbox/CheckboxesVuexy";
 
 const CustomCheckbox = ({ name, ...props }) => {
   const { values, setFieldValue, isSubmitting } = useFormikContext();

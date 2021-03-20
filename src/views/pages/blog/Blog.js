@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Card,
   CardBody,
@@ -10,11 +10,11 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from 'reactstrap';
-import Cookies from 'js-cookie';
-import { Edit, Trash2 } from 'react-feather';
-import { toast } from 'react-toastify';
-import moment from 'moment';
+} from "reactstrap";
+import Cookies from "js-cookie";
+import { Edit, Trash2 } from "react-feather";
+import { toast } from "react-toastify";
+import moment from "moment";
 import {
   LinkedinShareButton,
   LinkedinIcon,
@@ -22,30 +22,30 @@ import {
   FacebookIcon,
   TwitterShareButton,
   TwitterIcon,
-} from 'react-share';
+} from "react-share";
 
-import Header from '../../../components/custom/Header';
-import { history } from '../../../history';
-import baseAxios, { useAxios } from '../../../utility/baseAxios';
-import { useAuthContext } from '../../../contexts/AuthContext';
-import DataTable from 'react-data-table-component';
-import CustomHeader from '../../../components/custom/Table/CustomHeader';
-import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
-import Error505 from '../../misc/505';
+import Header from "../../../components/custom/Header";
+import { history } from "../../../history";
+import baseAxios, { useAxios } from "../../../utility/baseAxios";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import DataTable from "react-data-table-component";
+import CustomHeader from "../../../components/custom/Table/CustomHeader";
+import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
+import Error505 from "../../misc/505";
 
 const Blog = () => {
-  const [{ data, loading, error }, refetch] = useAxios('blog', {
+  const [{ data, loading, error }, refetch] = useAxios("blog", {
     useCache: false,
   });
-  const [value, setValue] = useState('');
-  const [deleteId, setDeleteId] = useState('');
+  const [value, setValue] = useState("");
+  const [deleteId, setDeleteId] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { logout } = useAuthContext();
-  const authToken = Cookies.get('token');
+  const authToken = Cookies.get("token");
 
   const handleAdd = () => {
-    history.push('/blog/modify');
+    history.push("/blog/modify");
   };
 
   const handleDelete = async () => {
@@ -58,12 +58,12 @@ const Blog = () => {
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
-      setDeleteId('');
+      setDeleteId("");
     } catch (error) {
       if (error.response.status === 401) {
         logout();
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
   };
@@ -75,8 +75,12 @@ const Blog = () => {
 
     if (text.length) {
       filter = data.data.filter((item) => {
-        let startsWithCondition = item.title.toLowerCase().startsWith(text.toLowerCase());
-        let includesCondition = item.title.toLowerCase().includes(text.toLowerCase());
+        let startsWithCondition = item.title
+          .toLowerCase()
+          .startsWith(text.toLowerCase());
+        let includesCondition = item.title
+          .toLowerCase()
+          .includes(text.toLowerCase());
 
         if (startsWithCondition) {
           return startsWithCondition;
@@ -90,8 +94,8 @@ const Blog = () => {
 
   const columns = [
     {
-      name: 'Blog Picture',
-      selector: 'image',
+      name: "Blog Picture",
+      selector: "image",
       sortable: false,
       cell: (row) => (
         <a href={row.image} target="_blank" rel="noopener noreferrer">
@@ -106,29 +110,32 @@ const Blog = () => {
       ),
     },
     {
-      name: 'Blog Title',
-      selector: 'title',
+      name: "Blog Title",
+      selector: "title",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.title}</p>,
     },
     {
-      name: 'Tanggal',
-      selector: 'created_at',
+      name: "Tanggal",
+      selector: "created_at",
       sortable: true,
       cell: (row) => (
-        <p className="text-bold-500 my-1">{moment(row.created_at).format('DD MMMM YYYY')}</p>
+        <p className="text-bold-500 my-1">
+          {moment(row.created_at).format("DD MMMM YYYY")}
+        </p>
       ),
     },
     {
-      name: 'Action',
-      selector: '',
+      name: "Action",
+      selector: "",
       cell: (row) => (
         <Row>
           <Col md="6">
             <Button.Ripple
               color="success"
-              onClick={() => history.push('/blog/modify', { blog: row })}
-              className="btn-icon rounded-circle">
+              onClick={() => history.push("/blog/modify", { blog: row })}
+              className="btn-icon rounded-circle"
+            >
               <Edit />
             </Button.Ripple>
           </Col>
@@ -137,7 +144,8 @@ const Blog = () => {
               color="danger"
               onClick={() => setDeleteId(row.id)}
               disabled={loadingDelete}
-              className="btn-icon rounded-circle">
+              className="btn-icon rounded-circle"
+            >
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
           </Col>
@@ -145,14 +153,16 @@ const Blog = () => {
             <LinkedinShareButton
               url={`https://granitebps.com/blogs/blog-details/${row.id}/${row.slug}`}
               summary={row.body}
-              title={row.title}>
+              title={row.title}
+            >
               <LinkedinIcon round size={32} />
             </LinkedinShareButton>
           </Col>
           <Col md="6">
             <FacebookShareButton
               url={`https://granitebps.com/blogs/blog-details/${row.id}/${row.slug}`}
-              quote={row.title}>
+              quote={row.title}
+            >
               <FacebookIcon round size={32} />
             </FacebookShareButton>
           </Col>
@@ -160,7 +170,14 @@ const Blog = () => {
             <TwitterShareButton
               url={`https://granitebps.com/blogs/blog-details/${row.id}/${row.slug}`}
               title={row.title}
-              hashtags={['web', 'mobile', 'programming', 'webdeveloper', 'mobiledeveloper']}>
+              hashtags={[
+                "web",
+                "mobile",
+                "programming",
+                "webdeveloper",
+                "mobiledeveloper",
+              ]}
+            >
               <TwitterIcon size={32} round />
             </TwitterShareButton>
           </Col>
@@ -178,17 +195,27 @@ const Blog = () => {
       <Header title="Blog" />
 
       <Modal
-        isOpen={deleteId !== ''}
-        toggle={() => setDeleteId('')}
-        className="modal-dialog-centered modal-sm">
-        <ModalHeader toggle={() => setDeleteId('')}>WARNING!!!</ModalHeader>
+        isOpen={deleteId !== ""}
+        toggle={() => setDeleteId("")}
+        className="modal-dialog-centered modal-sm"
+      >
+        <ModalHeader toggle={() => setDeleteId("")}>WARNING!!!</ModalHeader>
         <ModalBody>Are you sure want to delete this data?</ModalBody>
         <ModalFooter>
-          <Button disabled={loadingDelete} color="danger" onClick={() => setDeleteId('')}>
-            {loadingDelete ? <Spinner color="white" size="sm" /> : 'No'}
+          <Button
+            disabled={loadingDelete}
+            color="danger"
+            onClick={() => setDeleteId("")}
+          >
+            {loadingDelete ? <Spinner color="white" size="sm" /> : "No"}
           </Button>
-          <Button disabled={loadingDelete} color="primary" onClick={handleDelete} outline>
-            {loadingDelete ? <Spinner color="white" size="sm" /> : 'Yes'}
+          <Button
+            disabled={loadingDelete}
+            color="primary"
+            onClick={handleDelete}
+            outline
+          >
+            {loadingDelete ? <Spinner color="white" size="sm" /> : "Yes"}
           </Button>
         </ModalFooter>
       </Modal>

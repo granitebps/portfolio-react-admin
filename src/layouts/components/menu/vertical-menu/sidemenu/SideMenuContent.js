@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import classnames from 'classnames';
-import navigationConfig from '../../../../../configs/navigationConfig';
-import SideMenuGroup from './SideMenuGroup';
-import { Badge } from 'reactstrap';
-import { ChevronRight } from 'react-feather';
-import { history } from '../../../../../history';
+import React from "react";
+import { Link } from "react-router-dom";
+import classnames from "classnames";
+import navigationConfig from "../../../../../configs/navigationConfig";
+import SideMenuGroup from "./SideMenuGroup";
+import { Badge } from "reactstrap";
+import { ChevronRight } from "react-feather";
+import { history } from "../../../../../history";
 
 class SideMenuContent extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class SideMenuContent extends React.Component {
     this.parentArr = [];
     this.collapsedPath = null;
     this.redirectUnauthorized = () => {
-      history.push('/misc/not-authorized');
+      history.push("/misc/not-authorized");
     };
   }
   state = {
@@ -25,15 +25,15 @@ class SideMenuContent extends React.Component {
     tempArr: [],
   };
 
-  handleGroupClick = (id, parent = null, type = '') => {
+  handleGroupClick = (id, parent = null, type = "") => {
     let open_group = this.state.activeGroups;
     let active_group = this.state.currentActiveGroup;
     let temp_arr = this.state.tempArr;
     // Active Group to apply sidebar-group-active class
-    if (type === 'item' && parent === null) {
+    if (type === "item" && parent === null) {
       active_group = [];
       temp_arr = [];
-    } else if (type === 'item' && parent !== null) {
+    } else if (type === "item" && parent !== null) {
       active_group = [];
       if (temp_arr.includes(parent)) {
         temp_arr.splice(temp_arr.indexOf(parent) + 1, temp_arr.length);
@@ -42,10 +42,10 @@ class SideMenuContent extends React.Component {
         temp_arr.push(parent);
       }
       active_group = temp_arr.slice(0);
-    } else if (type === 'collapse' && parent === null) {
+    } else if (type === "collapse" && parent === null) {
       temp_arr = [];
       temp_arr.push(id);
-    } else if (type === 'collapse' && parent !== null) {
+    } else if (type === "collapse" && parent !== null) {
       if (active_group.includes(parent)) {
         temp_arr = active_group.slice(0);
       }
@@ -59,7 +59,7 @@ class SideMenuContent extends React.Component {
       temp_arr = [];
     }
 
-    if (type === 'collapse') {
+    if (type === "collapse") {
       // If open group does not include clicked group item
       if (!open_group.includes(id)) {
         // Get unmatched items that are not in the active group
@@ -84,7 +84,7 @@ class SideMenuContent extends React.Component {
         open_group.splice(open_group.indexOf(id), 1);
       }
     }
-    if (type === 'item') {
+    if (type === "item") {
       open_group = active_group.slice(0);
     }
 
@@ -113,7 +113,9 @@ class SideMenuContent extends React.Component {
         this.props.collapsedMenuPaths(this.collapsedMenuPaths);
       }
 
-      this.initRender(this.parentArr[0] ? this.parentArr[this.parentArr.length - 1] : []);
+      this.initRender(
+        this.parentArr[0] ? this.parentArr[this.parentArr.length - 1] : []
+      );
     }
   }
 
@@ -121,11 +123,14 @@ class SideMenuContent extends React.Component {
     // Loop over sidebar items
     // eslint-disable-next-line
     const menuItems = navigationConfig.map((item) => {
-      const CustomAnchorTag = item.type === 'external-link' ? `a` : Link;
+      const CustomAnchorTag = item.type === "external-link" ? `a` : Link;
       // checks if item has groupheader
-      if (item.type === 'groupHeader') {
+      if (item.type === "groupHeader") {
         return (
-          <li className="navigation-header" key={`group-header-${item.groupTitle}`}>
+          <li
+            className="navigation-header"
+            key={`group-header-${item.groupTitle}`}
+          >
             <span>{item.groupTitle}</span>
           </li>
         );
@@ -133,40 +138,47 @@ class SideMenuContent extends React.Component {
 
       let renderItem = (
         <li
-          className={classnames('nav-item', {
-            'has-sub': item.type === 'collapse',
+          className={classnames("nav-item", {
+            "has-sub": item.type === "collapse",
             open: this.state.activeGroups.includes(item.id),
-            'sidebar-group-active': this.state.currentActiveGroup.includes(item.id),
+            "sidebar-group-active": this.state.currentActiveGroup.includes(
+              item.id
+            ),
             hover: this.props.hoverIndex === item.id,
             active:
-              (this.props.activeItemState.includes(item.navLink) && item.type === 'item') ||
-              (item.parentOf && item.parentOf.includes(this.props.activeItemState)),
+              (this.props.activeItemState.includes(item.navLink) &&
+                item.type === "item") ||
+              (item.parentOf &&
+                item.parentOf.includes(this.props.activeItemState)),
             disabled: item.disabled,
           })}
           key={item.id}
           onClick={(e) => {
             e.stopPropagation();
-            if (item.type === 'item') {
+            if (item.type === "item") {
               this.props.handleActiveItem(item.navLink);
               this.handleGroupClick(item.id, null, item.type);
-              if (this.props.deviceWidth <= 1200 && item.type === 'item') {
+              if (this.props.deviceWidth <= 1200 && item.type === "item") {
                 this.props.toggleMenu();
               }
             } else {
               this.handleGroupClick(item.id, null, item.type);
             }
-          }}>
+          }}
+        >
           <CustomAnchorTag
             to={
               item.filterBase
                 ? item.filterBase
-                : item.navLink && item.type === 'item'
+                : item.navLink && item.type === "item"
                 ? item.navLink
-                : ''
+                : ""
             }
-            href={item.type === 'external-link' ? item.navLink : ''}
+            href={item.type === "external-link" ? item.navLink : ""}
             className={`d-flex ${
-              item.badgeText ? 'justify-content-between' : 'justify-content-start'
+              item.badgeText
+                ? "justify-content-between"
+                : "justify-content-start"
             }`}
             onMouseEnter={() => {
               this.props.handleSidebarMouseEnter(item.id);
@@ -176,9 +188,10 @@ class SideMenuContent extends React.Component {
             }}
             key={item.id}
             onClick={(e) => {
-              return item.type === 'collapse' ? e.preventDefault() : '';
+              return item.type === "collapse" ? e.preventDefault() : "";
             }}
-            target={item.newTab ? '_blank' : undefined}>
+            target={item.newTab ? "_blank" : undefined}
+          >
             <div className="menu-text">
               {item.icon}
               <span className="menu-item menu-title">{item.title}</span>
@@ -191,15 +204,15 @@ class SideMenuContent extends React.Component {
                 </Badge>
               </div>
             ) : (
-              ''
+              ""
             )}
-            {item.type === 'collapse' ? (
+            {item.type === "collapse" ? (
               <ChevronRight className="menu-toggle-icon" size={13} />
             ) : (
-              ''
+              ""
             )}
           </CustomAnchorTag>
-          {item.type === 'collapse' ? (
+          {item.type === "collapse" ? (
             <SideMenuGroup
               group={item}
               handleGroupClick={this.handleGroupClick}
@@ -221,27 +234,31 @@ class SideMenuContent extends React.Component {
               deviceWidth={this.props.deviceWidth}
             />
           ) : (
-            ''
+            ""
           )}
         </li>
       );
 
-      if (item.navLink && item.collapsed !== undefined && item.collapsed === true) {
+      if (
+        item.navLink &&
+        item.collapsed !== undefined &&
+        item.collapsed === true
+      ) {
         this.collapsedPath = item.navLink;
         this.props.collapsedMenuPaths(item.navLink);
       }
 
       if (
-        item.type === 'collapse' ||
-        item.type === 'external-link' ||
-        (item.type === 'item' &&
+        item.type === "collapse" ||
+        item.type === "external-link" ||
+        (item.type === "item" &&
           item.permissions &&
           item.permissions.includes(this.props.currentUser)) ||
         item.permissions === undefined
       ) {
         return renderItem;
       } else if (
-        item.type === 'item' &&
+        item.type === "item" &&
         item.navLink === this.props.activePath &&
         !item.permissions.includes(this.props.currentUser)
       ) {

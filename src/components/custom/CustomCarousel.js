@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Carousel,
   CarouselIndicators,
   CarouselControl,
   CarouselItem,
   CarouselCaption,
-} from 'reactstrap';
+} from "reactstrap";
 
 const CustomCarousel = ({ images }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -39,18 +39,38 @@ const CustomCarousel = ({ images }) => {
   const slides = images.map((item, index) => {
     return (
       <CarouselItem onExiting={onExiting} onExited={onExited} key={index}>
-        <img src={item.pic} className="img-fluid img-thumbnail" alt={index} width="100%" />
-        <CarouselCaption captionHeader={`Picture ${index + 1}`} captionText="" />
+        <img
+          src={item.pic}
+          className="img-fluid img-thumbnail"
+          alt={index}
+          width="100%"
+        />
+        <CarouselCaption
+          captionHeader={`Picture ${index + 1}`}
+          captionText=""
+        />
       </CarouselItem>
     );
   });
 
   return (
     <Carousel activeIndex={activeIndex} next={next} previous={previous}>
-      <CarouselIndicators items={images} activeIndex={activeIndex} onClickHandler={goToIndex} />
+      <CarouselIndicators
+        items={images}
+        activeIndex={activeIndex}
+        onClickHandler={goToIndex}
+      />
       {slides}
-      <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-      <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
+      <CarouselControl
+        direction="prev"
+        directionText="Previous"
+        onClickHandler={previous}
+      />
+      <CarouselControl
+        direction="next"
+        directionText="Next"
+        onClickHandler={next}
+      />
     </Carousel>
   );
 };

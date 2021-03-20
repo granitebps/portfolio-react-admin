@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Header from '../../../components/custom/Header';
+import React, { useState } from "react";
+import Header from "../../../components/custom/Header";
 import {
   Card,
   CardBody,
@@ -11,51 +11,54 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from 'reactstrap';
-import Cookies from 'js-cookie';
-import { Trash2, Edit } from 'react-feather';
-import DataTable from 'react-data-table-component';
-import { toast } from 'react-toastify';
-import moment from 'moment';
+} from "reactstrap";
+import Cookies from "js-cookie";
+import { Trash2, Edit } from "react-feather";
+import DataTable from "react-data-table-component";
+import { toast } from "react-toastify";
+import moment from "moment";
 
-import { history } from '../../../history';
-import baseAxios, { useAxios } from '../../../utility/baseAxios';
-import { useAuthContext } from '../../../contexts/AuthContext';
-import CustomHeader from '../../../components/custom/Table/CustomHeader';
-import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
-import Error505 from '../../misc/505';
+import { history } from "../../../history";
+import baseAxios, { useAxios } from "../../../utility/baseAxios";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import CustomHeader from "../../../components/custom/Table/CustomHeader";
+import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
+import Error505 from "../../misc/505";
 
 const Experience = () => {
-  const [{ data, loading, error }, refetch] = useAxios('experience', {
+  const [{ data, loading, error }, refetch] = useAxios("experience", {
     useCache: false,
   });
-  const [value, setValue] = useState('');
-  const [deleteId, setDeleteId] = useState('');
+  const [value, setValue] = useState("");
+  const [deleteId, setDeleteId] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { logout } = useAuthContext();
-  const authToken = Cookies.get('token');
+  const authToken = Cookies.get("token");
 
   const handleAdd = () => {
-    history.push('/experience/modify');
+    history.push("/experience/modify");
   };
 
   const handleDelete = async () => {
     try {
       setLoadingDelete(true);
 
-      const { data: dataDelete } = await baseAxios.delete(`experience/${deleteId}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const { data: dataDelete } = await baseAxios.delete(
+        `experience/${deleteId}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
-      setDeleteId('');
+      setDeleteId("");
     } catch (error) {
       if (error.response.status === 401) {
         logout();
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
   };
@@ -72,19 +75,25 @@ const Experience = () => {
           item.position.toLowerCase().startsWith(text.toLowerCase()) ||
           item.desc.toLowerCase().startsWith(text.toLowerCase()) ||
           moment(item.start_date)
-            .format('DD MMMM YYYY')
+            .format("DD MMMM YYYY")
             .toLowerCase()
             .startsWith(text.toLowerCase()) ||
-          moment(item.end_date).format('DD MMMM YYYY').toLowerCase().startsWith(text.toLowerCase());
+          moment(item.end_date)
+            .format("DD MMMM YYYY")
+            .toLowerCase()
+            .startsWith(text.toLowerCase());
         let includesCondition =
           item.company.toLowerCase().includes(text.toLowerCase()) ||
           item.position.toLowerCase().includes(text.toLowerCase()) ||
           item.desc.toLowerCase().includes(text.toLowerCase()) ||
           moment(item.start_date)
-            .format('DD MMMM YYYY')
+            .format("DD MMMM YYYY")
             .toLowerCase()
             .includes(text.toLowerCase()) ||
-          moment(item.end_date).format('DD MMMM YYYY').toLowerCase().includes(text.toLowerCase());
+          moment(item.end_date)
+            .format("DD MMMM YYYY")
+            .toLowerCase()
+            .includes(text.toLowerCase());
 
         if (startsWithCondition) {
           return startsWithCondition;
@@ -98,51 +107,58 @@ const Experience = () => {
 
   const columns = [
     {
-      name: 'Company Name',
-      selector: 'company',
+      name: "Company Name",
+      selector: "company",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.company}</p>,
     },
     {
-      name: 'Position',
-      selector: 'position',
+      name: "Position",
+      selector: "position",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.position}</p>,
     },
     {
-      name: 'Description',
-      selector: 'desc',
+      name: "Description",
+      selector: "desc",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.desc}</p>,
     },
     {
-      name: 'Start Date',
-      selector: 'start_date',
-      sortable: true,
-      cell: (row) => (
-        <p className="text-bold-500 my-1">{moment(row.start_date).format('DD MMMM YYYY')}</p>
-      ),
-    },
-    {
-      name: 'End Date',
-      selector: 'end_date',
+      name: "Start Date",
+      selector: "start_date",
       sortable: true,
       cell: (row) => (
         <p className="text-bold-500 my-1">
-          {row.current_job ? 'Now' : moment(row.end_date).format('DD MMMM YYYY')}
+          {moment(row.start_date).format("DD MMMM YYYY")}
         </p>
       ),
     },
     {
-      name: 'Action',
-      selector: '',
+      name: "End Date",
+      selector: "end_date",
+      sortable: true,
+      cell: (row) => (
+        <p className="text-bold-500 my-1">
+          {row.current_job
+            ? "Now"
+            : moment(row.end_date).format("DD MMMM YYYY")}
+        </p>
+      ),
+    },
+    {
+      name: "Action",
+      selector: "",
       cell: (row) => (
         <Row>
           <Col md="6">
             <Button.Ripple
               color="success"
-              onClick={() => history.push('/experience/modify', { experience: row })}
-              className="btn-icon rounded-circle">
+              onClick={() =>
+                history.push("/experience/modify", { experience: row })
+              }
+              className="btn-icon rounded-circle"
+            >
               <Edit />
             </Button.Ripple>
           </Col>
@@ -151,7 +167,8 @@ const Experience = () => {
               color="danger"
               onClick={() => setDeleteId(row.id)}
               disabled={loadingDelete}
-              className="btn-icon rounded-circle">
+              className="btn-icon rounded-circle"
+            >
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
           </Col>
@@ -169,17 +186,27 @@ const Experience = () => {
       <Header title="Experience" />
 
       <Modal
-        isOpen={deleteId !== ''}
-        toggle={() => setDeleteId('')}
-        className="modal-dialog-centered modal-sm">
-        <ModalHeader toggle={() => setDeleteId('')}>WARNING!!!</ModalHeader>
+        isOpen={deleteId !== ""}
+        toggle={() => setDeleteId("")}
+        className="modal-dialog-centered modal-sm"
+      >
+        <ModalHeader toggle={() => setDeleteId("")}>WARNING!!!</ModalHeader>
         <ModalBody>Are you sure want to delete this data?</ModalBody>
         <ModalFooter>
-          <Button disabled={loadingDelete} color="danger" onClick={() => setDeleteId('')}>
-            {loadingDelete ? <Spinner color="white" size="sm" /> : 'No'}
+          <Button
+            disabled={loadingDelete}
+            color="danger"
+            onClick={() => setDeleteId("")}
+          >
+            {loadingDelete ? <Spinner color="white" size="sm" /> : "No"}
           </Button>
-          <Button disabled={loadingDelete} color="primary" onClick={handleDelete} outline>
-            {loadingDelete ? <Spinner color="white" size="sm" /> : 'Yes'}
+          <Button
+            disabled={loadingDelete}
+            color="primary"
+            onClick={handleDelete}
+            outline
+          >
+            {loadingDelete ? <Spinner color="white" size="sm" /> : "Yes"}
           </Button>
         </ModalFooter>
       </Modal>

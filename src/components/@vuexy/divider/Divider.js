@@ -1,14 +1,14 @@
-import React from 'react';
-import { Row, Col } from 'reactstrap';
-import BreadCrumbs from '../../@vuexy/breadCrumbs/BreadCrumb';
-import DividerDefault from './DividerDefault';
-import DividerText from './DividerText';
-import DividerPosition from './DividerPosition';
-import DividerColors from './DividerColors';
-import DividerIcons from './DividerIcons';
-import DividerStyle from './DividerStyle';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-jsx.min';
+import React from "react";
+import { Row, Col } from "reactstrap";
+import BreadCrumbs from "../../@vuexy/breadCrumbs/BreadCrumb";
+import DividerDefault from "./DividerDefault";
+import DividerText from "./DividerText";
+import DividerPosition from "./DividerPosition";
+import DividerColors from "./DividerColors";
+import DividerIcons from "./DividerIcons";
+import DividerStyle from "./DividerStyle";
+import Prism from "prismjs";
+import "prismjs/components/prism-jsx.min";
 class Divider extends React.Component {
   componentDidMount() {
     Prism.highlightAll();

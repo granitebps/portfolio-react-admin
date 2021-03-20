@@ -1,14 +1,14 @@
-import React from 'react';
-import { Row, Col } from 'reactstrap';
-import BreadCrumbs from '../../@vuexy/breadCrumbs/BreadCrumb';
-import AvatarDefault from './AvatarDefault';
-import AvatarSizes from './AvatarSizes';
-import AvatarColors from './AvatarColors';
-import AvatarBadges from './AvatarBadge';
-import AvatarIcons from './AvatarIcons';
-import AvatarStatus from './AvatarStatus';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-jsx.min';
+import React from "react";
+import { Row, Col } from "reactstrap";
+import BreadCrumbs from "../../@vuexy/breadCrumbs/BreadCrumb";
+import AvatarDefault from "./AvatarDefault";
+import AvatarSizes from "./AvatarSizes";
+import AvatarColors from "./AvatarColors";
+import AvatarBadges from "./AvatarBadge";
+import AvatarIcons from "./AvatarIcons";
+import AvatarStatus from "./AvatarStatus";
+import Prism from "prismjs";
+import "prismjs/components/prism-jsx.min";
 class Avatar extends React.Component {
   componentDidMount() {
     Prism.highlightAll();

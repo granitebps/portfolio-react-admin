@@ -1,8 +1,8 @@
-import React from 'react';
-import VerticalLayout from '../../layouts/VerticalLayout';
-import FullLayout from '../../layouts/FullpageLayout';
-import HorizontalLayout from '../../layouts/HorizontalLayout';
-import themeConfig from '../../configs/themeConfig';
+import React from "react";
+import VerticalLayout from "../../layouts/VerticalLayout";
+import FullLayout from "../../layouts/FullpageLayout";
+import HorizontalLayout from "../../layouts/HorizontalLayout";
+import themeConfig from "../../configs/themeConfig";
 const layouts = {
   vertical: VerticalLayout,
   full: FullLayout,
@@ -26,36 +26,39 @@ class Layout extends React.Component {
 
   handleWindowResize = () => {
     this.updateWidth();
-    if (this.state.activeLayout === 'horizontal' && this.state.width <= 1199) {
+    if (this.state.activeLayout === "horizontal" && this.state.width <= 1199) {
       this.setState({
-        activeLayout: 'vertical',
-        lastLayout: 'horizontal',
+        activeLayout: "vertical",
+        lastLayout: "horizontal",
       });
     }
 
-    if (this.state.lastLayout === 'horizontal' && this.state.width >= 1199) {
+    if (this.state.lastLayout === "horizontal" && this.state.width >= 1199) {
       this.setState({
-        activeLayout: 'horizontal',
-        lastLayout: 'vertical',
+        activeLayout: "horizontal",
+        lastLayout: "vertical",
       });
     }
   };
 
   componentDidMount = () => {
-    if (window !== 'undefined') {
-      window.addEventListener('resize', this.handleWindowResize);
+    if (window !== "undefined") {
+      window.addEventListener("resize", this.handleWindowResize);
     }
-    if (this.state.activeLayout === 'horizontal' && this.state.width <= 1199) {
+    if (this.state.activeLayout === "horizontal" && this.state.width <= 1199) {
       this.setState({
-        activeLayout: 'vertical',
+        activeLayout: "vertical",
       });
-    } else if (themeConfig.layout === 'horizontal' && this.state.width >= 1200) {
+    } else if (
+      themeConfig.layout === "horizontal" &&
+      this.state.width >= 1200
+    ) {
       this.setState({
-        activeLayout: 'horizontal',
+        activeLayout: "horizontal",
       });
     } else {
       this.setState({
-        activeLayout: 'vertical',
+        activeLayout: "vertical",
       });
     }
   };
@@ -66,16 +69,17 @@ class Layout extends React.Component {
       <ContextLayout.Provider
         value={{
           state: this.state,
-          fullLayout: layouts['full'],
-          VerticalLayout: layouts['vertical'],
-          horizontalLayout: layouts['horizontal'],
+          fullLayout: layouts["full"],
+          VerticalLayout: layouts["vertical"],
+          horizontalLayout: layouts["horizontal"],
           switchLayout: (layout) => {
             this.setState({ activeLayout: layout });
           },
           switchDir: (dir) => {
             this.setState({ direction: dir });
           },
-        }}>
+        }}
+      >
         {children}
       </ContextLayout.Provider>
     );

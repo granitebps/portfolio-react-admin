@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Header from '../../../components/custom/Header';
+import React, { useState } from "react";
+import Header from "../../../components/custom/Header";
 import {
   Card,
   CardBody,
@@ -11,50 +11,53 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from 'reactstrap';
-import Cookies from 'js-cookie';
-import { Trash2, Edit } from 'react-feather';
-import DataTable from 'react-data-table-component';
-import { toast } from 'react-toastify';
+} from "reactstrap";
+import Cookies from "js-cookie";
+import { Trash2, Edit } from "react-feather";
+import DataTable from "react-data-table-component";
+import { toast } from "react-toastify";
 
-import { history } from '../../../history';
-import baseAxios, { useAxios } from '../../../utility/baseAxios';
-import { useAuthContext } from '../../../contexts/AuthContext';
-import CustomHeader from '../../../components/custom/Table/CustomHeader';
-import LoadingSpinner from '../../../components/@vuexy/spinner/Loading-spinner';
-import Error505 from '../../misc/505';
+import { history } from "../../../history";
+import baseAxios, { useAxios } from "../../../utility/baseAxios";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import CustomHeader from "../../../components/custom/Table/CustomHeader";
+import LoadingSpinner from "../../../components/@vuexy/spinner/Loading-spinner";
+import Error505 from "../../misc/505";
 
 const Education = () => {
-  const [{ data, loading, error }, refetch] = useAxios('education', {
+  const [{ data, loading, error }, refetch] = useAxios("education", {
     useCache: false,
   });
-  const [value, setValue] = useState('');
-  const [deleteId, setDeleteId] = useState('');
+  const [value, setValue] = useState("");
+  const [deleteId, setDeleteId] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { logout } = useAuthContext();
-  const authToken = Cookies.get('token');
+  const authToken = Cookies.get("token");
 
   const handleAdd = () => {
-    history.push('/education/modify');
+    history.push("/education/modify");
   };
 
   const handleDelete = async () => {
     try {
       setLoadingDelete(true);
 
-      const { data: dataDelete } = await baseAxios.delete(`education/${deleteId}`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const { data: dataDelete } = await baseAxios.delete(
+        `education/${deleteId}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
       toast.success(dataDelete.message);
       refetch();
       setLoadingDelete(false);
-      setDeleteId('');
+      setDeleteId("");
     } catch (error) {
       if (error.response.status === 401) {
         logout();
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
   };
@@ -89,39 +92,42 @@ const Education = () => {
 
   const columns = [
     {
-      name: 'Education Name',
-      selector: 'name',
+      name: "Education Name",
+      selector: "name",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.name}</p>,
     },
     {
-      name: 'Education Institute',
-      selector: 'institute',
+      name: "Education Institute",
+      selector: "institute",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.institute}</p>,
     },
     {
-      name: 'Start Year',
-      selector: 'start_year',
+      name: "Start Year",
+      selector: "start_year",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.start_year}</p>,
     },
     {
-      name: 'End Year',
-      selector: 'end_year',
+      name: "End Year",
+      selector: "end_year",
       sortable: true,
       cell: (row) => <p className="text-bold-500 my-1">{row.end_year}</p>,
     },
     {
-      name: 'Action',
-      selector: '',
+      name: "Action",
+      selector: "",
       cell: (row) => (
         <Row>
           <Col md="6">
             <Button.Ripple
               color="success"
-              onClick={() => history.push('/education/modify', { education: row })}
-              className="btn-icon rounded-circle">
+              onClick={() =>
+                history.push("/education/modify", { education: row })
+              }
+              className="btn-icon rounded-circle"
+            >
               <Edit />
             </Button.Ripple>
           </Col>
@@ -130,7 +136,8 @@ const Education = () => {
               color="danger"
               onClick={() => setDeleteId(row.id)}
               disabled={loadingDelete}
-              className="btn-icon rounded-circle">
+              className="btn-icon rounded-circle"
+            >
               {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
           </Col>
@@ -148,17 +155,27 @@ const Education = () => {
       <Header title="Education" />
 
       <Modal
-        isOpen={deleteId !== ''}
-        toggle={() => setDeleteId('')}
-        className="modal-dialog-centered modal-sm">
-        <ModalHeader toggle={() => setDeleteId('')}>WARNING!!!</ModalHeader>
+        isOpen={deleteId !== ""}
+        toggle={() => setDeleteId("")}
+        className="modal-dialog-centered modal-sm"
+      >
+        <ModalHeader toggle={() => setDeleteId("")}>WARNING!!!</ModalHeader>
         <ModalBody>Are you sure want to delete this data?</ModalBody>
         <ModalFooter>
-          <Button disabled={loadingDelete} color="danger" onClick={() => setDeleteId('')}>
-            {loadingDelete ? <Spinner color="white" size="sm" /> : 'No'}
+          <Button
+            disabled={loadingDelete}
+            color="danger"
+            onClick={() => setDeleteId("")}
+          >
+            {loadingDelete ? <Spinner color="white" size="sm" /> : "No"}
           </Button>
-          <Button disabled={loadingDelete} color="primary" onClick={handleDelete} outline>
-            {loadingDelete ? <Spinner color="white" size="sm" /> : 'Yes'}
+          <Button
+            disabled={loadingDelete}
+            color="primary"
+            onClick={handleDelete}
+            outline
+          >
+            {loadingDelete ? <Spinner color="white" size="sm" /> : "Yes"}
           </Button>
         </ModalFooter>
       </Modal>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Media, Button, Input, Label } from 'reactstrap';
-import defaultImage from '../../../assets/img/default.png';
-import { useFormikContext, getIn } from 'formik';
+import React, { useState } from "react";
+import { Media, Button, Input, Label } from "reactstrap";
+import defaultImage from "../../../assets/img/default.png";
+import { useFormikContext, getIn } from "formik";
 
 const InputImage = ({ name, image, label }) => {
   const [imagePreview, setImagePreview] = useState();
@@ -52,7 +52,8 @@ const InputImage = ({ name, image, label }) => {
               className="mr-50 cursor-pointer"
               color="primary"
               outline
-              disabled={isSubmitting}>
+              disabled={isSubmitting}
+            >
               Upload Photo
               <Input
                 type="file"

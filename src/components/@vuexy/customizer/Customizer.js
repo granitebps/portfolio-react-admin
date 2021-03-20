@@ -1,11 +1,11 @@
-import React from 'react';
-import { CustomInput } from 'reactstrap';
-import { Settings, X } from 'react-feather';
-import classnames from 'classnames';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { ContextLayout } from '../../../utility/context/Layout';
-import Radio from '../radio/RadioVuexy';
-import '../../../assets/scss/components/customizer.scss';
+import React from "react";
+import { CustomInput } from "reactstrap";
+import { Settings, X } from "react-feather";
+import classnames from "classnames";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import { ContextLayout } from "../../../utility/context/Layout";
+import Radio from "../radio/RadioVuexy";
+import "../../../assets/scss/components/customizer.scss";
 
 class Customizer extends React.Component {
   state = {
@@ -68,12 +68,16 @@ class Customizer extends React.Component {
         {(context) => {
           return (
             <div
-              className={classnames('customizer d-none d-md-block', {
+              className={classnames("customizer d-none d-md-block", {
                 open: this.props.customizerState === true,
-              })}>
+              })}
+            >
               <div
                 className="customizer-toggle"
-                onClick={() => this.props.handleCustomizer(!this.props.customizerState)}>
+                onClick={() =>
+                  this.props.handleCustomizer(!this.props.customizerState)
+                }
+              >
                 <Settings className="open-icon" size={15} />
               </div>
               <div className="header d-flex justify-content-between px-2 pt-2">
@@ -83,7 +87,8 @@ class Customizer extends React.Component {
                 </div>
                 <div
                   className="close-icon cursor-pointer"
-                  onClick={() => this.props.handleCustomizer(false)}>
+                  onClick={() => this.props.handleCustomizer(false)}
+                >
                   <X size={24} />
                 </div>
               </div>
@@ -92,49 +97,55 @@ class Customizer extends React.Component {
                 options={{
                   wheelPropagation: false,
                 }}
-                className="customizer-content p-2">
+                className="customizer-content p-2"
+              >
                 <div className="menu-theme-colors">
                   <h5>Menu Colors</h5>
                   <ul className="list-inline unstyled-list">
                     <li
-                      className={classnames('color-box bg-primary', {
+                      className={classnames("color-box bg-primary", {
                         selected:
-                          menuTheme === 'primary' ||
-                          !['primary', 'danger', 'info', 'warning', 'dark', 'success'].includes(
-                            menuTheme
-                          ),
+                          menuTheme === "primary" ||
+                          ![
+                            "primary",
+                            "danger",
+                            "info",
+                            "warning",
+                            "dark",
+                            "success",
+                          ].includes(menuTheme),
                       })}
-                      onClick={() => this.props.changeMenuTheme('primary')}
+                      onClick={() => this.props.changeMenuTheme("primary")}
                     />
                     <li
-                      className={classnames('color-box bg-success', {
-                        selected: menuTheme === 'success',
+                      className={classnames("color-box bg-success", {
+                        selected: menuTheme === "success",
                       })}
-                      onClick={() => this.props.changeMenuTheme('success')}
+                      onClick={() => this.props.changeMenuTheme("success")}
                     />
                     <li
-                      className={classnames('color-box bg-danger', {
-                        selected: menuTheme === 'danger',
+                      className={classnames("color-box bg-danger", {
+                        selected: menuTheme === "danger",
                       })}
-                      onClick={() => this.props.changeMenuTheme('danger')}
+                      onClick={() => this.props.changeMenuTheme("danger")}
                     />
                     <li
-                      className={classnames('color-box bg-info', {
-                        selected: menuTheme === 'info',
+                      className={classnames("color-box bg-info", {
+                        selected: menuTheme === "info",
                       })}
-                      onClick={() => this.props.changeMenuTheme('info')}
+                      onClick={() => this.props.changeMenuTheme("info")}
                     />
                     <li
-                      className={classnames('color-box bg-warning', {
-                        selected: menuTheme === 'warning',
+                      className={classnames("color-box bg-warning", {
+                        selected: menuTheme === "warning",
                       })}
-                      onClick={() => this.props.changeMenuTheme('warning')}
+                      onClick={() => this.props.changeMenuTheme("warning")}
                     />
                     <li
-                      className={classnames('color-box bg-dark', {
-                        selected: menuTheme === 'dark',
+                      className={classnames("color-box bg-dark", {
+                        selected: menuTheme === "dark",
                       })}
-                      onClick={() => this.props.changeMenuTheme('dark')}
+                      onClick={() => this.props.changeMenuTheme("dark")}
                     />
                   </ul>
                 </div>
@@ -146,20 +157,22 @@ class Customizer extends React.Component {
                       label="Vertical"
                       color="primary"
                       checked={
-                        context.state.activeLayout === 'vertical' ||
-                        !['vertical', 'horizontal'].includes(context.state.activeLayout)
+                        context.state.activeLayout === "vertical" ||
+                        !["vertical", "horizontal"].includes(
+                          context.state.activeLayout
+                        )
                       }
                       name="themeMode"
-                      onChange={() => context.switchLayout('vertical')}
+                      onChange={() => context.switchLayout("vertical")}
                     />
                   </div>
                   <div className="d-inline-block">
                     <Radio
                       label="Horizontal"
                       color="primary"
-                      checked={context.state.activeLayout === 'horizontal'}
+                      checked={context.state.activeLayout === "horizontal"}
                       name="themeMode"
-                      onChange={() => context.switchLayout('horizontal')}
+                      onChange={() => context.switchLayout("horizontal")}
                     />
                   </div>
                 </div>
@@ -171,37 +184,37 @@ class Customizer extends React.Component {
                       label="Light"
                       color="primary"
                       checked={
-                        activeMode === 'light' ||
-                        !['light', 'dark', 'semi-dark'].includes(activeMode)
+                        activeMode === "light" ||
+                        !["light", "dark", "semi-dark"].includes(activeMode)
                           ? true
                           : false
                       }
                       name="themeLayout"
-                      onChange={() => this.props.changeMode('light')}
+                      onChange={() => this.props.changeMode("light")}
                     />
                   </div>
                   <div className="d-inline-block mr-1">
                     <Radio
                       label="Dark"
                       color="primary"
-                      checked={activeMode === 'dark' ? true : false}
+                      checked={activeMode === "dark" ? true : false}
                       name="themeLayout"
-                      onChange={() => this.props.changeMode('dark')}
+                      onChange={() => this.props.changeMode("dark")}
                     />
                   </div>
-                  {context.state.activeLayout !== 'horizontal' && (
+                  {context.state.activeLayout !== "horizontal" && (
                     <div className="d-inline-block">
                       <Radio
                         label="Semi Dark"
                         color="primary"
-                        checked={activeMode === 'semi-dark' ? true : false}
+                        checked={activeMode === "semi-dark" ? true : false}
                         name="themeLayout"
-                        onChange={() => this.props.changeMode('semi-dark')}
+                        onChange={() => this.props.changeMode("semi-dark")}
                       />
                     </div>
                   )}
                 </div>
-                {context.state.activeLayout !== 'horizontal' && (
+                {context.state.activeLayout !== "horizontal" && (
                   <React.Fragment>
                     <hr />
                     <div className="collapse-sidebar d-flex justify-content-between align-items-center">
@@ -220,73 +233,82 @@ class Customizer extends React.Component {
                   </React.Fragment>
                 )}
                 <hr />
-                {context.state.activeLayout === 'vertical' && (
+                {context.state.activeLayout === "vertical" && (
                   <React.Fragment>
                     <div className="navbar-colors">
                       <h5>Navbar Colors</h5>
                       <ul className="list-inline unstyled-list">
                         <li
-                          className={classnames('color-box bg-default border', {
+                          className={classnames("color-box bg-default border", {
                             selected:
-                              activeNavbar === 'default' ||
-                              navbarType === 'static' ||
+                              activeNavbar === "default" ||
+                              navbarType === "static" ||
                               ![
-                                'default',
-                                'primary',
-                                'danger',
-                                'info',
-                                'warning',
-                                'dark',
-                                'success',
+                                "default",
+                                "primary",
+                                "danger",
+                                "info",
+                                "warning",
+                                "dark",
+                                "success",
                               ].includes(activeNavbar),
-                            disabled: navbarType === 'static',
+                            disabled: navbarType === "static",
                           })}
-                          onClick={() => this.handleNavbarChange('default')}
+                          onClick={() => this.handleNavbarChange("default")}
                         />
                         <li
-                          className={classnames('color-box bg-primary', {
-                            selected: activeNavbar === 'primary' && navbarType !== 'static',
-                            disabled: navbarType === 'static',
-                          })}
-                          onClick={() => this.handleNavbarChange('primary')}
-                        />
-                        <li
-                          className={classnames('color-box bg-success', {
+                          className={classnames("color-box bg-primary", {
                             selected:
-                              activeNavbar === 'success' && this.props.navbarType !== 'static',
-                            disabled: navbarType === 'static',
+                              activeNavbar === "primary" &&
+                              navbarType !== "static",
+                            disabled: navbarType === "static",
                           })}
-                          onClick={() => this.handleNavbarChange('success')}
+                          onClick={() => this.handleNavbarChange("primary")}
                         />
                         <li
-                          className={classnames('color-box bg-danger', {
+                          className={classnames("color-box bg-success", {
                             selected:
-                              activeNavbar === 'danger' && this.props.navbarType !== 'static',
-                            disabled: navbarType === 'static',
+                              activeNavbar === "success" &&
+                              this.props.navbarType !== "static",
+                            disabled: navbarType === "static",
                           })}
-                          onClick={() => this.handleNavbarChange('danger')}
+                          onClick={() => this.handleNavbarChange("success")}
                         />
                         <li
-                          className={classnames('color-box bg-info', {
-                            selected: activeNavbar === 'info' && this.props.navbarType !== 'static',
-                            disabled: navbarType === 'static',
-                          })}
-                          onClick={() => this.handleNavbarChange('info')}
-                        />
-                        <li
-                          className={classnames('color-box bg-warning', {
+                          className={classnames("color-box bg-danger", {
                             selected:
-                              activeNavbar === 'warning' && this.props.navbarType !== 'static',
-                            disabled: navbarType === 'static',
+                              activeNavbar === "danger" &&
+                              this.props.navbarType !== "static",
+                            disabled: navbarType === "static",
                           })}
-                          onClick={() => this.handleNavbarChange('warning')}
+                          onClick={() => this.handleNavbarChange("danger")}
                         />
                         <li
-                          className={classnames('color-box bg-dark', {
-                            selected: activeNavbar === 'dark' && this.props.navbarType !== 'static',
-                            disabled: navbarType === 'static',
+                          className={classnames("color-box bg-info", {
+                            selected:
+                              activeNavbar === "info" &&
+                              this.props.navbarType !== "static",
+                            disabled: navbarType === "static",
                           })}
-                          onClick={() => this.handleNavbarChange('dark')}
+                          onClick={() => this.handleNavbarChange("info")}
+                        />
+                        <li
+                          className={classnames("color-box bg-warning", {
+                            selected:
+                              activeNavbar === "warning" &&
+                              this.props.navbarType !== "static",
+                            disabled: navbarType === "static",
+                          })}
+                          onClick={() => this.handleNavbarChange("warning")}
+                        />
+                        <li
+                          className={classnames("color-box bg-dark", {
+                            selected:
+                              activeNavbar === "dark" &&
+                              this.props.navbarType !== "static",
+                            disabled: navbarType === "static",
+                          })}
+                          onClick={() => this.handleNavbarChange("dark")}
                         />
                       </ul>
                     </div>
@@ -295,14 +317,14 @@ class Customizer extends React.Component {
                 )}
                 <div className="navbar-type">
                   <h5>Navbar Type</h5>
-                  {context.state.activeLayout !== 'horizontal' && (
+                  {context.state.activeLayout !== "horizontal" && (
                     <div className="d-inline-block mr-1">
                       <Radio
                         label="Hidden"
                         color="primary"
-                        checked={navbarType === 'hidden' ? true : false}
+                        checked={navbarType === "hidden" ? true : false}
                         name="navbarType"
-                        onChange={() => this.props.changeNavbarType('hidden')}
+                        onChange={() => this.props.changeNavbarType("hidden")}
                       />
                     </div>
                   )}
@@ -310,18 +332,18 @@ class Customizer extends React.Component {
                     <Radio
                       label="Static"
                       color="primary"
-                      checked={navbarType === 'static' ? true : false}
+                      checked={navbarType === "static" ? true : false}
                       name="navbarType"
-                      onChange={() => this.props.changeNavbarType('static')}
+                      onChange={() => this.props.changeNavbarType("static")}
                     />
                   </div>
                   <div className="d-inline-block mr-1">
                     <Radio
                       label="Sticky"
                       color="primary"
-                      checked={navbarType === 'sticky' ? true : false}
+                      checked={navbarType === "sticky" ? true : false}
                       name="navbarType"
-                      onChange={() => this.props.changeNavbarType('sticky')}
+                      onChange={() => this.props.changeNavbarType("sticky")}
                     />
                   </div>
                   <div className="d-inline-block">
@@ -329,13 +351,15 @@ class Customizer extends React.Component {
                       label="Floating"
                       color="primary"
                       checked={
-                        navbarType === 'floating' ||
-                        !['floating', 'hidden', 'static', 'sticky'].includes(navbarType)
+                        navbarType === "floating" ||
+                        !["floating", "hidden", "static", "sticky"].includes(
+                          navbarType
+                        )
                           ? true
                           : false
                       }
                       name="navbarType"
-                      onChange={() => this.props.changeNavbarType('floating')}
+                      onChange={() => this.props.changeNavbarType("floating")}
                     />
                   </div>
                 </div>
@@ -346,27 +370,27 @@ class Customizer extends React.Component {
                     <Radio
                       label="Hidden"
                       color="primary"
-                      checked={footerType === 'hidden' ? true : false}
+                      checked={footerType === "hidden" ? true : false}
                       name="footerType"
-                      onChange={() => this.props.changeFooterType('hidden')}
+                      onChange={() => this.props.changeFooterType("hidden")}
                     />
                   </div>
                   <div className="d-inline-block mr-1">
                     <Radio
                       label="Static"
                       color="primary"
-                      checked={footerType === 'static' ? true : false}
+                      checked={footerType === "static" ? true : false}
                       name="footerType"
-                      onChange={() => this.props.changeFooterType('static')}
+                      onChange={() => this.props.changeFooterType("static")}
                     />
                   </div>
                   <div className="d-inline-block">
                     <Radio
                       label="Sticky"
                       color="primary"
-                      checked={footerType === 'sticky' ? true : false}
+                      checked={footerType === "sticky" ? true : false}
                       name="footerType"
-                      onChange={() => this.props.changeFooterType('sticky')}
+                      onChange={() => this.props.changeFooterType("sticky")}
                     />
                   </div>
                 </div>
@@ -378,12 +402,12 @@ class Customizer extends React.Component {
                     id="rtl-version"
                     name="rtl-version"
                     inline
-                    checked={context.state.direction === 'rtl'}
+                    checked={context.state.direction === "rtl"}
                     onChange={() => {
-                      if (context.state.direction === 'rtl') {
-                        context.switchDir('ltr');
+                      if (context.state.direction === "rtl") {
+                        context.switchDir("ltr");
                       } else {
-                        context.switchDir('rtl');
+                        context.switchDir("rtl");
                       }
                     }}
                   />
@@ -396,7 +420,9 @@ class Customizer extends React.Component {
                     id="scrollToTop"
                     name="scrollToTop"
                     inline
-                    onClick={() => this.props.hideScrollToTop(!this.props.scrollToTop)}
+                    onClick={() =>
+                      this.props.hideScrollToTop(!this.props.scrollToTop)
+                    }
                   />
                 </div>
               </PerfectScrollbar>

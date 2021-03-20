@@ -1,6 +1,6 @@
-import React from 'react';
-import { Input, Button } from 'reactstrap';
-import { Search } from 'react-feather';
+import React from "react";
+import { Input, Button } from "reactstrap";
+import { Search } from "react-feather";
 
 const CustomHeader = ({ value, handleFilter, handleAdd, isAdd = true }) => {
   return (

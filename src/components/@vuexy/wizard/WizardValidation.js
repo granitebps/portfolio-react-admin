@@ -1,9 +1,24 @@
-import React from 'react';
-import Wizard from './WizardComponent';
-import { AvForm, AvInput, AvGroup, AvFeedback, AvField } from 'availity-reactstrap-validation';
-import { Label, Row, Col, Card, CardBody, CardTitle, CardHeader, Button } from 'reactstrap';
-import Checkbox from '../checkbox/CheckboxesVuexy';
-import { Check } from 'react-feather';
+import React from "react";
+import Wizard from "./WizardComponent";
+import {
+  AvForm,
+  AvInput,
+  AvGroup,
+  AvFeedback,
+  AvField,
+} from "availity-reactstrap-validation";
+import {
+  Label,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardTitle,
+  CardHeader,
+  Button,
+} from "reactstrap";
+import Checkbox from "../checkbox/CheckboxesVuexy";
+import { Check } from "react-feather";
 class WizardValidation extends React.Component {
   state = {
     activeStep: 0,
@@ -11,7 +26,8 @@ class WizardValidation extends React.Component {
       step_1: (
         <AvForm
           className="form-horizontal"
-          onSubmit={(e, errors) => this.handleActiveStep(1, errors)}>
+          onSubmit={(e, errors) => this.handleActiveStep(1, errors)}
+        >
           <Row>
             <Col md="6" sm="12">
               <AvGroup>
@@ -36,7 +52,12 @@ class WizardValidation extends React.Component {
             </Col>
             <Col md="6" sm="12">
               <AvGroup>
-                <AvField type="select" name="city-name" label="City Name" required>
+                <AvField
+                  type="select"
+                  name="city-name"
+                  label="City Name"
+                  required
+                >
                   <option selected>Select City</option>
                   <option>New York</option>
                   <option>Chicago</option>
@@ -57,7 +78,8 @@ class WizardValidation extends React.Component {
       step_2: (
         <AvForm
           className="form-horizontal"
-          onSubmit={(e, errors) => this.handleActiveStep(2, errors)}>
+          onSubmit={(e, errors) => this.handleActiveStep(2, errors)}
+        >
           <Row>
             <Col md="6" sm="12">
               <AvGroup>
@@ -90,7 +112,10 @@ class WizardValidation extends React.Component {
       step_3: (
         <AvForm
           className="form-horizontal"
-          onSubmit={(e, errors) => errors.length === 0 && alert('Form Submitted')}>
+          onSubmit={(e, errors) =>
+            errors.length === 0 && alert("Form Submitted")
+          }
+        >
           <Row>
             <Col md="6" sm="12">
               <AvGroup>
@@ -101,7 +126,12 @@ class WizardValidation extends React.Component {
             </Col>
             <Col md="6" sm="12">
               <AvGroup>
-                <AvField type="select" name="city-name" label="City Name" required>
+                <AvField
+                  type="select"
+                  name="city-name"
+                  label="City Name"
+                  required
+                >
                   <option selected>Select City</option>
                   <option>New York</option>
                   <option>Chicago</option>
@@ -112,7 +142,12 @@ class WizardValidation extends React.Component {
             </Col>
             <Col md="6" sm="12">
               <AvGroup>
-                <AvField type="select" name="status" label="Event Status" required>
+                <AvField
+                  type="select"
+                  name="status"
+                  label="Event Status"
+                  required
+                >
                   <option>Planning</option>
                   <option>In Process</option>
                   <option>Finished</option>
@@ -174,7 +209,8 @@ class WizardValidation extends React.Component {
           <Wizard
             activeStep={this.state.activeStep}
             stepsTitle={[1, 2, 3]}
-            stepsContent={[steps.step_1, steps.step_2, steps.step_3]}></Wizard>
+            stepsContent={[steps.step_1, steps.step_2, steps.step_3]}
+          ></Wizard>
         </CardBody>
       </Card>
     );

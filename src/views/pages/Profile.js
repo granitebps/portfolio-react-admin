@@ -1,28 +1,37 @@
-import React from 'react';
-import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, FormGroup } from 'reactstrap';
-import { Formik } from 'formik';
-import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
+import React from "react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardBody,
+  Form,
+  Row,
+  Col,
+  FormGroup,
+} from "reactstrap";
+import { Formik } from "formik";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
-import Header from '../../components/custom/Header';
-import InputText from '../../components/custom/Form/InputText';
-import InputTag from '../../components/custom/Form/InputTag';
-import InputFile from '../../components/custom/Form/InputFile';
-import SubmitButton from '../../components/custom/Form/SubmitButton';
-import InputImage from '../../components/custom/Form/InputImage';
-import Spinner from '../../components/@vuexy/spinner/Loading-spinner';
-import Error505 from '../misc/505';
-import Radio from '../../components/custom/Form/Radio';
+import Header from "../../components/custom/Header";
+import InputText from "../../components/custom/Form/InputText";
+import InputTag from "../../components/custom/Form/InputTag";
+import InputFile from "../../components/custom/Form/InputFile";
+import SubmitButton from "../../components/custom/Form/SubmitButton";
+import InputImage from "../../components/custom/Form/InputImage";
+import Spinner from "../../components/@vuexy/spinner/Loading-spinner";
+import Error505 from "../misc/505";
+import Radio from "../../components/custom/Form/Radio";
 
-import { removeEmptyStrings } from '../../utility/helper';
-import baseAxios, { useAxios } from '../../utility/baseAxios';
-import { useAuthContext } from '../../contexts/AuthContext';
-import { LOGIN } from '../../reducers/AuthReducer';
-import formSchema from './profileFormSchema';
+import { removeEmptyStrings } from "../../utility/helper";
+import baseAxios, { useAxios } from "../../utility/baseAxios";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { LOGIN } from "../../reducers/AuthReducer";
+import formSchema from "./profileFormSchema";
 
 const Profile = () => {
-  const authToken = Cookies.get('token');
-  const [{ data, loading, error }, refetch] = useAxios('profile', {
+  const authToken = Cookies.get("token");
+  const [{ data, loading, error }, refetch] = useAxios("profile", {
     useCache: false,
   });
   const { dispatch, logout } = useAuthContext();
@@ -32,27 +41,34 @@ const Profile = () => {
       const formData = new FormData();
       values = removeEmptyStrings(values);
       Object.keys(values).forEach((key) => {
-        if (key === 'languages') {
+        if (key === "languages") {
           values[key].forEach((item) => {
-            formData.append(key + '[]', item);
+            formData.append(key + "[]", item);
           });
         } else {
           formData.append(key, values[key]);
         }
       });
 
-      const { data } = await baseAxios.post('profile', formData, {
+      const { data } = await baseAxios.post("profile", formData, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
-      const cookiesExpires = new Date(new Date().getTime() + data.data.expires_in * 1000);
+      const cookiesExpires = new Date(
+        new Date().getTime() + data.data.expires_in * 1000
+      );
       const cookiesConfig =
-        process.env.NODE_ENV === 'development'
+        process.env.NODE_ENV === "development"
           ? { expires: cookiesExpires }
-          : { secure: true, domain: 'granitebps.com', sameSite: 'lax', expires: cookiesExpires };
+          : {
+              secure: true,
+              domain: "granitebps.com",
+              sameSite: "lax",
+              expires: cookiesExpires,
+            };
 
-      Cookies.set('token', data.data.token, cookiesConfig);
-      const cookiesToken = Cookies.get('token');
+      Cookies.set("token", data.data.token, cookiesConfig);
+      const cookiesToken = Cookies.get("token");
       if (!cookiesToken) {
         logout();
       }
@@ -75,7 +91,7 @@ const Profile = () => {
           setFieldError(e.field, e.message);
         });
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
   };
@@ -99,38 +115,52 @@ const Profile = () => {
         <CardBody>
           <Formik
             initialValues={{
-              avatar: '',
-              name: data ? data.data.name : '',
-              email: data ? data.data.email : '',
-              username: data ? data.data.username : '',
-              about: data ? data.data.profile.about : '',
-              age: data ? data.data.profile.age : '',
-              phone: data ? data.data.profile.phone : '',
-              address: data ? data.data.profile.address : '',
-              nationality: data ? data.data.profile.nationality : '',
+              avatar: "",
+              name: data ? data.data.name : "",
+              email: data ? data.data.email : "",
+              username: data ? data.data.username : "",
+              about: data ? data.data.profile.about : "",
+              age: data ? data.data.profile.age : "",
+              phone: data ? data.data.profile.phone : "",
+              address: data ? data.data.profile.address : "",
+              nationality: data ? data.data.profile.nationality : "",
               languages: data ? data.data.profile.languages : [],
-              instagram: data ? data.data.profile.instagram : '',
-              facebook: data ? data.data.profile.facebook : '',
-              twitter: data ? data.data.profile.twitter : '',
-              linkedin: data ? data.data.profile.linkedin : '',
-              github: data ? data.data.profile.github : '',
-              youtube: data ? data.data.profile.youtube : '',
-              medium: data ? data.data.profile.medium : '',
-              cv: '',
+              instagram: data ? data.data.profile.instagram : "",
+              facebook: data ? data.data.profile.facebook : "",
+              twitter: data ? data.data.profile.twitter : "",
+              linkedin: data ? data.data.profile.linkedin : "",
+              github: data ? data.data.profile.github : "",
+              youtube: data ? data.data.profile.youtube : "",
+              medium: data ? data.data.profile.medium : "",
+              cv: "",
               freelance: data ? data.data.profile.freelance : 0,
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+          >
             <Form>
               <Row>
                 <Col sm="12">
-                  <InputImage image={data ? data.data.profile.avatar : ''} name="avatar" />
+                  <InputImage
+                    image={data ? data.data.profile.avatar : ""}
+                    name="avatar"
+                  />
                 </Col>
                 <Col sm="12">
-                  <InputText name="name" placeholder="Masukkan Nama" label="Nama" type="text" />
+                  <InputText
+                    name="name"
+                    placeholder="Masukkan Nama"
+                    label="Nama"
+                    type="text"
+                  />
                 </Col>
                 <Col sm="12">
-                  <InputText name="email" placeholder="Masukkan Email" label="Email" type="email" />
+                  <InputText
+                    name="email"
+                    placeholder="Masukkan Email"
+                    label="Email"
+                    type="email"
+                  />
                 </Col>
                 <Col sm="12">
                   <InputText
@@ -150,7 +180,12 @@ const Profile = () => {
                   />
                 </Col>
                 <Col sm="12">
-                  <InputText name="age" placeholder="Masukkan Umur" label="Age" type="number" />
+                  <InputText
+                    name="age"
+                    placeholder="Masukkan Umur"
+                    label="Age"
+                    type="number"
+                  />
                 </Col>
                 <Col sm="12">
                   <InputText
@@ -178,7 +213,10 @@ const Profile = () => {
                   />
                 </Col>
                 <Col sm="12">
-                  <InputTag name="languages" label="Masukkan Bahasa (Bisa Lebih Dari 2)" />
+                  <InputTag
+                    name="languages"
+                    label="Masukkan Bahasa (Bisa Lebih Dari 2)"
+                  />
                 </Col>
                 <Col sm="12">
                   <InputText

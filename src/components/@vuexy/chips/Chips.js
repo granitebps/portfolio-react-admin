@@ -1,14 +1,14 @@
-import React from 'react';
-import { Row, Col } from 'reactstrap';
-import BreadCrumbs from '../../@vuexy/breadCrumbs/BreadCrumb';
-import ChipsDefault from './ChipsDefault';
-import ChipsColors from './ChipsColors';
-import ChipsAvatarColors from './ChipsAvatarColors';
-import ChipsIcons from './ChipsIcons';
-import ChipsClosable from './ChipsClosable';
-import ChipsClosableIcons from './ClosableIcons';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-jsx.min';
+import React from "react";
+import { Row, Col } from "reactstrap";
+import BreadCrumbs from "../../@vuexy/breadCrumbs/BreadCrumb";
+import ChipsDefault from "./ChipsDefault";
+import ChipsColors from "./ChipsColors";
+import ChipsAvatarColors from "./ChipsAvatarColors";
+import ChipsIcons from "./ChipsIcons";
+import ChipsClosable from "./ChipsClosable";
+import ChipsClosableIcons from "./ClosableIcons";
+import Prism from "prismjs";
+import "prismjs/components/prism-jsx.min";
 class Chips extends React.Component {
   componentDidMount() {
     Prism.highlightAll();

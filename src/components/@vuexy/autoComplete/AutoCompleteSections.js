@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -9,80 +9,80 @@ import {
   Nav,
   NavItem,
   NavLink,
-} from 'reactstrap';
-import { Eye, Code } from 'react-feather';
-import classnames from 'classnames';
-import AutoComplete from './AutoCompleteComponent';
-import { sectionExample } from './AutoCompleteSourceCode';
+} from "reactstrap";
+import { Eye, Code } from "react-feather";
+import classnames from "classnames";
+import AutoComplete from "./AutoCompleteComponent";
+import { sectionExample } from "./AutoCompleteSourceCode";
 
 class AutoCompleteSections extends React.Component {
   state = {
-    activeTab: '1',
+    activeTab: "1",
     suggestions: [
       {
-        groupTitle: '1970s',
+        groupTitle: "1970s",
         data: [
           {
-            title: 'C',
+            title: "C",
           },
         ],
       },
       {
-        groupTitle: '1980s',
+        groupTitle: "1980s",
         data: [
           {
-            title: 'C++',
+            title: "C++",
           },
           {
-            title: 'Perl',
+            title: "Perl",
           },
         ],
       },
       {
-        groupTitle: '1990s',
+        groupTitle: "1990s",
         data: [
           {
-            title: 'Haskell',
+            title: "Haskell",
           },
           {
-            title: 'Python',
+            title: "Python",
           },
           {
-            title: 'Java',
+            title: "Java",
           },
           {
-            title: 'Javascript',
+            title: "Javascript",
           },
           {
-            title: 'PHP',
+            title: "PHP",
           },
           {
-            title: 'Ruby',
+            title: "Ruby",
           },
         ],
       },
       {
-        groupTitle: '2000s',
+        groupTitle: "2000s",
         data: [
           {
-            title: 'C#',
+            title: "C#",
           },
           {
-            title: 'Scala',
+            title: "Scala",
           },
           {
-            title: 'Clojure',
+            title: "Clojure",
           },
           {
-            title: 'Go',
+            title: "Go",
           },
         ],
       },
       {
-        groupTitle: '2010s',
+        groupTitle: "2010s",
         data: [
           {
-            title: 'Elm',
+            title: "Elm",
           },
         ],
       },
@@ -106,22 +106,24 @@ class AutoCompleteSections extends React.Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '1',
+                      active: this.state.activeTab === "1",
                     })}
                     onClick={() => {
-                      this.toggleTab('1');
-                    }}>
+                      this.toggleTab("1");
+                    }}
+                  >
                     <Eye size={15} />
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '2',
+                      active: this.state.activeTab === "2",
                     })}
                     onClick={() => {
-                      this.toggleTab('2');
-                    }}>
+                      this.toggleTab("2");
+                    }}
+                  >
                     <Code size={15} />
                   </NavLink>
                 </NavItem>

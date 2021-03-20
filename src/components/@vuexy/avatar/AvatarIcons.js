@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -9,15 +9,23 @@ import {
   Nav,
   NavItem,
   NavLink,
-} from 'reactstrap';
-import classnames from 'classnames';
-import { Eye, Code, GitHub, Calendar, Inbox, Camera, Award } from 'react-feather';
-import Avatar from './AvatarComponent';
-import { avatarIcons } from './AvatarSourceCode';
+} from "reactstrap";
+import classnames from "classnames";
+import {
+  Eye,
+  Code,
+  GitHub,
+  Calendar,
+  Inbox,
+  Camera,
+  Award,
+} from "react-feather";
+import Avatar from "./AvatarComponent";
+import { avatarIcons } from "./AvatarSourceCode";
 
 class AvatarIcons extends React.Component {
   state = {
-    activeTab: '1',
+    activeTab: "1",
   };
 
   toggleTab = (tab) => {
@@ -37,22 +45,24 @@ class AvatarIcons extends React.Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '1',
+                      active: this.state.activeTab === "1",
                     })}
                     onClick={() => {
-                      this.toggleTab('1');
-                    }}>
+                      this.toggleTab("1");
+                    }}
+                  >
                     <Eye size={15} />
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '2',
+                      active: this.state.activeTab === "2",
                     })}
                     onClick={() => {
-                      this.toggleTab('2');
-                    }}>
+                      this.toggleTab("2");
+                    }}
+                  >
                     <Code size={15} />
                   </NavLink>
                 </NavItem>

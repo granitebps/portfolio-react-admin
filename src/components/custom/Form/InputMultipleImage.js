@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { Label, FormGroup, Col, Row, Button, Spinner } from 'reactstrap';
-import { useFormikContext, getIn } from 'formik';
+import React, { useState, useEffect } from "react";
+import { useDropzone } from "react-dropzone";
+import { Label, FormGroup, Col, Row, Button, Spinner } from "reactstrap";
+import { useFormikContext, getIn } from "formik";
 
-import '../../../assets/scss/plugins/extensions/dropzone.scss';
+import "../../../assets/scss/plugins/extensions/dropzone.scss";
 
 const InputMultipleImage = ({
   name,
@@ -25,7 +25,7 @@ const InputMultipleImage = ({
   );
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: "image/*",
     onDrop: (acceptedFiles) => {
       setFieldValue(name, acceptedFiles);
       setFiles(
@@ -47,13 +47,18 @@ const InputMultipleImage = ({
 
   const thumbs = files.map((file, index) => (
     <Col md="1" key={file.name}>
-      <img src={file.preview} className="img-thumbnail img-fluid" alt={file.name} />
+      <img
+        src={file.preview}
+        className="img-thumbnail img-fluid"
+        alt={file.name}
+      />
       <Button
         color="danger"
         size="sm"
         tag="button"
         className="btn-block"
-        onClick={() => handleRemoveThumb(index)}>
+        onClick={() => handleRemoveThumb(index)}
+      >
         Remove
       </Button>
     </Col>
@@ -70,8 +75,13 @@ const InputMultipleImage = ({
         tag="button"
         className="btn-block"
         onClick={() => removeDefaultPic(image.id)}
-        disabled={loadingRemoveDefaultPic || isSubmitting}>
-        {loadingRemoveDefaultPic ? <Spinner color="white" size="sm" /> : 'Remove'}
+        disabled={loadingRemoveDefaultPic || isSubmitting}
+      >
+        {loadingRemoveDefaultPic ? (
+          <Spinner color="white" size="sm" />
+        ) : (
+          "Remove"
+        )}
       </Button>
     </Col>
   ));
@@ -81,7 +91,7 @@ const InputMultipleImage = ({
       <section className="pb-1">
         <Label for={name}>{label}</Label>
         {images.length > 0 && <Row className="mb-2">{defaultPictures}</Row>}
-        <div {...getRootProps({ className: 'dropzone' })}>
+        <div {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} disabled={isSubmitting} />
           <p className="mx-1">
             <em>(Allowed JPG, JPEG or PNG. Max size of 2048kB)</em>

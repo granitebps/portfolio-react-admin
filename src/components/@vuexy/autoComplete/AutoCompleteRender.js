@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -9,44 +9,44 @@ import {
   Nav,
   NavItem,
   NavLink,
-} from 'reactstrap';
-import { Eye, Code } from 'react-feather';
-import classnames from 'classnames';
-import AutoComplete from './AutoCompleteComponent';
-import img1 from '../../../assets/img/portrait/small/avatar-s-1.jpg';
-import img2 from '../../../assets/img/portrait/small/avatar-s-2.jpg';
-import img3 from '../../../assets/img/portrait/small/avatar-s-3.jpg';
-import img4 from '../../../assets/img/portrait/small/avatar-s-4.jpg';
-import img5 from '../../../assets/img/portrait/small/avatar-s-5.jpg';
-import img6 from '../../../assets/img/portrait/small/avatar-s-6.jpg';
-import { customRenderExample } from './AutoCompleteSourceCode';
+} from "reactstrap";
+import { Eye, Code } from "react-feather";
+import classnames from "classnames";
+import AutoComplete from "./AutoCompleteComponent";
+import img1 from "../../../assets/img/portrait/small/avatar-s-1.jpg";
+import img2 from "../../../assets/img/portrait/small/avatar-s-2.jpg";
+import img3 from "../../../assets/img/portrait/small/avatar-s-3.jpg";
+import img4 from "../../../assets/img/portrait/small/avatar-s-4.jpg";
+import img5 from "../../../assets/img/portrait/small/avatar-s-5.jpg";
+import img6 from "../../../assets/img/portrait/small/avatar-s-6.jpg";
+import { customRenderExample } from "./AutoCompleteSourceCode";
 
 class AutoCompleteRender extends React.Component {
   state = {
-    activeTab: '1',
+    activeTab: "1",
     suggestions: [
       {
-        name: 'Jake Shelton',
+        name: "Jake Shelton",
         img: img1,
       },
       {
-        name: 'Edith Baldwin',
+        name: "Edith Baldwin",
         img: img2,
       },
       {
-        name: 'Jennifer Wolfe',
+        name: "Jennifer Wolfe",
         img: img3,
       },
       {
-        name: 'Emily Washington',
+        name: "Emily Washington",
         img: img4,
       },
       {
-        name: 'Heather Green',
+        name: "Heather Green",
         img: img6,
       },
       {
-        name: 'Brian Moore',
+        name: "Brian Moore",
         img: img5,
       },
     ],
@@ -69,22 +69,24 @@ class AutoCompleteRender extends React.Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '1',
+                      active: this.state.activeTab === "1",
                     })}
                     onClick={() => {
-                      this.toggleTab('1');
-                    }}>
+                      this.toggleTab("1");
+                    }}
+                  >
                     <Eye size={15} />
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '2',
+                      active: this.state.activeTab === "2",
                     })}
                     onClick={() => {
-                      this.toggleTab('2');
-                    }}>
+                      this.toggleTab("2");
+                    }}
+                  >
                     <Code size={15} />
                   </NavLink>
                 </NavItem>
@@ -108,14 +110,18 @@ class AutoCompleteRender extends React.Component {
                     onSuggestionItemHover
                   ) => (
                     <li
-                      className={classnames('suggestion-item', {
-                        active: filteredData.indexOf(suggestion) === activeSuggestion,
+                      className={classnames("suggestion-item", {
+                        active:
+                          filteredData.indexOf(suggestion) === activeSuggestion,
                       })}
                       key={i}
-                      onMouseEnter={() => onSuggestionItemHover(filteredData.indexOf(suggestion))}
+                      onMouseEnter={() =>
+                        onSuggestionItemHover(filteredData.indexOf(suggestion))
+                      }
                       onClick={(e) => {
                         onSuggestionItemClick(null, e);
-                      }}>
+                      }}
+                    >
                       <img
                         src={suggestion.img}
                         alt={suggestion.name}

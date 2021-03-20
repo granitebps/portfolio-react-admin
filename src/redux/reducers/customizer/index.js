@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import customizer from './customizer';
+import { combineReducers } from "redux";
+import customizer from "./customizer";
 
 const customizerReducer = combineReducers({
   customizer,

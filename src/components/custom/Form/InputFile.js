@@ -1,6 +1,6 @@
-import React from 'react';
-import { FormGroup, Label, Input } from 'reactstrap';
-import { useFormikContext, ErrorMessage } from 'formik';
+import React from "react";
+import { FormGroup, Label, Input } from "reactstrap";
+import { useFormikContext, ErrorMessage } from "formik";
 
 const InputFile = ({ label, name, placeholder, ...props }) => {
   const { setFieldValue, isSubmitting } = useFormikContext();

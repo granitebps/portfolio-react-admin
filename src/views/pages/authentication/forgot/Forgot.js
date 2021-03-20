@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -12,16 +12,16 @@ import {
   Label,
   FormFeedback,
   UncontrolledAlert,
-} from 'reactstrap';
-import * as Yup from 'yup';
-import { Helmet } from 'react-helmet';
-import { Formik, Field, ErrorMessage } from 'formik';
+} from "reactstrap";
+import * as Yup from "yup";
+import { Helmet } from "react-helmet";
+import { Formik, Field, ErrorMessage } from "formik";
 
-import fgImg from '../../../../assets/img/pages/forgot-password.png';
-import { history } from '../../../../history';
-import '../../../../assets/scss/pages/authentication.scss';
-import { useAuthContext } from '../../../../contexts/AuthContext';
-import SubmitButton from '../../../../components/custom/Form/SubmitButton';
+import fgImg from "../../../../assets/img/pages/forgot-password.png";
+import { history } from "../../../../history";
+import "../../../../assets/scss/pages/authentication.scss";
+import { useAuthContext } from "../../../../contexts/AuthContext";
+import SubmitButton from "../../../../components/custom/Form/SubmitButton";
 
 const ForgotPassword = () => {
   const { forgot } = useAuthContext();
@@ -29,7 +29,7 @@ const ForgotPassword = () => {
   const [success, setSuccess] = useState(false);
 
   const formSchema = Yup.object().shape({
-    email: Yup.string().required('Required').email(),
+    email: Yup.string().required("Required").email(),
   });
 
   const handleForgot = async (values, { setFieldError, resetForm }) => {
@@ -44,7 +44,7 @@ const ForgotPassword = () => {
           setFieldError(e.field, e.message);
         });
       } else {
-        setServerError('Something Wrong! Please Contact Customer Services!');
+        setServerError("Something Wrong! Please Contact Customer Services!");
       }
     }
     resetForm();
@@ -55,10 +55,19 @@ const ForgotPassword = () => {
       <Helmet>
         <title>Forgot Password</title>
       </Helmet>
-      <Col sm="8" xl="7" lg="10" md="8" className="d-flex justify-content-center">
+      <Col
+        sm="8"
+        xl="7"
+        lg="10"
+        md="8"
+        className="d-flex justify-content-center"
+      >
         <Card className="bg-authentication rounded-0 mb-0 w-100">
           <Row className="m-0">
-            <Col lg="6" className="d-lg-block d-none text-center align-self-center">
+            <Col
+              lg="6"
+              className="d-lg-block d-none text-center align-self-center"
+            >
               <img src={fgImg} alt="fgImg" />
             </Col>
             <Col lg="6" md="12" className="p-0">
@@ -69,8 +78,8 @@ const ForgotPassword = () => {
                   </CardTitle>
                 </CardHeader>
                 <p className="px-2 auth-title">
-                  Please enter your email address and we will send you instructions on how to reset
-                  your password.
+                  Please enter your email address and we will send you
+                  instructions on how to reset your password.
                 </p>
                 <CardBody className="pt-1 pb-0">
                   {serverError && (
@@ -85,16 +94,17 @@ const ForgotPassword = () => {
                   )}
                   <Formik
                     initialValues={{
-                      email: '',
+                      email: "",
                     }}
                     onSubmit={handleForgot}
-                    validationSchema={formSchema}>
+                    validationSchema={formSchema}
+                  >
                     {({ errors, touched, isSubmitting }) => (
                       <Form>
                         <FormGroup className="form-label-group">
                           <Field
                             className={`form-control ${
-                              errors.email && touched.email && 'is-invalid'
+                              errors.email && touched.email && "is-invalid"
                             }`}
                             name="email"
                             placeholder="Email"
@@ -114,7 +124,8 @@ const ForgotPassword = () => {
                             color="primary"
                             outline
                             className="px-75 btn-block"
-                            onClick={() => history.push('/pages/login')}>
+                            onClick={() => history.push("/pages/login")}
+                          >
                             Back to Login
                           </Button.Ripple>
                         </div>

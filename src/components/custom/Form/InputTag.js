@@ -1,7 +1,7 @@
-import React from 'react';
-import { getIn, useFormikContext, ErrorMessage } from 'formik';
-import { FormGroup, Label } from 'reactstrap';
-import CreatableSelect from 'react-select/creatable';
+import React from "react";
+import { getIn, useFormikContext, ErrorMessage } from "formik";
+import { FormGroup, Label } from "reactstrap";
+import CreatableSelect from "react-select/creatable";
 
 const InputTag = ({ name, label, ...props }) => {
   const { values, setFieldValue, isSubmitting } = useFormikContext();

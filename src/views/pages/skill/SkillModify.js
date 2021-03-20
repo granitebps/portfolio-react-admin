@@ -1,32 +1,41 @@
-import React from 'react';
-import { Formik } from 'formik';
-import { Card, CardHeader, CardTitle, CardBody, Form, Row, Col, Button } from 'reactstrap';
-import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
+import React from "react";
+import { Formik } from "formik";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardBody,
+  Form,
+  Row,
+  Col,
+  Button,
+} from "reactstrap";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
-import { history } from '../../../history';
-import Header from '../../../components/custom/Header';
-import InputText from '../../../components/custom/Form/InputText';
-import SubmitButton from '../../../components/custom/Form/SubmitButton';
-import { useAuthContext } from '../../../contexts/AuthContext';
-import baseAxios from '../../../utility/baseAxios';
-import formSchema from './formSchema';
+import { history } from "../../../history";
+import Header from "../../../components/custom/Header";
+import InputText from "../../../components/custom/Form/InputText";
+import SubmitButton from "../../../components/custom/Form/SubmitButton";
+import { useAuthContext } from "../../../contexts/AuthContext";
+import baseAxios from "../../../utility/baseAxios";
+import formSchema from "./formSchema";
 
 const SkillModify = () => {
   const { logout } = useAuthContext();
-  const authToken = Cookies.get('token');
+  const authToken = Cookies.get("token");
 
   const param = history.location.state;
 
   const handleSubmit = async (values, { setFieldError }) => {
     try {
       if (param) {
-        values._method = 'PUT';
+        values._method = "PUT";
       }
-      const url = param ? `skill/${param.skill.id}` : 'skill';
+      const url = param ? `skill/${param.skill.id}` : "skill";
       const { data } = await baseAxios({
         url: url,
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -34,7 +43,7 @@ const SkillModify = () => {
       });
 
       toast.success(data.message);
-      history.push('/skill');
+      history.push("/skill");
     } catch (error) {
       if (error.response.status === 401) {
         logout();
@@ -43,27 +52,28 @@ const SkillModify = () => {
           setFieldError(e.field, e.message);
         });
       } else {
-        toast.error('Something Wrong!');
+        toast.error("Something Wrong!");
       }
     }
   };
 
   return (
     <React.Fragment>
-      <Header title={param ? 'Edit Skill' : 'Add Skill'} />
+      <Header title={param ? "Edit Skill" : "Add Skill"} />
 
       <Card>
         <CardHeader>
-          <CardTitle>{param ? 'Edit Skill' : 'Add Skill'}</CardTitle>
+          <CardTitle>{param ? "Edit Skill" : "Add Skill"}</CardTitle>
         </CardHeader>
         <CardBody>
           <Formik
             initialValues={{
-              name: param ? param.skill.name : '',
-              percentage: param ? param.skill.percentage : '',
+              name: param ? param.skill.name : "",
+              percentage: param ? param.skill.percentage : "",
             }}
             validationSchema={formSchema}
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+          >
             <Form>
               <Row>
                 <Col sm="12">
@@ -83,7 +93,11 @@ const SkillModify = () => {
                   />
                 </Col>
               </Row>
-              <Button.Ripple className="mr-1" color="warning" onClick={() => history.goBack()}>
+              <Button.Ripple
+                className="mr-1"
+                color="warning"
+                onClick={() => history.goBack()}
+              >
                 Back
               </Button.Ripple>
               <SubmitButton color="primary" label="Submit" />

@@ -1,14 +1,14 @@
-import React from 'react';
-import { Row, Col } from 'reactstrap';
-import BreadCrumbs from '../../@vuexy/breadCrumbs/BreadCrumb';
-import AutoCompleteBasic from './AutoCompleteBasic';
-import AutoCompleteAjax from './AutoCompleteAjax';
-import AutoCompleteSections from './AutoCompleteSections';
-import AutoCompleteRender from './AutoCompleteRender';
-import AutoCompleteSuggestions from './AutoCompleteSuggestions';
-import AutoCompleteSearchLimit from './AutoCompleteLimit';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-jsx.min';
+import React from "react";
+import { Row, Col } from "reactstrap";
+import BreadCrumbs from "../../@vuexy/breadCrumbs/BreadCrumb";
+import AutoCompleteBasic from "./AutoCompleteBasic";
+import AutoCompleteAjax from "./AutoCompleteAjax";
+import AutoCompleteSections from "./AutoCompleteSections";
+import AutoCompleteRender from "./AutoCompleteRender";
+import AutoCompleteSuggestions from "./AutoCompleteSuggestions";
+import AutoCompleteSearchLimit from "./AutoCompleteLimit";
+import Prism from "prismjs";
+import "prismjs/components/prism-jsx.min";
 class AutoComplete extends React.Component {
   componentDidMount() {
     Prism.highlightAll();

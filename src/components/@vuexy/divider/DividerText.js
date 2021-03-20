@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -9,14 +9,14 @@ import {
   Nav,
   NavItem,
   NavLink,
-} from 'reactstrap';
-import classnames from 'classnames';
-import { Eye, Code } from 'react-feather';
-import { dividerText } from './DividerSourceCode';
+} from "reactstrap";
+import classnames from "classnames";
+import { Eye, Code } from "react-feather";
+import { dividerText } from "./DividerSourceCode";
 
 class DividerText extends React.Component {
   state = {
-    activeTab: '1',
+    activeTab: "1",
   };
 
   toggleTab = (tab) => {
@@ -36,22 +36,24 @@ class DividerText extends React.Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '1',
+                      active: this.state.activeTab === "1",
                     })}
                     onClick={() => {
-                      this.toggleTab('1');
-                    }}>
+                      this.toggleTab("1");
+                    }}
+                  >
                     <Eye size={15} />
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === '2',
+                      active: this.state.activeTab === "2",
                     })}
                     onClick={() => {
-                      this.toggleTab('2');
-                    }}>
+                      this.toggleTab("2");
+                    }}
+                  >
                     <Code size={15} />
                   </NavLink>
                 </NavItem>
@@ -60,8 +62,8 @@ class DividerText extends React.Component {
           </CardHeader>
           <CardBody>
             <p>
-              Use class <code>.divider</code> as wrapper for <code>.divider-text</code> to create a
-              divider text
+              Use class <code>.divider</code> as wrapper for{" "}
+              <code>.divider-text</code> to create a divider text
             </p>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">

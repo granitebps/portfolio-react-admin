@@ -1,47 +1,55 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { Input, Button, Card, CardBody, CardHeader, CardTitle } from 'reactstrap';
-import { Send } from 'react-feather';
-import senderImg from '../../../assets/img/portrait/small/avatar-s-2.jpg';
-import receiverImg from '../../../assets/img/portrait/small/avatar-s-5.jpg';
+import React from "react";
+import ReactDOM from "react-dom";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import {
+  Input,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+} from "reactstrap";
+import { Send } from "react-feather";
+import senderImg from "../../../assets/img/portrait/small/avatar-s-2.jpg";
+import receiverImg from "../../../assets/img/portrait/small/avatar-s-5.jpg";
 class ChatWidget extends React.Component {
   state = {
     chatsList: [
       {
-        msg: 'Cake sesame snaps cupcake gingerbread',
+        msg: "Cake sesame snaps cupcake gingerbread",
         isSent: true,
       },
       {
-        msg: 'Apple pie pie jujubes chupa chups muffin',
+        msg: "Apple pie pie jujubes chupa chups muffin",
         isSent: false,
       },
       {
-        msg: 'Chocolate cake',
+        msg: "Chocolate cake",
         isSent: true,
       },
       {
-        msg: 'Donut sweet pie oat cake dragée fruitcake',
+        msg: "Donut sweet pie oat cake dragée fruitcake",
         isSent: false,
       },
       {
-        msg: 'Liquorice chocolate bar jelly beans icing',
+        msg: "Liquorice chocolate bar jelly beans icing",
         isSent: true,
       },
       {
-        msg: 'Powder toffee tootsie roll macaroon cupcake',
+        msg: "Powder toffee tootsie roll macaroon cupcake",
         isSent: false,
       },
       {
-        msg: 'Apple pie oat cake brownie cotton candy cupcake chocolate bar dessert',
+        msg:
+          "Apple pie oat cake brownie cotton candy cupcake chocolate bar dessert",
         isSent: true,
       },
       {
-        msg: 'Biscuit cake jujubes carrot cake topping sweet cake',
+        msg: "Biscuit cake jujubes carrot cake topping sweet cake",
         isSent: false,
       },
     ],
-    msg: '',
+    msg: "",
   };
 
   componentDidMount() {
@@ -63,7 +71,10 @@ class ChatWidget extends React.Component {
 
     let renderChatList = chatsList.map((chat, i) => {
       return (
-        <div key={i} className={`chat ${chat.isSent ? 'chat-right' : 'chat-left'}`}>
+        <div
+          key={i}
+          className={`chat ${chat.isSent ? "chat-right" : "chat-left"}`}
+        >
           <div className="chat-avatar">
             <div className="avatar m-0">
               <img
@@ -96,7 +107,8 @@ class ChatWidget extends React.Component {
             }}
             ref={(el) => {
               this.chatArea = el;
-            }}>
+            }}
+          >
             <div className="chats">{renderChatList}</div>
           </PerfectScrollbar>
           <div className="chat-footer">
@@ -114,7 +126,8 @@ class ChatWidget extends React.Component {
               <Button
                 className="btn-icon"
                 color="primary"
-                onClick={() => this.setState({ msg: '' })}>
+                onClick={() => this.setState({ msg: "" })}
+              >
                 <Send size={15} />
               </Button>
             </CardBody>
