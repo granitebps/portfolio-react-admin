@@ -69,7 +69,7 @@ const NavbarUser = (props) => {
       setMessageCount(unreadMessage.length);
     };
     getMessage();
-  }, []);
+  }, [authToken]);
 
   return (
     <ul className="nav navbar-nav navbar-nav-user float-right">
