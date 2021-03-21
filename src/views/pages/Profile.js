@@ -192,7 +192,7 @@ const Profile = () => {
                     name="phone"
                     placeholder="Masukkan No Telp"
                     label="Phone Number"
-                    type="number"
+                    type="text"
                   />
                 </Col>
                 <Col sm="12">
