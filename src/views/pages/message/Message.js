@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
-import { Trash2 } from "react-feather";
+import { Trash2, CheckCircle } from "react-feather";
 import { toast } from "react-toastify";
 import { Card, CardBody, Button, Row, Col, Spinner } from "reactstrap";
 import moment from "moment";
@@ -29,12 +29,12 @@ const Message = () => {
   );
   const [value, setValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingItem, setLoadingItem] = useState(false);
   const { logout } = useAuthContext();
 
   const handleDelete = async (data) => {
     try {
-      setLoadingDelete(true);
+      setLoadingItem(true);
 
       const { data: dataDelete } = await baseAxios.delete(
         `message/${data.id}`,
@@ -44,7 +44,29 @@ const Message = () => {
       );
       toast.success(dataDelete.message);
       refetch();
-      setLoadingDelete(false);
+      setLoadingItem(false);
+    } catch (error) {
+      if (error.response.status === 401) {
+        logout();
+      } else {
+        toast.error("Something Wrong!");
+      }
+    }
+  };
+
+  const handleRead = async (data) => {
+    try {
+      setLoadingItem(true);
+
+      const { data: dataRead } = await baseAxios.get(
+        `message/read/${data.id}`,
+        {
+          headers: { Authorization: `Bearer ${authToken}` },
+        }
+      );
+      toast.success(dataRead.message);
+      refetch();
+      setLoadingItem(false);
     } catch (error) {
       if (error.response.status === 401) {
         logout();
@@ -126,20 +148,44 @@ const Message = () => {
       ),
     },
     {
+      name: "Is Read",
+      selector: "is_read",
+      sortable: true,
+      cell: (row) => (
+        <p className="text-bold-500 my-1">{row.is_read ? "Yes" : "No"}</p>
+      ),
+    },
+    {
       name: "Action",
       selector: "",
       cell: (row) => (
         <Row>
-          <Col md="12">
+          <Col md={row.is_read ? 12 : 6}>
             <Button.Ripple
               color="danger"
               onClick={() => handleDelete(row)}
-              disabled={loadingDelete}
+              disabled={loadingItem}
               className="btn-icon rounded-circle"
             >
-              {loadingDelete ? <Spinner color="white" size="sm" /> : <Trash2 />}
+              {loadingItem ? <Spinner color="white" size="sm" /> : <Trash2 />}
             </Button.Ripple>
           </Col>
+          {!row.is_read && (
+            <Col md="6">
+              <Button.Ripple
+                color="success"
+                onClick={() => handleRead(row)}
+                disabled={loadingItem}
+                className="btn-icon rounded-circle"
+              >
+                {loadingItem ? (
+                  <Spinner color="white" size="sm" />
+                ) : (
+                  <CheckCircle />
+                )}
+              </Button.Ripple>
+            </Col>
+          )}
         </Row>
       ),
     },
