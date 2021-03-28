@@ -22,6 +22,7 @@ import InputImage from "../../components/custom/Form/InputImage";
 import Spinner from "../../components/@vuexy/spinner/Loading-spinner";
 import Error505 from "../misc/505";
 import Radio from "../../components/custom/Form/Radio";
+import DatePicker from "../../components/custom/Form/DatePicker";
 
 import { removeEmptyStrings } from "../../utility/helper";
 import baseAxios, { useAxios } from "../../utility/baseAxios";
@@ -121,6 +122,7 @@ const Profile = () => {
               username: data ? data.data.username : "",
               about: data ? data.data.profile.about : "",
               age: data ? data.data.profile.age : "",
+              birth: data ? new Date(data.data.profile.birth) : new Date(),
               phone: data ? data.data.profile.phone : "",
               address: data ? data.data.profile.address : "",
               nationality: data ? data.data.profile.nationality : "",
@@ -180,12 +182,7 @@ const Profile = () => {
                   />
                 </Col>
                 <Col sm="12">
-                  <InputText
-                    name="age"
-                    placeholder="Masukkan Umur"
-                    label="Age"
-                    type="number"
-                  />
+                  <DatePicker name="birth" label="Birth Date" />
                 </Col>
                 <Col sm="12">
                   <InputText

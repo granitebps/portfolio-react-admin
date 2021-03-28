@@ -16,11 +16,11 @@ const formSchema = Yup.object().shape({
     .required("Username is Required")
     .max(255, "Username is too long. Max length is 255 characters"),
   about: Yup.string().required("About is Required"),
-  age: Yup.number().required("Age is Required"),
+  birth: Yup.date().required("Birth Date is Required"),
   phone: Yup.string()
     .required("Phone is Required")
-    .min("8", "Phone number is too short. Min length is 8 characters")
-    .max("13", "Phone number is too long. Max length is 13 characters"),
+    .min("10", "Phone number is too short. Min length is 8 characters")
+    .max("15", "Phone number is too long. Max length is 13 characters"),
   address: Yup.string().required("Address is Required"),
   nationality: Yup.string()
     .required("Nationality is Required")
