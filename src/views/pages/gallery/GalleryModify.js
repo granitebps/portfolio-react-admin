@@ -15,11 +15,11 @@ import { toast } from "react-toastify";
 
 import Header from "../../../components/custom/Header";
 import SubmitButton from "../../../components/custom/Form/SubmitButton";
-import InputMultipleImage from "../../../components/custom/Form/InputMultipleImage";
 import { history } from "../../../history";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import baseAxios from "../../../utility/baseAxios";
 import formSchema from "./formSchema";
+import InputFile from "../../../components/custom/Form/InputFile";
 
 const GalleryModify = () => {
   const authToken = Cookies.get("token");
@@ -29,11 +29,6 @@ const GalleryModify = () => {
     try {
       const formData = new FormData();
       Object.keys(values).forEach((key) => {
-        if (key === "image") {
-          values[key].forEach((item) => {
-            formData.append(key + "[]", item);
-          });
-        }
         formData.append(key, values[key]);
       });
 
@@ -72,7 +67,7 @@ const GalleryModify = () => {
         <CardBody>
           <Formik
             initialValues={{
-              image: [],
+              file: null,
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}
@@ -80,7 +75,7 @@ const GalleryModify = () => {
             <Form>
               <Row>
                 <Col sm="12">
-                  <InputMultipleImage label="Images" name="image" images={[]} />
+                  <InputFile label="File" name="file" placeholder="Add file" />
                 </Col>
               </Row>
               <Button.Ripple

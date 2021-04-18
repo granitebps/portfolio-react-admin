@@ -1,20 +1,20 @@
 import * as Yup from "yup";
 
-const FILE_SIZE = 2048 * 1024;
+const FILE_SIZE = 1024 * 1024 * 100;
 
 const formSchema = Yup.object().shape({
-  image: Yup.array()
-    .required("Images is Required")
-    .test("fileSize", "Images is too large. Max size is 2048KB", (value) => {
-      if (value.length > 0) {
-        const check = value.find((file) => file.size >= FILE_SIZE);
-        if (check) {
+  file: Yup.mixed()
+    .required("File is Required")
+    .test("fileSize", "File is too large. Max size is 100MB", (value) => {
+      if (value) {
+        if (value.size >= FILE_SIZE) {
           return false;
         } else {
           return true;
         }
+      } else {
+        return true;
       }
-      return true;
     }),
 });
 

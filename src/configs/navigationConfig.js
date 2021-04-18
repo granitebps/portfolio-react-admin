@@ -102,7 +102,7 @@ const navigationConfig = [
     id: "gallery",
     title: "Gallery",
     type: "item",
-    icon: <Icon.Image size={20} />,
+    icon: <Icon.File size={20} />,
     permissions: ["admin"],
     navLink: "/gallery",
   },
