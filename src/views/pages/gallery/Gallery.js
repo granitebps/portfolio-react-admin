@@ -120,6 +120,21 @@ const Gallery = () => {
       ),
     },
     {
+      name: "Preview",
+      cell: (row) =>
+        row.ext === "jpg" || row.ext === "png" || row.ext === "jpeg" ? (
+          <a href={row.file} target="_blank" rel="noopener noreferrer">
+            <img
+              className="img-fluid img-thumbnail my-1"
+              height="80"
+              width="80"
+              src={row.file}
+              alt={row.name}
+            />
+          </a>
+        ) : null,
+    },
+    {
       name: "Ext",
       selector: "ext",
       sortable: true,
