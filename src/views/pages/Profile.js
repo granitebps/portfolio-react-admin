@@ -55,20 +55,6 @@ const Profile = () => {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
-      const cookiesExpires = new Date(
-        new Date().getTime() + data.data.expires_in * 1000
-      );
-      const cookiesConfig =
-        process.env.NODE_ENV === "development"
-          ? { expires: cookiesExpires }
-          : {
-              secure: true,
-              domain: "granitebps.com",
-              sameSite: "lax",
-              expires: cookiesExpires,
-            };
-
-      Cookies.set("token", data.data.token, cookiesConfig);
       const cookiesToken = Cookies.get("token");
       if (!cookiesToken) {
         logout();
