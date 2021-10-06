@@ -121,7 +121,7 @@ const Profile = () => {
               youtube: data ? data.data.profile.youtube : "",
               medium: data ? data.data.profile.medium : "",
               cv: "",
-              freelance: data ? data.data.profile.freelance : 0,
+              freelance: data ? data.data.profile.freelance : false,
             }}
             validationSchema={formSchema}
             onSubmit={handleSubmit}
@@ -267,8 +267,12 @@ const Profile = () => {
                 </Col>
                 <Col sm="12">
                   <FormGroup>
-                    <Radio label="Not Available" name="freelance" value={0} />
-                    <Radio label="Available" name="freelance" value={1} />
+                    <Radio
+                      label="Not Available"
+                      name="freelance"
+                      value={false}
+                    />
+                    <Radio label="Available" name="freelance" value={true} />
                   </FormGroup>
                 </Col>
               </Row>
