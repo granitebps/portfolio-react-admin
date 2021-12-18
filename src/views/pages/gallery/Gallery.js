@@ -12,7 +12,6 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import moment from "moment";
 
@@ -27,7 +26,7 @@ import CustomHeader from "../../../components/custom/Table/CustomHeader";
 import { formatBytes } from "../../../utility/helper";
 
 const Gallery = () => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const [{ data, loading, error }, refetch] = useAxios(
     {
       url: "gallery",

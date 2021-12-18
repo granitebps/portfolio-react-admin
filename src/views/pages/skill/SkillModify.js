@@ -10,7 +10,6 @@ import {
   Col,
   Button,
 } from "reactstrap";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 import { history } from "../../../history";
@@ -23,7 +22,7 @@ import formSchema from "./formSchema";
 
 const SkillModify = () => {
   const { logout } = useAuthContext();
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
 
   const param = history.location.state;
 

@@ -11,7 +11,6 @@ import {
   Button,
   FormGroup,
 } from "reactstrap";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 import Header from "../../../components/custom/Header";
@@ -27,7 +26,7 @@ import baseAxios from "../../../utility/baseAxios";
 import validation from "./formSchema";
 
 const PortofolioModify = () => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const { logout } = useAuthContext();
   const [loadingRemoveDefaultPic, setLoadingRemoveDefaultPic] = useState(false);
   const param = history.location.state;

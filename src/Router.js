@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from "react";
 import { Router, Switch, Route, Redirect } from "react-router-dom";
-import Cookies from "js-cookie";
 import { history } from "./history";
 import Spinner from "./components/@vuexy/spinner/Loading-spinner";
 import { ContextLayout } from "./utility/context/Layout";
@@ -47,7 +46,7 @@ const Error404 = lazy(() => import("./views/misc/404"));
 
 // Set Layout and Component Using App Route
 const AppRoute = ({ component: Component, fullLayout, ...rest }) => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
 
   if (
     history.location.pathname !== "/" &&

@@ -1,5 +1,4 @@
 import React, { createContext, useReducer, useContext } from "react";
-import Cookies from "js-cookie";
 
 import {
   authReducer,
@@ -21,7 +20,7 @@ const AuthContextProvider = ({ children }) => {
 
   const initialAuth = async () => {
     try {
-      const authToken = Cookies.get("token");
+      const authToken = localStorage.getItem("token-gbps");
       if (authToken) {
         const { data } = await baseAxios.get("auth/me", {
           headers: { Authorization: `Bearer ${authToken}` },
@@ -39,6 +38,7 @@ const AuthContextProvider = ({ children }) => {
         logout();
       }
     } catch (error) {
+      console.log(error);
       logout();
     }
   };
@@ -51,20 +51,7 @@ const AuthContextProvider = ({ children }) => {
     };
     const { data } = await baseAxios.post("auth/login", request);
 
-    const cookiesConfig =
-      process.env.NODE_ENV === "development"
-        ? {}
-        : {
-            secure: true,
-            domain: "granitebps.com",
-            sameSite: "lax",
-          };
-
-    Cookies.set("token", data.data.token, cookiesConfig);
-    const cookiesToken = Cookies.get("token");
-    if (!cookiesToken) {
-      return;
-    }
+    localStorage.setItem("token-gbps", data.data.token);
     dispatch({
       type: LOGIN,
       payload: {
@@ -77,11 +64,7 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const logout = () => {
-    const cookiesConfig =
-      process.env.NODE_ENV === "development"
-        ? {}
-        : { domain: "granitebps.com" };
-    Cookies.remove("token", cookiesConfig);
+    localStorage.removeItem("token-gbps");
     dispatch({
       type: LOGOUT,
     });

@@ -7,14 +7,14 @@ const CustomRadio = ({ label, name, value }) => {
   const checkedValue = getIn(values, name);
 
   const handleChange = (e) => {
-    setFieldValue(name, parseInt(e.target.value));
+    setFieldValue(name, e.target.value === "true");
   };
 
   return (
     <FormGroup>
       <CustomInput
         type="radio"
-        id={value}
+        id={label}
         name={name}
         label={label}
         checked={value === checkedValue ? true : false}
