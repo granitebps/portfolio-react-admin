@@ -12,7 +12,6 @@ import {
   ModalFooter,
 } from "reactstrap";
 import DataTable from "react-data-table-component";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { Edit, Trash2 } from "react-feather";
 
@@ -33,7 +32,7 @@ const Skill = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { logout } = useAuthContext();
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
 
   const handleAdd = () => {
     history.push("/skill/modify");

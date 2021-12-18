@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Cookies from "js-cookie";
 import { Trash2, CheckCircle } from "react-feather";
 import { toast } from "react-toastify";
 import { Card, CardBody, Button, Row, Col, Spinner } from "reactstrap";
@@ -14,7 +13,7 @@ import DataTable from "react-data-table-component";
 import CustomHeader from "../../../components/custom/Table/CustomHeader";
 
 const Message = () => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const [{ data, loading, error }, refetch] = useAxios(
     {
       url: "message",

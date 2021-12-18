@@ -10,7 +10,6 @@ import {
   Col,
   Button,
 } from "reactstrap";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 import Header from "../../../components/custom/Header";
@@ -22,7 +21,7 @@ import formSchema from "./formSchema";
 import InputFile from "../../../components/custom/Form/InputFile";
 
 const GalleryModify = () => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const { logout } = useAuthContext();
 
   const handleSubmit = async (values, { setFieldError }) => {

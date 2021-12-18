@@ -11,7 +11,6 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import Cookies from "js-cookie";
 import { Trash2, Edit } from "react-feather";
 import DataTable from "react-data-table-component";
 import { toast } from "react-toastify";
@@ -33,7 +32,7 @@ const Service = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { logout } = useAuthContext();
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
 
   const handleAdd = () => {
     history.push("/service/modify");

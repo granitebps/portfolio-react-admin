@@ -10,7 +10,6 @@ import {
   FormGroup,
 } from "reactstrap";
 import { Formik } from "formik";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 import Header from "../../components/custom/Header";
@@ -31,7 +30,7 @@ import { LOGIN } from "../../reducers/AuthReducer";
 import formSchema from "./profileFormSchema";
 
 const Profile = () => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const [{ data, loading, error }, refetch] = useAxios("profile", {
     useCache: false,
   });
@@ -55,8 +54,8 @@ const Profile = () => {
         headers: { Authorization: `Bearer ${authToken}` },
       });
 
-      const cookiesToken = Cookies.get("token");
-      if (!cookiesToken) {
+      const token = localStorage.getItem("token-gbps");
+      if (!token) {
         logout();
       }
       refetch();

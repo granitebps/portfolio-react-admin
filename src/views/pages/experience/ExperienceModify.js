@@ -11,7 +11,6 @@ import {
   Button,
 } from "reactstrap";
 import moment from "moment";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 import Checkbox from "../../../components/custom/Form/Checkbox";
@@ -26,7 +25,7 @@ import formSchema from "./formSchema";
 
 const ExperienceModify = () => {
   const { logout } = useAuthContext();
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
 
   const param = history.location.state;
 

@@ -11,7 +11,6 @@ import {
   ListGroupItem,
 } from "reactstrap";
 import { useAxios } from "../../../utility/baseAxios";
-import Cookies from "js-cookie";
 import { ChevronDown } from "react-feather";
 import classNames from "classnames";
 
@@ -20,7 +19,7 @@ const Home = () => {
   const [status, setStatus] = useState("Closed");
   const [, setValue] = useState(false);
 
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const [{ data, loading }] = useAxios(
     {
       url: "dashboard",

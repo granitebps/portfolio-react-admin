@@ -11,7 +11,6 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
-import Cookies from "js-cookie";
 import { Edit, Trash2, Eye, Link } from "react-feather";
 import { toast } from "react-toastify";
 import DataTable from "react-data-table-component";
@@ -43,7 +42,7 @@ const Portfolio = () => {
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const { logout } = useAuthContext();
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const [showModal, setShowModal] = useState(false);
   const [dataModal, setDataModal] = useState({});
 

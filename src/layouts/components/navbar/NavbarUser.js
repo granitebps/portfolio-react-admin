@@ -7,7 +7,6 @@ import {
   Badge,
 } from "reactstrap";
 import * as Icon from "react-feather";
-import Cookies from "js-cookie";
 
 import { history } from "../../../history";
 import { useAuthContext } from "../../../contexts/AuthContext";
@@ -15,7 +14,7 @@ import baseAxios from "../../../utility/baseAxios";
 
 const UserDropdown = () => {
   const { logout } = useAuthContext();
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
 
   const handleLogout = async (e) => {
     try {
@@ -58,7 +57,7 @@ const UserDropdown = () => {
 const NavbarUser = (props) => {
   const { state } = useAuthContext();
   const [messageCount, setMessageCount] = useState();
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
 
   useEffect(() => {
     const getMessage = async () => {

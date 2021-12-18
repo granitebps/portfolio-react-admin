@@ -10,7 +10,6 @@ import {
   Col,
   Button,
 } from "reactstrap";
-import Cookies from "js-cookie";
 
 import Header from "../../../components/custom/Header";
 import InputText from "../../../components/custom/Form/InputText";
@@ -24,7 +23,7 @@ import { useAuthContext } from "../../../contexts/AuthContext";
 import validation from "./formSchema";
 
 const TechnologyModify = () => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const { logout } = useAuthContext();
   const param = history.location.state;
   const formSchema = validation(param);

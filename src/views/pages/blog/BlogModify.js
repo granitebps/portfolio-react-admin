@@ -10,7 +10,6 @@ import {
   Col,
   Button,
 } from "reactstrap";
-import Cookies from "js-cookie";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "../../../assets/scss/plugins/extensions/editor.scss";
 
@@ -27,7 +26,7 @@ import InputMarkdown from "../../../components/custom/Form/InputMarkdown";
 import validation from "./formSchema";
 
 const BlogModify = () => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const { logout } = useAuthContext();
   const param = history.location.state;
   const formSchema = validation(param);

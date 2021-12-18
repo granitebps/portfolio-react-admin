@@ -10,7 +10,6 @@ import {
   UncontrolledAlert,
 } from "reactstrap";
 import { Formik } from "formik";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 import Header from "../../components/custom/Header";
@@ -21,7 +20,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import formSchema from "./passwordFormSchema";
 
 const Password = () => {
-  const authToken = Cookies.get("token");
+  const authToken = localStorage.getItem("token-gbps");
   const { logout } = useAuthContext();
   const [serverError, setServerError] = useState();
 
