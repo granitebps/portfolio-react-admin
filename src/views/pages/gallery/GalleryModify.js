@@ -26,9 +26,25 @@ const GalleryModify = () => {
 
   const handleSubmit = async (values, { setFieldError }) => {
     try {
-      const formData = new FormData();
-      Object.keys(values).forEach((key) => {
-        formData.append(key, values[key]);
+      const filename = values.file.name;
+      const extension = filename.split(".").pop();
+      const { data: dataAWs } = await baseAxios({
+        url: "gallery/aws",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+        data: {
+          extension,
+        },
+      });
+
+      await fetch(dataAWs.data.url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": values.file.type,
+        },
+        body: values.file,
       });
 
       const { data } = await baseAxios({
@@ -37,19 +53,29 @@ const GalleryModify = () => {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
-        data: formData,
+        data: {
+          name: dataAWs.data.name,
+          file: dataAWs.data.file,
+          ext: extension,
+          size: values.file.size,
+        },
       });
 
       toast.success(data.message);
       history.push("/gallery");
     } catch (error) {
-      if (error.response.status === 401) {
-        logout();
-      } else if (error.response.status === 422) {
-        error.response.data.message.forEach((e) => {
-          setFieldError(e.field, e.message);
-        });
+      if (error.response) {
+        if (error.response.status === 401) {
+          logout();
+        } else if (error.response.status === 422) {
+          error.response.data.message.forEach((e) => {
+            setFieldError(e.field, e.message);
+          });
+        } else {
+          toast.error("Something Wrong!");
+        }
       } else {
+        console.log(error);
         toast.error("Something Wrong!");
       }
     }

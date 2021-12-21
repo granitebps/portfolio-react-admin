@@ -144,7 +144,9 @@ const Gallery = () => {
       selector: "size",
       sortable: true,
       cell: (row) => (
-        <p className="text-bold-500 my-1">{formatBytes(row.size)}</p>
+        <p className="text-bold-500 my-1">
+          {row.size ? formatBytes(row.size) : ""}
+        </p>
       ),
     },
     {
