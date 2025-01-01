@@ -32,21 +32,21 @@ export const authOptions: NextAuthOptions = {
          * For e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
          * You can also use the `req` object to obtain additional parameters (i.e., the request IP address)
          */
-        const { email, password } = credentials as { email: string; password: string }
+        const { username, password } = credentials as { username: string; password: string }
 
         try {
           // ** Login API Call to match the user credentials and receive user data in response along with his role
-          const res = await fetch(`${process.env.API_URL}/login`, {
+          const res = await fetch(`${process.env.API_URL}/api/v1/auth/login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ username, password })
           })
 
           const data = await res.json()
 
-          if (res.status === 401) {
+          if (res.status >= 400) {
             throw new Error(JSON.stringify(data))
           }
 
@@ -56,7 +56,13 @@ export const authOptions: NextAuthOptions = {
              * user data below. Below return statement will set the user object in the token and the same is set in
              * the session which will be accessible all over the app.
              */
-            return data
+            return {
+              id: data.data.id,
+              name: data.data.name,
+              image: data.data.avatar,
+              email: data.data.email,
+              access_token: data.data.token
+            }
           }
 
           return null
@@ -111,6 +117,7 @@ export const authOptions: NextAuthOptions = {
          * in token which then will be available in the `session()` callback
          */
         token.name = user.name
+        token.access_token = user.access_token
       }
 
       return token
@@ -119,6 +126,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         // ** Add custom params to user in session which are added in `jwt()` callback via `token` parameter
         session.user.name = token.name
+        session.user.access_token = token.access_token
       }
 
       return session
