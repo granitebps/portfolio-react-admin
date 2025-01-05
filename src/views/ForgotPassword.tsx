@@ -1,5 +1,7 @@
 'use client'
 
+import { useState, type FormEvent } from 'react'
+
 // Next Imports
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -9,9 +11,12 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import Alert from '@mui/material/Alert'
 
 // Third-party Imports
 import classnames from 'classnames'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 // Type Imports
 import type { SystemMode } from '@core/types'
@@ -28,6 +33,7 @@ import { useSettings } from '@core/hooks/useSettings'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
+import { getError, type ErrorResponseType } from '@/utils/getError'
 
 // Styled Custom Components
 const ForgotPasswordIllustration = styled('img')(({ theme }) => ({
@@ -54,6 +60,10 @@ const MaskImg = styled('img')({
 })
 
 const ForgotPassword = ({ mode }: { mode: SystemMode }) => {
+  // State
+  const [email, setEmail] = useState<string>('')
+  const [errorState, setErrorState] = useState<ErrorResponseType | null>(null)
+
   // Vars
   const darkImg = '/images/pages/auth-mask-dark.png'
   const lightImg = '/images/pages/auth-mask-light.png'
@@ -68,6 +78,22 @@ const ForgotPassword = ({ mode }: { mode: SystemMode }) => {
   const authBackground = useImageVariant(mode, lightImg, darkImg)
 
   const characterIllustration = useImageVariant(mode, lightIllustration, darkIllustration)
+
+  const onResetPassword = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setErrorState(null)
+
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/request_reset_password`, {
+        email
+      })
+
+      setEmail('')
+      toast.success('Send Reset Password Request Email. Check your email.')
+    } catch (error: any) {
+      setErrorState(getError(error))
+    }
+  }
 
   return (
     <div className='flex bs-full justify-center'>
@@ -94,8 +120,19 @@ const ForgotPassword = ({ mode }: { mode: SystemMode }) => {
             <Typography variant='h4'>Forgot Password 🔒</Typography>
             <Typography>Enter your email and we&#39;ll send you instructions to reset your password</Typography>
           </div>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()} className='flex flex-col gap-6'>
-            <CustomTextField autoFocus fullWidth label='Email' placeholder='Enter your email' />
+          {errorState?.server && <Alert severity='error'>{errorState.server}</Alert>}
+          <form noValidate autoComplete='off' onSubmit={onResetPassword} className='flex flex-col gap-6'>
+            <CustomTextField
+              autoFocus
+              fullWidth
+              label='Email'
+              placeholder='Enter your email'
+              required
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              error={Boolean(errorState?.email)}
+              helperText={errorState?.email}
+            />
             <Button fullWidth variant='contained' type='submit'>
               Send Reset Link
             </Button>
