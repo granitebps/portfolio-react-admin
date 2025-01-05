@@ -54,7 +54,7 @@ export type Config = {
 }
 
 const themeConfig: Config = {
-  templateName: 'Vuexy',
+  templateName: 'GBPS',
   homePageUrl: '/dashboards/crm',
   settingsCookieName: 'gbps-portfolio',
   mode: 'dark', // 'system', 'light', 'dark'

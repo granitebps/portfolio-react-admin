@@ -11,7 +11,6 @@ import styled from '@emotion/styled'
 import type { VerticalNavContextProps } from '@menu/contexts/verticalNavContext'
 
 // Component Imports
-import VuexyLogo from '@core/svg/Logo'
 
 // Config Imports
 import themeConfig from '@configs/themeConfig'
@@ -71,7 +70,7 @@ const Logo = ({ color }: { color?: CSSProperties['color'] }) => {
 
   return (
     <div className='flex items-center'>
-      <VuexyLogo className='text-2xl text-primary' />
+      <img src='https://is3.cloudhost.id/gbps/misc/gbps.png' alt='' width='30px' height='30px' />
       <LogoText
         color={color}
         ref={logoTextRef}
