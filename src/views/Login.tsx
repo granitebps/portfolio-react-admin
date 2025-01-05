@@ -42,6 +42,7 @@ import { useSettings } from '@core/hooks/useSettings'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
+import { getError, type ErrorResponseType } from '@/utils/getError'
 
 // Styled Custom Components
 const LoginIllustration = styled('img')(({ theme }) => ({
@@ -67,16 +68,6 @@ const MaskImg = styled('img')({
   zIndex: -1
 })
 
-type ErrorType = {
-  username: string | null
-  password: string | null
-}
-
-type ValidationErrorType = {
-  field: string
-  message: string
-}
-
 type FormData = InferInput<typeof schema>
 
 const schema = object({
@@ -91,8 +82,7 @@ const schema = object({
 const Login = ({ mode }: { mode: SystemMode }) => {
   // States
   const [isPasswordShown, setIsPasswordShown] = useState(false)
-  const [errorState, setErrorState] = useState<ErrorType | null>(null)
-  const [errorServer, setErrorServer] = useState<string | null>(null)
+  const [errorState, setErrorState] = useState<ErrorResponseType | null>(null)
 
   // Vars
   const darkImg = '/images/pages/auth-mask-dark.png'
@@ -134,8 +124,6 @@ const Login = ({ mode }: { mode: SystemMode }) => {
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-    setErrorServer(null)
-
     const res = await signIn('credentials', {
       username: data.username,
       password: data.password,
@@ -148,19 +136,7 @@ const Login = ({ mode }: { mode: SystemMode }) => {
 
       router.replace(getLocalizedUrl(redirectURL, locale as Locale))
     } else {
-      if (res?.error) {
-        const error = JSON.parse(res.error)
-
-        if (res.status == 422) {
-          const validationError = error.data.map((e: ValidationErrorType) => ({
-            [e.field]: e.message
-          }))
-
-          setErrorState(validationError)
-        } else {
-          setErrorServer(error.message)
-        }
-      }
+      setErrorState(getError(res))
     }
   }
 
@@ -186,7 +162,7 @@ const Login = ({ mode }: { mode: SystemMode }) => {
             <Typography variant='h4'>{`Welcome to ${themeConfig.templateName}! 👋🏻`}</Typography>
             <Typography>Please sign-in to your account and start the adventure</Typography>
           </div>
-          {errorServer && <Alert severity='error'>{errorServer}</Alert>}
+          {errorState?.server && <Alert severity='error'>{errorState.server}</Alert>}
           <form
             noValidate
             autoComplete='off'

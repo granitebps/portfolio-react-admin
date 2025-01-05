@@ -9,17 +9,23 @@ export type ErrorResponseType = {
 }
 
 export const getError = (e: any): ErrorResponseType | null => {
+  let errorResData = e?.response?.data
+
+  if (e?.error) {
+    errorResData = JSON.parse(e.error)
+  }
+
   if (e?.status == 422) {
     const result: Record<string, string> = {}
 
-    e?.response?.data?.data.forEach((item: ValidationErrorType) => {
+    errorResData?.data.forEach((item: ValidationErrorType) => {
       result[item.field] = item.message
     })
 
     return result
   } else {
     return {
-      server: e?.response?.data?.data?.message || e?.message || 'Something went wrong!'
+      server: errorResData?.message || e?.message || 'Something went wrong!'
     }
   }
 }
